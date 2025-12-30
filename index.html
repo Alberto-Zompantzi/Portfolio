@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      Alberto Zompantzi | Web Designer & Front-End Developer Portfolio
+    </title>
+
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0,viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Professional portfolio of Alberto Zompantzi, web designer and front-end developer specializing in HTML, CSS, responsive layout, UI/UX design, visual design, SEO optimization, and modern interface creation. Explore my projects, skills, and recent work."
+    />
+    <meta name="theme-color" content="#1A1A1A" />
+    <meta
+      name="keywords"
+      content="Alberto Zompantzi, A.Z. Developer, web designer, front-end developer, portfolio, HTML, CSS, responsive design, UI, UX, web development, web portfolio, creative design"
+    />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large"
+    />
+    <meta name="author" content="Alberto Zompantzi" />
+
+    <meta
+      property="og:title"
+      content="Alberto Zompantzi | Front-End Developer & Web Designer"
+    />
+    <meta
+      property="og:description"
+      content="Explore my professional web design and front-end development portfolio, featuring responsive layouts, UI/UX design projects, and modern interfaces."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://Alberto-Zompantzi.github.io/portfolio/"
+    />
+    <meta
+      property="og:image"
+      content="https://Alberto-Zompantzi.github.io/portfolio/images/Logo.png"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Alberto Zompantzi | Front-End Developer & Web Designer"
+    />
+    <meta
+      name="twitter:description"
+      content="Explore my professional web design and front-end development portfolio, featuring responsive layouts, UI/UX design projects, and modern interfaces."
+    />
+    <meta
+      name="twitter:image"
+      content="https://Alberto-Zompantzi.github.io/portfolio/images/Logo.png"
+    />
+
+    <link
+      rel="canonical"
+      href="https://alberto-zompantzi.github.io/Portfolio/"
+    />
+    <link rel="apple-touch-icon" href="images/Logo.png" />
+
+    <link rel="icon" href="images/Logo.png" sizes="48x48" type="image/png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="index.html" class="nav-logo">A.Z.<span>Developer</span></a>
+
+        <div class="nav-menu" id="nav-menu">
+          <ul class="nav-list">
+            <li><a href="#home" class="nav-link active-link">Home</a></li>
+
+            <li><a href="#about" class="nav-link">About Me</a></li>
+
+            <li>
+              <a href="#services" class="nav-link">Services</a>
+            </li>
+
+            <li>
+              <a href="#portfolio" class="nav-link">Portfolio</a>
+            </li>
+
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+          </ul>
+
+          <div class="nav-close" id="nav-close">
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+        </div>
+
+        <div class="nav-socials">
+          <a
+            href="https://github.com/Alberto-zompantzi"
+            target="_blank"
+            class="nav-social-link"
+            ><i class="fa-brands fa-github"></i
+          ></a>
+
+          <a
+            href="https://www.linkedin.com/in/alberto-zompantzi-7897ab399/"
+            target="_blank"
+            class="nav-social-link"
+            ><i class="fa-brands fa-linkedin-in"></i
+          ></a>
+
+          <a
+            href="https://wa.me/2285720482?"
+            target="_blank"
+            class="nav-social-link"
+            ><i class="fa-brands fa-whatsapp"></i
+          ></a>
+        </div>
+
+        <div class="nav-btns">
+          <a href="#contact" class="nav-link-btn btn">Contact Me</a>
+
+          <div class="nav-toggle" id="nav-toggle">
+            <i class="fa-solid fa-bars"></i>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+      <!-- Home Section -->
+      <section class="home" id="home">
+        <div class="home-container container grid">
+          <div class="home-content">
+            <span class="home-subtitle"
+              >Welcome to My Professional Portfolio</span
+            >
+            <h1 class="home-title">
+              Hi! I'm
+              <span>Alberto Zompantzi,</span>
+              a Frontend Developer
+            </h1>
+          </div>
+
+          <img src="images\1.jpg" alt="profile photo" class="profile-photo" />
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="about section" id="about">
+        <div class="about-container container grid">
+          <img src="images\desk3.jpg" alt="desk" class="about-img" />
+
+          <div class="about-content">
+            <h2 class="section-title">About Me</h2>
+
+            <p class="about-description">
+              I'm Alberto Isaí Zompantzi Muñiz, a passionate Frontend Developer
+              with a knack for creating engaging and user-friendly web
+              experiences. With a strong foundation in HTML, CSS, and
+              JavaScript, I specialize in building responsive and visually
+              appealing websites that captivate users.
+            </p>
+
+            <div class="tabs-buttons">
+              <span class="tabs-button tab-active" data-target="#skills">
+                Main Skills
+              </span>
+              <span class="tabs-button" data-target="#experience">
+                Experience
+              </span>
+              <span class="tabs-button" data-target="#education"
+                >Education</span
+              >
+            </div>
+
+            <div class="tabs-content">
+              <div class="tabs-item tab-active" data-content id="skills">
+                <div class="tabs-data grid">
+                  <p class="tabs-description">
+                    <span>Modern Frontend Development</span>
+                    <span
+                      >Skilled in building semantic, scalable, and optimized
+                      interfaces using HTML5, CSS3, and modern JavaScript
+                      (ES6+). Focused on clean structure and mobile-first
+                      development principles.</span
+                    >
+                  </p>
+
+                  <p class="tabs-description">
+                    <span>Responsive & UI Design Systems</span>
+                    <span
+                      >Experienced in creating fluid and consistent layouts with
+                      Flexbox, Grid, and Media Queries. Applying Material Design
+                      and usability principles to deliver accessible, cohesive
+                      user interfaces.</span
+                    >
+                  </p>
+
+                  <p class="tabs-description">
+                    <span>Frameworks & Performance</span>
+                    <span
+                      >Proficient in modern frameworks and libraries such as
+                      TailwindCSS, Bootstrap and various others, to speed up
+                      development while maintaining performance and code
+                      quality.</span
+                    >
+                  </p>
+
+                  <p class="tabs-description">
+                    <span>Workflow & Deployment</span>
+                    <span
+                      >Knowledgeable in version control with Git and GitHub,
+                      professional deployments on Netlify, and efficient
+                      development workflows. Comfortable working in
+                      collaborative and agile environments.</span
+                    >
+                  </p>
+                </div>
+              </div>
+
+              <div class="tabs-item" data-content id="experience">
+                <div class="tabs-data grid">
+                  <p class="tabs-description">
+                    <span
+                      >Casa Zompantzi — Frontend Developer (2025)<br />
+                      <a
+                        href="https://casazompantzi.netlify.app/"
+                        target="_blank"
+                        >https://casazompantzi.netlify.app/</a
+                      >
+                    </span>
+
+                    <span
+                      >Designed and developed the official website for Casa
+                      Zompantzi, a family-run company focused on plastics and
+                      disposables. Built a fully responsive, mobile-first layout
+                      using HTML & CSS. Focused on clean visual hierarchy,
+                      semantic structure, and optimized user experience.</span
+                    >
+                  </p>
+
+                  <p class="tabs-description">
+                    <span
+                      >Sunnyside Boutique — Frontend Developer (2025) <br />
+                      <a
+                        href="https://sunnysideboutique.netlify.app/"
+                        target="_blank"
+                        >https://sunnysideboutique.netlify.app/</a
+                      ></span
+                    >
+                    <span
+                      >Developed and deployed an e-commerce showcase website for
+                      Sunnyside Boutique, applying modern UI/UX principles and
+                      advanced CSS techniques such as Flexbox, Grid, and Media
+                      Queries. Integrated product catalog and adaptive design
+                      for seamless navigation across all devices.</span
+                    >
+                  </p>
+                </div>
+              </div>
+
+              <div class="tabs-item" data-content id="education">
+                <div class="tabs-data grid">
+                  <p class="tabs-description">
+                    <span
+                      >Instituto De Educación A Distancia Del Estado De
+                      Puebla</span
+                    >
+                    <span
+                      >Bachelor of Science in Computer Systems (2025 - Present).
+                      Focused on software development, database management, and
+                      web technologies.</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section class="services section" id="services">
+        <h2 class="section-title">What I Do</h2>
+        <p class="section-description">
+          I Offering modern web solutions focused on design, usability, and
+          performance.
+        </p>
+
+        <div class="services-container container grid">
+          <div class="services-item">
+            <i class="fa-solid fa-laptop-code services-icon"></i>
+            <h3 class="services-title">Web Design</h3>
+            <p class="services-description">
+              I create visually appealing, responsive, and user-friendly website
+              layouts focused on delivering smooth navigation and clear brand
+              communication.
+            </p>
+          </div>
+
+          <div class="services-item">
+            <i class="fa-solid fa-code services-icon"></i>
+            <h3 class="services-title">Frontend Development</h3>
+            <p class="services-description">
+              I develop clean, efficient, and accessible interfaces using modern
+              web technologies to ensure optimal performance on any device.
+            </p>
+          </div>
+
+          <div class="services-item">
+            <i class="fa-solid fa-pen-ruler services-icon"></i>
+            <h3 class="services-title">UI / UX Design</h3>
+            <p class="services-description">
+              I design intuitive and consistent user experiences, combining
+              usability and aesthetics to enhance overall interaction and
+              engagement.
+            </p>
+          </div>
+
+          <div class="services-item">
+            <i class="fa-solid fa-magnifying-glass-chart services-icon"></i>
+            <h3 class="services-title">SEO Optimization</h3>
+            <p class="services-description">
+              I optimize websites to rank higher in search engines, improving
+              visibility and driving organic traffic through on-page best
+              practices.
+            </p>
+          </div>
+
+          <div class="services-item">
+            <i class="fa-solid fa-mobile-screen-button services-icon"></i>
+            <h3 class="services-title">Responsive Design</h3>
+            <p class="services-description">
+              I ensure seamless adaptability across devices, providing users
+              with a consistent experience whether on desktop, tablet, or
+              mobile.
+            </p>
+          </div>
+
+          <div class="services-item">
+            <i class="fa-solid fa-screwdriver-wrench services-icon"></i>
+            <h3 class="services-title">Maintenance & Support</h3>
+            <p class="services-description">
+              I offer continuous updates, security checks, and technical
+              improvements to keep your website reliable and up to date.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Portfolio -->
+      <section class="portfolio-section" id="portfolio">
+        <h2 class="section-title"><br />Projects</h2>
+        <p class="section-description">
+          Here are some of the projects I’ve developed, each focused on clean
+          design, functionality, and responsive structure. I apply best
+          practices in front-end development to create websites that are both
+          visually appealing and user-friendly.
+        </p>
+
+        <div class="portfolio-container container grid">
+          <div class="portfolio-item">
+            <img
+              src="images\Casa Zompantzi.png"
+              alt="casa zompantzi"
+              class="portfolio-img"
+            />
+
+            <div class="portfolio-data">
+              <h3 class="portfolio-title">Casa Zompantzi</h3>
+              <p class="portfolio-subtitle">Website for a local business.</p>
+              <p class="portfolio-description">
+                I designed and built a responsive and SEO-friendly site to
+                enhance the company’s digital presence.
+              </p>
+            </div>
+          </div>
+
+          <div class="portfolio-item">
+            <img
+              src="images\Sunnyside.png"
+              alt="sunnyside boutique"
+              class="portfolio-img"
+            />
+
+            <div class="portfolio-data">
+              <h3 class="portfolio-title">Sunnyside Boutique</h3>
+              <p class="portfolio-subtitle">
+                Online fashion store for women’s clothing.
+              </p>
+              <p class="portfolio-description">
+                Developed a modern and responsive e-commerce layout with clean
+                design and optimized structure.
+              </p>
+            </div>
+          </div>
+
+          <div class="portfolio-item">
+            <img
+              src="images\cátalogo.png"
+              alt="cátalogo"
+              class="portfolio-img"
+            />
+
+            <div class="portfolio-data">
+              <h3 class="portfolio-title">Landing Page</h3>
+              <p class="portfolio-subtitle">Modern landing page concept.</p>
+              <p class="portfolio-description">
+                Designed to improve conversion through minimal and responsive
+                design with strong visual hierarchy.
+              </p>
+            </div>
+          </div>
+
+          <div class="portfolio-item">
+            <img
+              src="images\Responsive.png"
+              alt="responsive"
+              class="portfolio-img"
+            />
+
+            <div class="portfolio-data">
+              <h3 class="portfolio-title">Responsive Layout</h3>
+              <p class="portfolio-subtitle">Fully adaptive web structure.</p>
+              <p class="portfolio-description">
+                Demonstrates expertise in media queries and flexible grid
+                systems for all screen sizes.
+              </p>
+            </div>
+          </div>
+
+          <div class="portfolio-item">
+            <img
+              src="images\UI Components.png"
+              alt="UI Components"
+              class="portfolio-img"
+            />
+
+            <div class="portfolio-data">
+              <h3 class="portfolio-title">UI Component Library</h3>
+              <p class="portfolio-subtitle">
+                Collection of reusable components.
+              </p>
+              <p class="portfolio-description">
+                Created modular and reusable UI components with clean and
+                scalable CSS architecture.
+              </p>
+            </div>
+          </div>
+
+          <div class="portfolio-item">
+            <img
+              src="images\Portfolio.png"
+              alt="portfolio"
+              class="portfolio-img"
+            />
+
+            <div class="portfolio-data">
+              <h3 class="portfolio-title">Personal Portfolio</h3>
+              <p class="portfolio-subtitle">
+                Professional front-end portfolio.
+              </p>
+              <p class="portfolio-description">
+                Designed and developed my personal website to present my work,
+                skills, and experience with clean, elegant design.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="contact section" id="contact">
+        <div class="contact-container container grid">
+          <div class="contact-content">
+            <h2 class="section-title">Get in Touch</h2>
+
+            <p class="contact-description">
+              I’m currently open to new opportunities and collaborations. If
+              you’re looking for a dedicated frontend developer with a passion
+              for clean design and efficient code, feel free to reach out.
+              Connect with me via
+              <a href="https://wa.me/2285720482?" target="_blank"
+                >whatsapp: +52 228 572 0482</a
+              >
+              or
+              <a href="mailto:alberto-zompantzi@outlook.com"
+                >mail: alberto-zompantzi@outlook.com</a
+              >
+            </p>
+
+            <form class="contact-form" id="contact-form">
+              <div class="contact-form-input">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  class="contact-input"
+                  id="contact-name"
+                />
+              </div>
+
+              <div class="contact-form-input">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your e-mail"
+                  class="contact-input"
+                  id="contact-email"
+                />
+              </div>
+
+              <div class="contact-form-input">
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="Write a Subject"
+                  class="contact-input"
+                  id="contact-subject"
+                />
+              </div>
+
+              <div class="contact-form-input">
+                <textarea
+                  name="message"
+                  id="contact-message"
+                  class="contact-input textarea"
+                  placeholder="Your Message"
+                ></textarea>
+              </div>
+
+              <input type="submit" value="Submit" class="btn" />
+
+              <p class="error-message" id="error-message"></p>
+            </form>
+          </div>
+
+          <img src="images\Dark.jpg" alt="dark" class="contact-img" />
+        </div>
+      </section>
+    </main>
+
+    <!-- Fotter -->
+    <footer class="footer">
+      <div class="footer-container container grid">
+        <a href="index.html" class="footer-logo">A.Z.<span>Developer</span></a>
+
+        <div class="footer-socials">
+          <a
+            href="https://www.linkedin.com/in/alberto-zompantzi-7897ab399/"
+            target="_blank"
+            class="footer-social-link"
+          >
+            <i class="fa-brands fa-linkedin-in"></i
+          ></a>
+
+          <a
+            href="https://github.com/Alberto-zompantzi"
+            target="_blank"
+            class="footer-social-link"
+            ><i class="fa-brands fa-github"></i
+          ></a>
+
+          <a
+            href="https://wa.me/2285720482?"
+            target="_blank"
+            class="footer-social-link"
+            ><i class="fa-brands fa-whatsapp"></i
+          ></a>
+        </div>
+
+        <p class="footer-copyright">&copy; 2025. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Scroll up -->
+    <a href="#" class="scrollup" id="scroll-up">
+      <i class="fa-solid fa-chevron-up scrollup-icon"></i>
+    </a>
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+
+    <script src="main.js"></script>
+  </body>
+</html>
