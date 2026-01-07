@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://albertozompantzi-portfolio.netlify.app/sitemap.xml
+Sitemap: https://albertozompantzi-portfolio.pages.dev/sitemap.xml

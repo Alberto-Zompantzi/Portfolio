@@ -1,6 +1,6 @@
 # Portafolio Profesional — Alberto Zompantzi
 
-### https://albertozompantzi-portfolio.netlify.app/
+### https://albertozompantzi-portfolio.pages.dev/
 
 Fuente: https://github.com/Alberto-Zompantzi/Portfolio
 
@@ -40,7 +40,7 @@ Este portafolio fue construido usando tecnologías enfocadas en velocidad, clari
 ### Herramientas & Flujo de trabajo
 
 - **Git & GitHub** (control de versiones)
-- **Netlify** (despliegue continuo)
+- **Clouflare (Anteriormente en Netlify)** (despliegue continuo)
 - **Estructura de carpetas limpia y organizada**
 
 ---
@@ -68,7 +68,7 @@ Este portafolio fue construido usando tecnologías enfocadas en velocidad, clari
 
 El sitio está desplegado en Netlify y actualizado automáticamente con cada push a la rama main.
 
-- Live URL: https://albertozompantzi-portfolio.netlify.app/
+- Live URL: https://albertozompantzi-portfolio.pages.dev/
 
 ## Enfoque Técnico
 
@@ -104,4 +104,4 @@ Contáctame:
 
 🔗 LinkedIn: https://www.linkedin.com/in/alberto-zompantzi
 
-🌍 Portfolio: https://albertozompantzi-portfolio.netlify.app/
+🌍 Portfolio: https://albertozompantzi-portfolio.pages.dev/
