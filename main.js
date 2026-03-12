@@ -80,7 +80,7 @@ const contactForm = document.getElementById("contact-form"),
   errorMessage = document.getElementById("error-message"),
   contactBtn = document.getElementById("contact-submit-btn");
 
-const sendEmail = (e) => {
+const sendEmail = async (e) => {
   e.preventDefault();
 
   // 1. Validación de campos
@@ -100,41 +100,57 @@ const sendEmail = (e) => {
   contactBtn.innerHTML =
     'Enviando... <i class="fa-solid fa-spinner fa-spin"></i>';
 
-  // 3. Envío con EmailJS
-  // serviceID - templateID - #form - publickey
-  emailjs
-    .sendForm(
+  // 3. Preparar los datos para el Backend
+  const dataToSave = {
+    nombre: contactName.value,
+    email: contactEmail.value,
+    asunto: contactSubject.value,
+    mensaje: contactMessage.value,
+  };
+
+  try {
+    // --- PASO A: Guardar en tu Backend de Spring Boot ---
+    const response = await axios.post(
+      "http://portfolio-backend-bjsa.onrender.com/api/v1/contactos",
+      dataToSave,
+    );
+    console.log("Guardado en BD con ID:", response.data.id);
+
+    // ---  Mandar el Email (EmailJS) ---
+    // serviceID - templateID - #form - publickey
+    await emailjs.sendForm(
       "service_96en384",
       "template_9ry45mb",
       "#contact-form",
       "ZgvYoOJRnRWKWYs4T",
-    )
-    .then(
-      () => {
-        // ÉXITO
-        errorMessage.style.color = "var(--mint)";
-        errorMessage.textContent = "¡Mensaje enviado con éxito! ✔️";
-
-        contactForm.reset();
-
-        // Restaurar botón
-        setTimeout(() => {
-          errorMessage.textContent = "";
-          contactBtn.disabled = false;
-          contactBtn.innerHTML =
-            'Enviar Mensaje <i class="fa-solid fa-paper-plane"></i>';
-        }, 5000);
-      },
-      (error) => {
-        // ERROR
-        contactBtn.disabled = false;
-        contactBtn.innerHTML =
-          'Reintentar <i class="fa-solid fa-triangle-exclamation"></i>';
-        errorMessage.style.color = "#f44336";
-        errorMessage.textContent = "Error del servidor. Intenta de nuevo ❌";
-        console.error("EmailJS Error:", error);
-      },
     );
+
+    // ÉXITO TOTAL
+    errorMessage.style.color = "var(--mint)";
+    errorMessage.textContent = "¡Mensaje guardado y enviado con éxito! ✔️";
+    contactForm.reset();
+  } catch (error) {
+    // ERROR (Puede ser de Axios o de EmailJS)
+    console.error("Error detectado:", error);
+
+    // Si el error viene del Backend
+    if (error.response && error.response.status === 400) {
+      errorMessage.textContent =
+        "Error: " + error.response.data.errors[0].defaultMessage;
+    } else {
+      errorMessage.textContent = "Error al enviar. Intenta de nuevo ❌";
+    }
+
+    errorMessage.style.color = "#f44336";
+  } finally {
+    // Restaurar botón después de 5 segundos
+    setTimeout(() => {
+      errorMessage.textContent = "";
+      contactBtn.disabled = false;
+      contactBtn.innerHTML =
+        'Enviar Mensaje <i class="fa-solid fa-paper-plane"></i>';
+    }, 5000);
+  }
 };
 
 contactForm.addEventListener("submit", sendEmail);

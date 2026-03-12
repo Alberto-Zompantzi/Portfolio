@@ -1,107 +1,37 @@
-# Portafolio Profesional — Alberto Zompantzi
+# 🚀 Portafolio Profesional — Alberto Isaí Zompantzi
 
-### https://albertozompantzi-portfolio.pages.dev/
+### [🌐 Ver Proyecto en Vivo](https://albertozompantzi-portfolio.pages.dev/)
 
-Fuente: https://github.com/Alberto-Zompantzi/Portfolio
-
-Bienvenido a la **base del código** de mi portafolio profesional.  
-Este sitio fue **diseñado y desarrollado desde cero** para reflejar mi identidad como **Frontend Developer moderno**, demostrando enfoque en **código limpio, usabilidad, performance y SEO técnico.**
+Bienvenido al repositorio de mi portafolio profesional. Este proyecto es una vitrina de mis habilidades como **Desarrollador Fullstack**, diseñado con un enfoque en **Arquitectura Limpia**, **Performance** y una **Experiencia de Usuario (UX) fluida**.
 
 ---
 
-## Descripción
+## 🛠️ Tech Stack & Ecosistema
 
-Este repositorio contiene el código fuente de mi **portfolio personal**, construido para presentar:
+A diferencia de los portafolios estáticos convencionales, este proyecto implementa una arquitectura robusta que comunica el Frontend con servicios en la nube:
 
-- Mis habilidades como Frontend Developer
-- Mis proyectos destacados
-- Una introducción clara a mi perfil profesional
-- Formas de contacto profesional
+### **Frontend (Vanilla Stack)**
 
-El sitio está diseñado con un enfoque en:
+- **HTML5 Semántico:** Estructura optimizada para accesibilidad y SEO técnico.
+- **CSS3 Moderno:** Layouts avanzados con Flexbox y CSS Grid sin frameworks pesados para garantizar velocidad de carga.
+- **JavaScript (ES6+):** Lógica nativa para manipulación del DOM, efectos de scroll e interactividad.
+- **Axios:** Cliente HTTP para la comunicación eficiente con el servidor de backend.
 
-- Arquitectura de componentes clara y mantenible
-- HTML semántico y accesible
-- CSS modular y responsive
-- Integración ligera de JavaScript para interactividad
+### **Backend & DevOps (Infrastructure)**
 
----
-
-## Tech Stack
-
-Este portafolio fue construido usando tecnologías enfocadas en velocidad, claridad y modernidad:
-
-### Lenguajes
-
-- **HTML5**
-- **CSS3**
-- **JavaScript (ES6+)**
-
-### Herramientas & Flujo de trabajo
-
-- **Git & GitHub** (control de versiones)
-- **Clouflare (Anteriormente en Netlify)** (despliegue continuo)
-- **Estructura de carpetas limpia y organizada**
+- **Spring Boot 3:** API REST robusta para la gestión de contactos y persistencia de mensajes.
+- **PostgreSQL (Neon):** Base de datos relacional serverless para almacenamiento seguro.
+- **Docker:** Contenerización del backend para despliegues consistentes y escalables.
+- **Cloudflare Pages:** Hosting de alto rendimiento y seguridad para el frontend.
+- **Render:** Despliegue automatizado del backend mediante pipelines de CI/CD.
 
 ---
 
-## Características Clave
+## 🌟 Características Destacadas
 
-- **Responsive UI** para todos los tamaños de pantalla
-- **SEO básico configurado** para mejorar descubrimiento
-- **Performance optimizada** con recursos livianos
-- **Interacción UI suave** con JavaScript minimalista
-- **Contenido modular y fácil de actualizar**
-
----
-
-## Estructura del Repositorio
-
-- **index.html:** punto de entrada principal del sitio
-- **style.css:** estilos globales y áreas visuales
-- **main.js:** scripts mínimos para interacción UI
-- **images/**: recursos visuales del portfolio
+- **Full Responsive Design:** Experiencia impecable adaptada a móviles, tablets y escritorio.
+- **Formulario de Contacto Híbrido:** Los mensajes se persisten en una base de datos propia (**Spring Boot**) y se notifican en tiempo real vía email (**EmailJS**).
+- **Optimización SEO:** Configuración completa de Meta Tags y Open Graph para visibilidad en motores de búsqueda y redes sociales.
+- **Interacción UI Dinámica:** Navegación fluida con componentes interactivos como Tabs de información, Scroll Header y botón de retorno rápido.
 
 ---
-
-## Deploy / Producción
-
-El sitio está desplegado en Netlify y actualizado automáticamente con cada push a la rama main.
-
-- Live URL: https://albertozompantzi-portfolio.pages.dev/
-
-## Enfoque Técnico
-
-Este proyecto no es solo visual, sino que está construido enfocándose en:
-
-- Accesibilidad y semántica HTML
-- Layouts adaptativos con CSS moderno
-- Código legible y modular
-- Estrategias ligeras de performance
-
-## Próximas mejoras planeadas
-
-Este portafolio es un proyecto en constante evolución. Próximas mejoras incluyen:
-
-- ✅ Integración de animaciones suaves CSS/JS
-- ✅ Sección de blog o artículos técnicos
-- ✅ Conversión progresiva a React + Vite (stack moderno)
-- ✅ Soporte multi-idioma
-
-## Contacto
-
-Si quieres:
-
-- 🌐 ver más proyectos
-
-- 🤝 colaborar
-
-- 💼 hablar de oportunidades
-
-Contáctame:
-
-📧 Email: alberto-zompantzi@outlook.com
-
-🔗 LinkedIn: https://www.linkedin.com/in/alberto-zompantzi
-
-🌍 Portfolio: https://albertozompantzi-portfolio.pages.dev/
