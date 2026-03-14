@@ -71,6 +71,16 @@ tabs.forEach((tab) => {
   });
 });
 
+// Detectar si estamos en local o en producción
+const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
+// Configurar la URL base automáticamente
+const API_BASE_URL = isLocal
+    ? "http://localhost:8080"
+    : "https://portfolio-backend-bjsa.onrender.com";
+
+console.log(`Conectado a la API en: ${API_BASE_URL}`);
+
 /* Contact Form Integration with EmailJS */
 const contactForm = document.getElementById("contact-form"),
   contactName = document.getElementById("contact-name"),
@@ -111,8 +121,8 @@ const sendEmail = async (e) => {
   try {
     // --- PASO A: Guardar en tu Backend de Spring Boot ---
     const response = await axios.post(
-      "https://portfolio-backend-bjsa.onrender.com/api/v1/contactos",
-      dataToSave,
+        `${API_BASE_URL}/api/v1/contactos`, // <--- Ahora usa la variable
+        dataToSave
     );
     console.log("Guardado en BD con ID:", response.data.id);
 
