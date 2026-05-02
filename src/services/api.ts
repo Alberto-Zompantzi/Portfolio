@@ -15,7 +15,7 @@ export const wakeupBackend = async () => {
     // Usamos la instancia de axios configurada para que los headers sean consistentes
     await api.get('/contactos/health');
     console.log('Backend wake-up signal sent successfully.');
-  } catch (e) {
+  } catch {
     // Silent error: si falla el GET, Render igual recibe el tráfico y despierta
   }
 };
