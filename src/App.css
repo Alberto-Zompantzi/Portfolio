@@ -2,8 +2,30 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--surface-0);
+  color: var(--text-color);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.App__ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .main {
   flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .App * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,147 +1,720 @@
-/* Base/Mobile styles */
+/* ============================================================
+   Projects — Tier filter T1/T2/T3 · 8 project cards · overlay
+   --p-tier-accent drives tier-badge color & highlight per card
+   ============================================================ */
+
 .portfolio {
-  background-color: var(--container-color);
+  position: relative;
+  padding-block: var(--section-py-lg);
+  background-color: var(--surface-1);
 }
 
 .portfolio-container {
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  max-width: 450px;
+  position: relative;
+  width: 100%;
+  max-width: var(--max-w-container);
   margin-inline: auto;
+  padding-inline: var(--sp-4);
 }
 
+/* ---------- Filter bar ---------- */
+.portfolio-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-8);
+}
+
+.portfolio-filter {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: var(--sp-2);
+  background: var(--surface-0);
+  border: 1px solid var(--surface-4);
+  border-radius: var(--radius-lg);
+  width: fit-content;
+}
+.portfolio-filter__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--ease-out-2);
+  font-family: inherit;
+}
+.portfolio-filter__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all var(--ease-out-2);
+}
+.portfolio-filter__btn:hover {
+  color: var(--text-primary);
+  background: var(--surface-2);
+}
+.portfolio-filter__btn.filter-active {
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary),
+    var(--accent-secondary)
+  );
+  color: var(--text-on-accent);
+  box-shadow: 0 4px 14px -6px
+    color-mix(in srgb, var(--accent-primary) 70%, transparent);
+}
+.portfolio-filter__btn.filter-active .portfolio-filter__count {
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--text-on-accent);
+}
+
+/* ---------- Tier legend ---------- */
+.portfolio-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-5);
+  flex-wrap: wrap;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface-2);
+  border: 1px solid var(--surface-4);
+  border-radius: var(--radius-lg);
+  width: fit-content;
+}
+.portfolio-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 18%, transparent);
+}
+.legend-dot--T1 {
+  background: hsl(278, 92%, 64%);
+  color: hsl(278, 92%, 64%);
+}
+.legend-dot--T2 {
+  background: hsl(265, 85%, 62%);
+  color: hsl(265, 85%, 62%);
+}
+.legend-dot--T3 {
+  background: hsl(109, 25%, 55%);
+  color: hsl(109, 25%, 55%);
+}
+
+/* ---------- Grid ---------- */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-5);
+}
+
+/* ---------- Card ---------- */
 .portfolio-item {
-  background-color: var(--container-color);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
+  position: relative;
+  background: var(--surface-2);
+  border: 1px solid var(--surface-4);
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  transition: 0.4s;
+  display: flex;
+  flex-direction: column;
+  transition:
+    border-color var(--ease-out-3),
+    transform var(--ease-out-3),
+    box-shadow var(--ease-out-3);
+  --p-tier-accent: 265 85% 62%;
 }
-
+.portfolio-item[data-tier="T1"] {
+  --p-tier-accent: 278 92% 64%;
+}
+.portfolio-item[data-tier="T2"] {
+  --p-tier-accent: 265 85% 62%;
+}
+.portfolio-item[data-tier="T3"] {
+  --p-tier-accent: 109 25% 55%;
+}
 .portfolio-item:hover {
-  transform: translateY(-5px);
-  border-color: var(--first-color);
-  box-shadow: 0 10px 25px hsla(265, 85%, 62%, 0.1);
+  transform: translateY(-6px);
+  border-color: color-mix(
+    in srgb,
+    hsl(var(--p-tier-accent)) 40%,
+    var(--surface-5)
+  );
+  box-shadow:
+    0 28px 56px -24px
+      color-mix(in srgb, hsl(var(--p-tier-accent)) 60%, transparent),
+    var(--shadow-card);
 }
 
 .portfolio-img-wrapper {
   position: relative;
-  overflow: hidden;
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      120% 90% at 50% 110%,
+      color-mix(in srgb, hsl(var(--p-tier-accent)) 10%, transparent) 0%,
+      transparent 60%
+    ),
+    linear-gradient(180deg, var(--surface-3), var(--surface-4));
+  perspective: 1400px;
+  perspective-origin: 50% 60%;
 }
 
-.portfolio-img {
+/* ---------- MacBook Mockup Stage (single clean laptop) ---------- */
+.mockup-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mockup-glow {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 82%;
+  height: 70%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 55%,
+    color-mix(in srgb, hsl(var(--p-tier-accent)) 30%, transparent) 0%,
+    transparent 72%
+  );
+  filter: blur(28px);
+  opacity: 0.5;
+  transition:
+    opacity var(--ease-out-4),
+    transform var(--ease-out-4);
+}
+.portfolio-item:hover .mockup-glow {
+  opacity: 0.82;
+  transform: translate(-50%, -52%) scale(1.06);
+}
+
+/* ===== MacBook Pro (Modern, Space Gray Aluminum, single device) ===== */
+.mockup-macbook {
+  position: relative;
+  width: 74%;
+  max-width: 74%;
+  z-index: 2;
+  transform-style: preserve-3d;
+  transform: rotateX(8deg) translateY(0);
+  transition:
+    transform 550ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 550ms cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(0 42px 70px -28px rgba(0, 0, 0, 0.72))
+    drop-shadow(0 12px 24px -14px rgba(0, 0, 0, 0.48));
+}
+.portfolio-item:hover .mockup-macbook {
+  transform: rotateX(4deg) translateY(-8px) translateZ(18px);
+}
+
+/* Display housing (screen bezel) - Space Gray aluminum */
+.mockup-macbook__display {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(180deg, #2a2a32 0%, #1e1e25 45%, #15151a 100%);
+  border-radius: 14px 14px 4px 4px;
+  padding: 10px 10px 10px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.55) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+  transform-origin: bottom center;
+}
+
+/* Thin reflective aluminum edge highlight */
+.mockup-macbook__display::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 20%,
+    transparent 80%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+}
+
+/* Camera notch - modern MacBook Pro style (subtle) */
+.mockup-macbook__notch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 16px;
+  background: #07070b;
+  border-radius: 0 0 10px 10px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.mockup-macbook__notch::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 35% 30%,
+    #4a5568 0%,
+    #1a202c 55%,
+    #0a0d12 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 0 2px 1px rgba(0, 0, 0, 0.9);
+}
+
+/* Screen area (actual content) */
+.mockup-macbook__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 10;
+  background: #05050a;
+  border-radius: 7px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.9),
+    0 0 0 2px rgba(255, 255, 255, 0.04) inset;
+}
+
+/* Screen image - perfectly fitted */
+.mockup-macbook__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: 0.6s;
+  object-position: center top;
+  display: block;
+  transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.portfolio-item:hover .mockup-macbook__img {
+  transform: scale(1.015);
 }
 
+/* Subtle screen glare for premium feel */
+.mockup-macbook__screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 28%,
+    transparent 70%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  opacity: 0.9;
+  transition: opacity 400ms ease;
+}
+.portfolio-item:hover .mockup-macbook__screen::after {
+  opacity: 0.5;
+}
+
+/* Hinge / Clutch */
+.mockup-macbook__hinge {
+  position: relative;
+  height: 5px;
+  background: linear-gradient(180deg, #2d2d36 0%, #16161c 50%, #0e0e13 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+.mockup-macbook__hinge::before,
+.mockup-macbook__hinge::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 3px;
+  border-radius: 1px;
+  background: #0a0a0f;
+  opacity: 0.85;
+}
+.mockup-macbook__hinge::before {
+  left: 6%;
+}
+.mockup-macbook__hinge::after {
+  right: 6%;
+}
+
+/* Base / Keyboard deck - Aluminum unibody */
+.mockup-macbook__base {
+  position: relative;
+  height: 18px;
+  background: linear-gradient(180deg, #25252d 0%, #18181e 55%, #0f0f14 100%);
+  border-radius: 0 0 20px 20px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.09) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.6) inset,
+    0 28px 52px -20px rgba(0, 0, 0, 0.82);
+}
+
+/* Keyboard deck subtle texture (keyboard plate) */
+.mockup-macbook__base::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  transform: translateX(-50%);
+  width: 62%;
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #0a0a10 0%, #141419 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.03) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+  opacity: 0.95;
+}
+
+/* Trackpad hint */
+.mockup-macbook__base::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #17171e 0%, #0c0c11 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.4) inset;
+  opacity: 0.85;
+}
+
+/* Bottom feet / shadow enhancement */
+.mockup-macbook__feet {
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8%;
+}
+.mockup-macbook__feet span {
+  width: 14px;
+  height: 3px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(180deg, #1a1a20 0%, #05050a 100%);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- Responsive MacBook Mockup ---------- */
+@media (max-width: 520px) {
+  .mockup-macbook {
+    width: 88%;
+    max-width: 88%;
+  }
+  .mockup-macbook__base {
+    height: 14px;
+  }
+  .mockup-macbook__notch {
+    width: 72px;
+    height: 13px;
+  }
+  .mockup-glow {
+    width: 96%;
+    height: 80%;
+    opacity: 0.6;
+  }
+}
+@media (min-width: 521px) and (max-width: 767px) {
+  .mockup-macbook {
+    width: 82%;
+    max-width: 82%;
+  }
+  .mockup-macbook__base {
+    height: 16px;
+  }
+}
+@media (min-width: 1200px) {
+  .mockup-macbook {
+    width: 70%;
+    max-width: 70%;
+  }
+}
+
+/* Overlay hover */
 .portfolio-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: hsla(265, 85%, 62%, 0.6);
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, hsl(var(--p-tier-accent)) 0%, transparent) 0%,
+    color-mix(in srgb, hsl(var(--p-tier-accent)) 82%, var(--surface-0)) 72%,
+    color-mix(in srgb, hsl(var(--p-tier-accent)) 92%, var(--surface-0)) 100%
+  );
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  color: var(--title-color);
+  justify-content: flex-end;
+  padding: var(--sp-5);
   opacity: 0;
-  transition: 0.4s;
+  transition: opacity var(--ease-out-3);
+  z-index: 2;
 }
-
 .portfolio-item:hover .portfolio-overlay {
   opacity: 1;
 }
 
-.portfolio-item:hover .portfolio-img {
-  transform: scale(1.1);
+.portfolio-cta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  transform: translateY(12px);
+  transition: transform var(--ease-out-4);
+}
+.portfolio-item:hover .portfolio-cta-row {
+  transform: translateY(0);
 }
 
+.portfolio-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--ease-out-2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  white-space: nowrap;
+}
+.portfolio-cta svg {
+  width: 12px;
+  height: 12px;
+}
+.portfolio-cta--solid {
+  background: #fff;
+  color: hsl(var(--p-tier-accent));
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.4);
+}
+.portfolio-cta--solid:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.5);
+}
+.portfolio-cta--ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.portfolio-cta--ghost:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Tier badge (top-right corner of image) */
+.portfolio-item__tier {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--p-tier-accent));
+  background: color-mix(
+    in srgb,
+    hsl(var(--p-tier-accent)) 12%,
+    var(--surface-0)
+  );
+  border: 1px solid
+    color-mix(in srgb, hsl(var(--p-tier-accent)) 35%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.portfolio-item__tier svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* ---------- Data section ---------- */
 .portfolio-data {
-  padding: 1.25rem;
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  flex: 1;
 }
 
-.portfolio-title {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: var(--first-color);
+.portfolio-meta-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
 }
 
 .portfolio-subtitle {
-  font-size: var(--smaller-font-size);
-  color: var(--text-color);
-  font-weight: var(--weight-600);
-  margin-bottom: 0.75rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  color: hsl(var(--p-tier-accent));
+}
+
+.portfolio-stack-mini {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.stack-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  border: 1px solid var(--surface-4);
+}
+
+.portfolio-title {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  letter-spacing: -0.015em;
+  line-height: 1.25;
 }
 
 .portfolio-description {
-  font-size: var(--small-font-size);
-  color: var(--text-color);
-  line-height: 1.6;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.65;
 }
 
+.portfolio-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1-5);
+  margin-top: auto;
+  padding-top: var(--sp-2);
+}
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--text-secondary);
+  font-size: 10.5px;
+  font-weight: 500;
+  border: 1px solid var(--surface-4);
+}
+.tag-pill svg {
+  width: 9px;
+  height: 9px;
+  color: var(--accent-primary);
+}
+
+/* ---------- Footer CTA ---------- */
 .portfolio-footer {
-  margin-top: 3rem;
+  margin-top: var(--sp-10);
   display: flex;
   justify-content: center;
 }
 
-.btn-github {
-  display: flex;
-  align-items: center;
-  column-gap: 0.75rem;
-  background-color: transparent;
-  border: 2px solid var(--first-color);
-  color: var(--first-color);
-  font-size: 1rem;
-  padding: 1rem 2rem;
-}
+/* ============================================================
+   BREAKPOINTS
+   ============================================================ */
 
-.btn-github:hover {
-  background-color: var(--first-color);
-  color: var(--title-color);
-  transform: scale(1.05);
-}
-
-/* Breakpoints */
-/* Medium devices (tablets, 768px and up) */
-@media screen and (min-width: 768px) {
+@media (max-width: 360px) {
   .portfolio-container {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: initial;
-    gap: 2.5rem;
+    padding-inline: var(--sp-3);
   }
-
-  .portfolio-item:hover {
-    transform: translateY(-10px);
-  }
-
   .portfolio-data {
-    padding: 1.5rem;
+    padding: var(--sp-4);
   }
-
-  .portfolio-title {
-    font-size: var(--h3-font-size);
+  .portfolio-toolbar {
+    gap: var(--sp-3);
   }
-
-  .portfolio-footer {
-    margin-top: 4rem;
-  }
-
-  .btn-github {
-    font-size: 1.125rem;
-    padding: 1.25rem 2.5rem;
+  .portfolio-legend {
+    padding: var(--sp-2-5) var(--sp-3);
+    gap: var(--sp-3);
   }
 }
 
-/* Large devices (desktops, 992px and up) */
-@media screen and (min-width: 992px) {
+@media (min-width: 768px) {
   .portfolio-container {
-    gap: 3rem;
+    padding-inline: var(--sp-6);
+  }
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-5);
+  }
+  .portfolio-toolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 992px) {
+  .portfolio-grid {
+    gap: var(--sp-6);
+  }
+}
+
+@media (min-width: 1200px) {
+  .portfolio-container {
+    padding-inline: clamp(var(--sp-8), 6vw, var(--sp-16));
+  }
+  .portfolio-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

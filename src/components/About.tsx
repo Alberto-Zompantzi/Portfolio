@@ -1,49 +1,213 @@
-import { useState, type FC, type ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Code2, Database, Layout, Cloud, GitBranch, Terminal, 
-  Briefcase, GraduationCap, Award
-} from 'lucide-react';
-import './About.css';
+import { useState, type FC, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import {
+  BookOpen,
+  Code2,
+  Database,
+  Layout,
+  Cloud,
+  GitBranch,
+  Cpu,
+  Award,
+  ChevronRight,
+  CheckCircle2,
+  FileCode2,
+  History,
+} from "lucide-react";
+import "./About.css";
 
-/**
- * About component with tabbed content for Skills, Experience, Education, and Certifications.
- * Uses Framer Motion for smooth tab transitions.
- */
 const About: FC = () => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState('skills');
+  const [activeTab, setActiveTab] = useState("story");
+  const reduceMotion = useReducedMotion();
 
-  const tabs = [
-    { id: 'skills', label: t('about.tabs.skills'), icon: <Code2 size={18} /> },
-    { id: 'experience', label: t('about.tabs.experience'), icon: <Briefcase size={18} /> },
-    { id: 'education', label: t('about.tabs.education'), icon: <GraduationCap size={18} /> },
-    { id: 'certifications', label: t('about.tabs.certifications'), icon: <Award size={18} /> },
-  ];
+  const tabs = useMemo(
+    () => [
+      {
+        id: "story",
+        label: t("about.tabs.story"),
+        icon: <BookOpen size={16} strokeWidth={2} />,
+      },
+      {
+        id: "skills",
+        label: t("about.tabs.skills"),
+        icon: <Code2 size={16} strokeWidth={2} />,
+      },
+      {
+        id: "stack",
+        label: t("about.tabs.stack"),
+        icon: <FileCode2 size={16} strokeWidth={2} />,
+      },
+      {
+        id: "certifications",
+        label: t("about.tabs.certifications"),
+        icon: <Award size={16} strokeWidth={2} />,
+      },
+      {
+        id: "timeline",
+        label: t("about.tabs.timeline"),
+        icon: <History size={16} strokeWidth={2} />,
+      },
+    ],
+    [t],
+  );
+
+  const skillPillars = useMemo(
+    () => [
+      {
+        key: "backend",
+        icon: (
+          <Code2 size={22} strokeWidth={1.8} style={{ color: "#007396" }} />
+        ),
+      },
+      {
+        key: "rag",
+        icon: <Cpu size={22} strokeWidth={1.8} style={{ color: "#3776AB" }} />,
+      },
+      {
+        key: "frontend",
+        icon: (
+          <Layout size={22} strokeWidth={1.8} style={{ color: "#61DAFB" }} />
+        ),
+      },
+      {
+        key: "data",
+        icon: (
+          <Database size={22} strokeWidth={1.8} style={{ color: "#336791" }} />
+        ),
+      },
+      {
+        key: "infrastructure",
+        icon: (
+          <Cloud size={22} strokeWidth={1.8} style={{ color: "#F80000" }} />
+        ),
+      },
+      {
+        key: "workflow",
+        icon: (
+          <GitBranch size={22} strokeWidth={1.8} style={{ color: "#F05032" }} />
+        ),
+      },
+    ],
+    [],
+  );
+
+  const stackCats = useMemo(
+    () =>
+      [
+        "languages",
+        "frameworks",
+        "datastores",
+        "cloud",
+        "frontend",
+        "practices",
+      ] as const,
+    [],
+  );
+
+  const certOracle = useMemo(
+    () => [
+      {
+        group: t("about.certifications.groups.oracleOne.formationsTitle"),
+        items: ["beginner", "cs", "backend"],
+        ns: "formations",
+      },
+      {
+        group: t("about.certifications.groups.oracleOne.coursesTitle"),
+        items: [
+          "git",
+          "htmlCss",
+          "js1",
+          "js2",
+          "js3",
+          "javaOop",
+          "javaT1",
+          "javaT2",
+          "javaT3",
+          "javaTesting",
+          "spring",
+          "spring2",
+          "sql",
+          "db",
+        ],
+        ns: "courses",
+      },
+      {
+        group: t("about.certifications.groups.oracleOne.badgesTitle"),
+        items: ["challenger"],
+        ns: "badges",
+      },
+    ],
+    [t],
+  );
+
+  const certDC = useMemo(
+    () => [
+      {
+        group: t("about.certifications.groups.datacamp.tracksTitle"),
+        items: ["cloud", "git", "docker", "bash", "dataviz"],
+        ns: "tracks",
+      },
+      {
+        group: t("about.certifications.groups.datacamp.coursesTitle"),
+        items: [
+          "awsCloud",
+          "awsArchitecting",
+          "gitIntro",
+          "gitCollab",
+          "dockerIntro",
+          "dockerAdvanced",
+          "bashIntro",
+          "bashScripts",
+          "sqlIntro",
+          "sqlJoins",
+          "sqlSummaries",
+          "pandasFoundations",
+          "matplotlib",
+          "seaborn",
+        ],
+        ns: "courses",
+      },
+    ],
+    [t],
+  );
+
+  const timelineItems = useMemo(() => ["t1", "t2", "t3", "t4"] as const, []);
+
+  const animDur = reduceMotion ? 0 : 0.35;
 
   return (
-    <section className="about section" id="about">
+    <section
+      className="about section"
+      id="about"
+      aria-labelledby="about-heading"
+    >
       <div className="about-container container grid">
-        <motion.div 
-          className="about-img-wrapper"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <img src="/images/aboutphoto.webp" alt="Alberto's Desk" className="about-img" />
-        </motion.div>
-
         <div className="about-content">
-          <h2 className="section-title">{t('about.title')}</h2>
-          <p className="about-description">{t('about.description')}</p>
+          <span className="section-kicker" aria-hidden="true">
+            {t("about.kicker")}
+          </span>
+          <h2 id="about-heading" className="section-title section-title--left">
+            {t("about.title")}
+          </h2>
+          <p className="about-description">{t("about.description")}</p>
 
-          <div className="tabs-buttons">
+          <div
+            className="tabs-buttons"
+            role="tablist"
+            aria-label="About section tabs"
+          >
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                className={`tabs-button ${activeTab === tab.id ? 'tab-active' : ''}`}
+                role="tab"
+                type="button"
+                id={`tab-${tab.id}`}
+                aria-selected={activeTab === tab.id}
+                aria-controls={`panel-${tab.id}`}
+                tabIndex={activeTab === tab.id ? 0 : -1}
+                className={`tabs-button ${activeTab === tab.id ? "tab-active" : ""}`}
                 onClick={() => setActiveTab(tab.id)}
               >
                 {tab.icon}
@@ -56,60 +220,246 @@ const About: FC = () => {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
+                id={`panel-${activeTab}`}
+                role="tabpanel"
+                aria-labelledby={`tab-${activeTab}`}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: animDur, ease: "easeOut" }}
               >
-                {activeTab === 'skills' && (
+                {/* 1. STORY & THESIS */}
+                {activeTab === "story" && (
+                  <div className="tabs-item story-grid">
+                    {(["p1", "p2", "p3", "p4"] as const).map((k) => (
+                      <p key={k} className="story-paragraph">
+                        <ChevronRight
+                          size={14}
+                          className="story-bullet"
+                          aria-hidden="true"
+                        />
+                        {t(`about.story.${k}`)}
+                      </p>
+                    ))}
+                  </div>
+                )}
+
+                {/* 2. CORE SKILLS (6 pillars) */}
+                {activeTab === "skills" && (
                   <div className="tabs-item skills-grid">
-                    <SkillItem icon={<Code2 style={{ color: '#007396' }} />} title={t('about.skills.backend.title')} desc={t('about.skills.backend.desc')} />
-                    <SkillItem icon={<Layout style={{ color: '#61DAFB' }} />} title={t('about.skills.frontend.title')} desc={t('about.skills.frontend.desc')} />
-                    <SkillItem icon={<Database style={{ color: '#336791' }} />} title={t('about.skills.data.title')} desc={t('about.skills.data.desc')} />
-                    <SkillItem icon={<Cloud style={{ color: '#FF9900' }} />} title={t('about.skills.infrastructure.title')} desc={t('about.skills.infrastructure.desc')} />
-                    <SkillItem icon={<GitBranch style={{ color: '#F05032' }} />} title={t('about.skills.workflow.title')} desc={t('about.skills.workflow.desc')} />
+                    {skillPillars.map((p) => (
+                      <article key={p.key} className="skill-item">
+                        <div className="skill-header">
+                          <span className="skill-icon">{p.icon}</span>
+                          <h4 className="skill-title">
+                            {t(`about.skills.${p.key}.title`)}
+                          </h4>
+                        </div>
+                        <p className="skill-desc">
+                          {t(`about.skills.${p.key}.desc`)}
+                        </p>
+                        <ul
+                          className="skill-chips"
+                          aria-label={`${t(`about.skills.${p.key}.title`)} — key competencies`}
+                        >
+                          {(
+                            t(`about.skills.${p.key}.keywords`, {
+                              returnObjects: true,
+                            }) as unknown as string[]
+                          ).map((kw) => (
+                            <li key={kw} className="skill-chip">
+                              <CheckCircle2 size={10} aria-hidden="true" /> {kw}
+                            </li>
+                          ))}
+                        </ul>
+                      </article>
+                    ))}
                   </div>
                 )}
 
-                {activeTab === 'experience' && (
-                  <div className="tabs-item experience-list">
-                    <ExperienceItem 
-                      title={t('about.experience.items.divertikids.title')} 
-                      subtitle={t('about.experience.items.divertikids.subtitle')} 
-                      link="https://divertikids.pages.dev/"
-                      desc={t('about.experience.items.divertikids.desc')}
-                      viewProject={t('about.experience.viewProject')}
-                    />
-                    <ExperienceItem 
-                      title={t('about.experience.items.casazompantzi.title')} 
-                      subtitle={t('about.experience.items.casazompantzi.subtitle')} 
-                      link="https://casazompantzi.pages.dev/"
-                      desc={t('about.experience.items.casazompantzi.desc')}
-                      viewProject={t('about.experience.viewProject')}
-                    />
-                    <ExperienceItem 
-                      title={t('about.experience.items.sunnyside.title')} 
-                      subtitle={t('about.experience.items.sunnyside.subtitle')} 
-                      link="https://sunnysideboutique.pages.dev/"
-                      desc={t('about.experience.items.sunnyside.desc')}
-                      viewProject={t('about.experience.viewProject')}
-                    />
+                {/* 3. TECH STACK (6 categories) */}
+                {activeTab === "stack" && (
+                  <div className="tabs-item stack-grid">
+                    {stackCats.map((cat) => {
+                      const catItems = t(`about.stack.${cat}.items`, {
+                        returnObjects: true,
+                      }) as unknown as string[];
+                      const iconMap: Record<string, JSX.Element> = {
+                        languages: <Code2 size={15} aria-hidden="true" />,
+                        frameworks: <Layout size={15} aria-hidden="true" />,
+                        datastores: <Database size={15} aria-hidden="true" />,
+                        cloud: <Cloud size={15} aria-hidden="true" />,
+                        frontend: <Layout size={15} aria-hidden="true" />,
+                        practices: <GitBranch size={15} aria-hidden="true" />,
+                      };
+                      return (
+                        <div key={cat} className="stack-group">
+                          <div className="stack-group__header">
+                            <span
+                              className="stack-group__icon"
+                              aria-hidden="true"
+                            >
+                              {iconMap[cat] ?? (
+                                <FileCode2 size={15} aria-hidden="true" />
+                              )}
+                            </span>
+                            <h4>{t(`about.stack.${cat}.title`)}</h4>
+                          </div>
+                          <div className="stack-chips">
+                            {catItems.map((item) => (
+                              <span key={item} className="chip">
+                                {item}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
 
-                {activeTab === 'education' && (
-                  <div className="tabs-item education-info">
-                    <h3 className="edu-title">{t('about.education.title')}</h3>
-                    <p className="edu-school">{t('about.education.school')}</p>
-                    <p className="edu-desc">{t('about.education.desc')}</p>
+                {/* 4. CERTIFICATIONS (Oracle ONE + DataCamp) */}
+                {activeTab === "certifications" && (
+                  <div className="tabs-item certs-wrapper">
+                    <div
+                      className="certs-summary"
+                      role="status"
+                      aria-live="polite"
+                    >
+                      <span className="certs-summary__badge">
+                        {t("about.certifications.totalBadge")}
+                      </span>
+                      <p className="certs-summary__subtitle">
+                        {t("about.certifications.subtitle")}
+                      </p>
+                    </div>
+
+                    <div className="certs-provider">
+                      <h4 className="certs-provider__title">
+                        {t("about.certifications.groups.oracleOne.title")}
+                      </h4>
+                      {certOracle.map((grp) => (
+                        <div key={grp.group} className="certs-group">
+                          <h5 className="certs-group__title">{grp.group}</h5>
+                          <ul className="certs-list">
+                            {grp.items.map((k) => {
+                              const compString = t(
+                                `about.certifications.groups.oracleOne.${grp.ns}.${k}.competencies`,
+                              );
+                              const comps = compString
+                                .split(/[·,;]/)
+                                .map((s) => s.trim())
+                                .filter(Boolean);
+                              return (
+                                <li key={k} className="cert-item">
+                                  <span
+                                    className="cert-header"
+                                    aria-hidden="true"
+                                  >
+                                    <Award size={12} />
+                                  </span>
+                                  <div className="cert-body">
+                                    <div className="cert-body__name">
+                                      {t(
+                                        `about.certifications.groups.oracleOne.${grp.ns}.${k}.title`,
+                                      )}
+                                    </div>
+                                    <div className="cert-body__comps">
+                                      {comps.map((c, ci) => (
+                                        <span key={ci}>{c}</span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="certs-provider">
+                      <h4 className="certs-provider__title">
+                        {t("about.certifications.groups.datacamp.title")}
+                      </h4>
+                      {certDC.map((grp) => (
+                        <div key={grp.group} className="certs-group">
+                          <h5 className="certs-group__title">{grp.group}</h5>
+                          <ul className="certs-list">
+                            {grp.items.map((k) => {
+                              const compString = t(
+                                `about.certifications.groups.datacamp.${grp.ns}.${k}.competencies`,
+                              );
+                              const comps = compString
+                                .split(/[·,;]/)
+                                .map((s) => s.trim())
+                                .filter(Boolean);
+                              return (
+                                <li key={k} className="cert-item">
+                                  <span
+                                    className="cert-header"
+                                    aria-hidden="true"
+                                    style={{
+                                      background:
+                                        "linear-gradient(135deg, color-mix(in srgb, #00EF8B 30%, transparent), color-mix(in srgb, #039855 25%, transparent))",
+                                      color: "#039855",
+                                    }}
+                                  >
+                                    <Award size={12} />
+                                  </span>
+                                  <div className="cert-body">
+                                    <div className="cert-body__name">
+                                      {t(
+                                        `about.certifications.groups.datacamp.${grp.ns}.${k}.title`,
+                                      )}
+                                    </div>
+                                    <div className="cert-body__comps">
+                                      {comps.map((c, ci) => (
+                                        <span key={ci}>{c}</span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 
-                {activeTab === 'certifications' && (
-                  <div className="tabs-item certifications-grid">
-                    <CertItem icon={<Cloud />} title={t('about.certifications.items.aws.title')} desc={t('about.certifications.items.aws.desc')} />
-                    <CertItem icon={<GitBranch />} title={t('about.certifications.items.git.title')} desc={t('about.certifications.items.git.desc')} />
-                    <CertItem icon={<Terminal />} title={t('about.certifications.items.docker.title')} desc={t('about.certifications.items.docker.desc')} />
+                {/* 5. TIMELINE (4 phases) */}
+                {activeTab === "timeline" && (
+                  <div
+                    className="tabs-item timeline"
+                    aria-label="Career timeline"
+                  >
+                    <div className="timeline-rail" aria-hidden="true" />
+                    {timelineItems.map((id) => {
+                      const org = t(`about.timeline.items.${id}.org`, {
+                        defaultValue: "",
+                      });
+                      return (
+                        <div key={id} className="timeline-item">
+                          <span className="timeline-dot" aria-hidden="true">
+                            <CheckCircle2 size={9} />
+                          </span>
+                          <div className="timeline-line">
+                            <span className="timeline-period">
+                              {t(`about.timeline.items.${id}.period`)}
+                            </span>
+                            <h4 className="timeline-title">
+                              {t(`about.timeline.items.${id}.title`)}
+                            </h4>
+                            {org && <div className="timeline-org">{org}</div>}
+                            <p className="timeline-desc">
+                              {t(`about.timeline.items.${id}.desc`)}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </motion.div>
@@ -120,36 +470,5 @@ const About: FC = () => {
     </section>
   );
 };
-
-const SkillItem: FC<{ icon: ReactNode; title: string; desc: string }> = ({ icon, title, desc }) => (
-  <div className="skill-item">
-    <div className="skill-header">
-      {icon}
-      <h4>{title}</h4>
-    </div>
-    <p>{desc}</p>
-  </div>
-);
-
-const ExperienceItem: FC<{ title: string; subtitle: string; link: string; desc: string; viewProject: string }> = ({ title, subtitle, link, desc, viewProject }) => (
-  <div className="experience-item">
-    <div className="exp-header">
-      <h4>{title}</h4>
-      <a href={link} target="_blank" rel="noreferrer" className="exp-link">{viewProject}</a>
-    </div>
-    <span className="exp-subtitle">{subtitle}</span>
-    <p className="exp-desc">{desc}</p>
-  </div>
-);
-
-const CertItem: FC<{ icon: ReactNode; title: string; desc: string }> = ({ icon, title, desc }) => (
-  <div className="cert-item">
-    <div className="cert-header">
-      {icon}
-      <h4>{title}</h4>
-    </div>
-    <p>{desc}</p>
-  </div>
-);
 
 export default About;
