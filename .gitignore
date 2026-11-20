@@ -1,0 +1,61 @@
+# Insumos locales y material fuente sin publicar
+/Información faltante/
+/Informacion faltante/
+
+# Dependencias y artefactos de build
+node_modules/
+.next/
+out/
+/frontend/.next/
+/frontend/out/
+/backend/build/
+/backend/.gradle/
+/backend/target/
+.gradle/
+
+# Medios locales prohibidos
+/frontend/public/images/
+/frontend/public/imagenes/
+/frontend/public/**/*.png
+/frontend/public/**/*.jpg
+/frontend/public/**/*.jpeg
+/frontend/public/**/*.webp
+/frontend/public/**/*.gif
+/frontend/public/**/*.pdf
+/frontend/public/**/*.mp4
+/frontend/public/**/*.zip
+/frontend/public/**/*.psd
+/frontend/public/**/*.fig
+
+# Activos permitidos para navegador / SEO
+!/frontend/public/favicon.ico
+!/frontend/public/apple-touch-icon.png
+!/frontend/public/og-*.png
+!/frontend/public/og-*.webp
+
+# Secretos y configuración local
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+application-local.yml
+application-prod.yml
+
+# Sistema operativo e IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+
+# Medios y documentos locales dentro del código fuente del frontend
+frontend/src/**/*.png
+frontend/src/**/*.jpg
+frontend/src/**/*.jpeg
+frontend/src/**/*.webp
+frontend/src/**/*.gif
+frontend/src/**/*.pdf
+frontend/src/**/*.mp4
+frontend/src/**/*.zip
+frontend/src/**/*.psd
+frontend/src/**/*.fig
