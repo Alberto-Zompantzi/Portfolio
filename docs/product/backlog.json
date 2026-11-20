@@ -5,11 +5,12 @@
     "area": "Cloud/Infra",
     "labels": [
       "cloud",
-      "blocked"
+      "blocked",
+      "Task"
     ],
     "estimate_hours": 3,
     "depends_on": [],
-    "body": "## Contexto\nD-01 determina el dominio final, además del stack SSG y el destino de despliegue.\n\n## Alcance (SÍ)\nRegistrar dominio y origen canónico confirmados por el propietario; mantener Next.js con exportación estática en Cloudflare Pages conforme ADR-0002.\n\n## Fuera de alcance (NO)\nCambiar la decisión aceptada de framework o inventar un dominio.\n\n## Criterios de aceptación (Gherkin)\nDado el despliegue estático aprobado, cuando se cierre D-01, entonces el dominio y origen canónico quedan registrados y las rutas / y /en son compatibles con exportación.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 0, D-01; docs/product/BRIEF.md § Supuestos y dependencias; docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión\n\n## Dependencias\nSin dependencias de tickets previos."
+    "body": "## Objetivo\nD-01 determina el dominio final, además del stack SSG y el destino de despliegue.\n\n## Alcance\n- Registrar dominio y origen canónico confirmados por el propietario\n- mantener Next.js con exportación estática en Cloudflare Pages conforme ADR-0002.\n\n## Fuera de alcance\n- Cambiar la decisión aceptada de framework o inventar un dominio.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el despliegue estático aprobado, cuando se cierre D-01, entonces el dominio y origen canónico quedan registrados y las rutas / y /en son compatibles con exportación.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- Sin dependencias de issues previos.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #3, #4, #5, #6, #7, #8.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 0, D-01\n- docs/product/BRIEF.md § Supuestos y dependencias\n- docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #2 y dependencias relacionadas: ninguna"
   },
   {
     "id": "T02",
@@ -17,24 +18,26 @@
     "area": "Producto/Diseño",
     "labels": [
       "design",
-      "cloud"
+      "cloud",
+      "Task"
     ],
     "estimate_hours": 4,
     "depends_on": [],
-    "body": "## Contexto\nD-02 exige sanitizar visualmente los insumos antes de cualquier publicación.\n\n## Alcance (SÍ)\nRevisar Mediflow.png y automatización presencial LinkedIn.jpg, ocultar datos privados y preservar originales fuera de Git.\n\n## Fuera de alcance (NO)\nSubir originales, credenciales, datos clínicos o información de clientes.\n\n## Criterios de aceptación (Gherkin)\nDado cada original, cuando se prepara su derivado, entonces no quedan datos privados legibles y el original permanece fuera de Git.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 0, D-02; docs/product/BRIEF.md § Identidad visual y activos gráficos; docs/architecture/adr/0003-cloud-media-and-cv-storage.md § Contexto\n\n## Dependencias\nSin dependencias de tickets previos."
+    "body": "## Objetivo\nD-02 exige sanitizar visualmente los insumos antes de cualquier publicación.\n\n## Alcance\n- Revisar Mediflow.png y automatización presencial LinkedIn.jpg, ocultar datos privados y preservar originales fuera de Git.\n\n## Fuera de alcance\n- Subir originales, credenciales, datos clínicos o información de clientes.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado cada original, cuando se prepara su derivado, entonces no quedan datos privados legibles y el original permanece fuera de Git.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- Sin dependencias de issues previos.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #4, #5, #6, #7, #8, #9.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 0, D-02\n- docs/product/BRIEF.md § Identidad visual y activos gráficos\n- docs/architecture/adr/0003-cloud-media-and-cv-storage.md § Contexto\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #3 y dependencias relacionadas: ninguna"
   },
   {
     "id": "T03",
     "title": "Aprovisionar Cloudflare R2 y subir medios sanitizados",
     "area": "Cloud/Infra",
     "labels": [
-      "cloud"
+      "cloud",
+      "Task"
     ],
     "estimate_hours": 6,
     "depends_on": [
       "T02"
     ],
-    "body": "## Contexto\nD-03 requiere proveedor externo y URLs públicas HTTPS; ADR-0003 selecciona R2.\n\n## Alcance (SÍ)\nCrear bucket público de lectura, fijar Content-Type y subir solo medios sanitizados; anotar URLs finales.\n\n## Fuera de alcance (NO)\nSubir originales crudos o almacenar binarios no exentos en Git.\n\n## Criterios de aceptación (Gherkin)\nDado el bucket configurado, cuando se consultan las URLs, entonces cada medio sanitizado responde HTTPS y el MIME esperado.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 0, D-03; docs/architecture/adr/0003-cloud-media-and-cv-storage.md § Decisión y Consecuencias; docs/architecture/ARCHITECTURE.md § 11\n\n## Dependencias\nT02"
+    "body": "## Objetivo\nD-03 requiere proveedor externo y URLs públicas HTTPS; ADR-0003 selecciona R2.\n\n## Alcance\n- Crear bucket público de lectura, fijar Content-Type y subir solo medios sanitizados\n- anotar URLs finales.\n\n## Fuera de alcance\n- Subir originales crudos o almacenar binarios no exentos en Git.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el bucket configurado, cuando se consultan las URLs, entonces cada medio sanitizado responde HTTPS y el MIME esperado.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #3: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #5, #6, #7, #8, #9, #10.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 0, D-03\n- docs/architecture/adr/0003-cloud-media-and-cv-storage.md § Decisión y Consecuencias\n- docs/architecture/ARCHITECTURE.md § 11\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #4 y dependencias relacionadas: #3"
   },
   {
     "id": "T04",
@@ -42,11 +45,12 @@
     "area": "Producto/Diseño",
     "labels": [
       "docs",
-      "blocked"
+      "blocked",
+      "Task"
     ],
     "estimate_hours": 4,
     "depends_on": [],
-    "body": "## Contexto\nD-04a y D-04b condicionan la selección verificable de proyectos y la publicación de textos.\n\n## Alcance (SÍ)\nConfirmar visibilidad pública de Tzompcomer, MediFlow, DivertiKids, Casa Zompantzi y Sunnyside Boutique y revisar textos sanitizados de MediFlow/n8n.\n\n## Fuera de alcance (NO)\nPublicar links de backend, datos privados o repositorios sin confirmar.\n\n## Criterios de aceptación (Gherkin)\nDado cada proyecto, cuando se cierre D-04a/D-04b, entonces queda registrada su vía verificable y la decisión de enlace público.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 0, D-04a/D-04b; docs/product/BRIEF.md § Regla general y matriz de enlaces permitidos; docs/product/PRD.md § HU-04 escenarios 4.2a–4.4\n\n## Dependencias\nSin dependencias de tickets previos."
+    "body": "## Objetivo\nD-04a y D-04b condicionan la selección verificable de proyectos y la publicación de textos.\n\n## Alcance\n- Confirmar visibilidad pública de Tzompcomer, MediFlow, DivertiKids, Casa Zompantzi y Sunnyside Boutique y revisar textos sanitizados de MediFlow/n8n.\n\n## Fuera de alcance\n- Publicar links de backend, datos privados o repositorios sin confirmar.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado cada proyecto, cuando se cierre D-04a/D-04b, entonces queda registrada su vía verificable y la decisión de enlace público.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- Sin dependencias de issues previos.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #6, #7, #8, #9, #10, #11.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 0, D-04a/D-04b\n- docs/product/BRIEF.md § Regla general y matriz de enlaces permitidos\n- docs/product/PRD.md § HU-04 escenarios 4.2a–4.4\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #5 y dependencias relacionadas: ninguna"
   },
   {
     "id": "T05",
@@ -54,11 +58,12 @@
     "area": "Backend",
     "labels": [
       "back",
-      "docs"
+      "docs",
+      "Task"
     ],
     "estimate_hours": 3,
     "depends_on": [],
-    "body": "## Contexto\nD-05 verifica el DTO y respuestas del servicio existente; ADR-0004 concreta payload frontend.\n\n## Alcance (SÍ)\nDocumentar POST /api/v1/contactos, nombre/email/mensaje requeridos, asunto opcional y respuesta real.\n\n## Fuera de alcance (NO)\nCambiar lógica de negocio o persistencia del backend.\n\n## Criterios de aceptación (Gherkin)\nDado el contrato observado, cuando frontend lo consuma, entonces payload, validaciones y respuestas documentadas coinciden con OpenAPI y backend existente.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 0, D-05; docs/api/openapi.yaml § /api/v1/contactos; docs/architecture/adr/0004-backend-cors-and-contact-contract.md § Payload ContactSubmission; docs/architecture/DATA_MODEL.md § 4\n\n## Dependencias\nSin dependencias de tickets previos."
+    "body": "## Objetivo\nD-05 verifica el DTO y respuestas del servicio existente; ADR-0004 concreta payload frontend.\n\n## Alcance\n- Documentar POST /api/v1/contactos, nombre/email/mensaje requeridos, asunto opcional y respuesta real.\n\n## Fuera de alcance\n- Cambiar lógica de negocio o persistencia del backend.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el contrato observado, cuando frontend lo consuma, entonces payload, validaciones y respuestas documentadas coinciden con OpenAPI y backend existente.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- Sin dependencias de issues previos.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #7, #8, #9, #10, #11, #12.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 0, D-05\n- docs/api/openapi.yaml § /api/v1/contactos\n- docs/architecture/adr/0004-backend-cors-and-contact-contract.md § Payload ContactSubmission\n- docs/architecture/DATA_MODEL.md § 4\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #6 y dependencias relacionadas: ninguna"
   },
   {
     "id": "T06",
@@ -66,11 +71,12 @@
     "area": "Cloud/Infra",
     "labels": [
       "cloud",
-      "docs"
+      "docs",
+      "Task"
     ],
     "estimate_hours": 3,
     "depends_on": [],
-    "body": "## Contexto\nD-06 define ubicación de PDFs y exige texto seleccionable para ATS.\n\n## Alcance (SÍ)\nConfirmar ubicación final y verificar que ambos PDFs sean accesibles y tengan texto seleccionable.\n\n## Fuera de alcance (NO)\nRediseñar el formato interno de los CVs o incorporar PDFs sin confirmar.\n\n## Criterios de aceptación (Gherkin)\nDado cada PDF, cuando se inspecciona el recurso, entonces el archivo está disponible y su texto puede seleccionarse; ambas URLs/rutas quedan registradas.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 0, D-06; docs/product/BRIEF.md § Internacionalización y CV por idioma; docs/product/PRD.md § HU-03 escenario 3.3; docs/architecture/adr/0003-cloud-media-and-cv-storage.md § Decisión\n\n## Dependencias\nSin dependencias de tickets previos."
+    "body": "## Objetivo\nD-06 define ubicación de PDFs y exige texto seleccionable para ATS.\n\n## Alcance\n- Confirmar ubicación final y verificar que ambos PDFs sean accesibles y tengan texto seleccionable.\n\n## Fuera de alcance\n- Rediseñar el formato interno de los CVs o incorporar PDFs sin confirmar.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado cada PDF, cuando se inspecciona el recurso, entonces el archivo está disponible y su texto puede seleccionarse; ambas URLs/rutas quedan registradas.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- Sin dependencias de issues previos.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #8, #9, #10, #11, #12, #13.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 0, D-06\n- docs/product/BRIEF.md § Internacionalización y CV por idioma\n- docs/product/PRD.md § HU-03 escenario 3.3\n- docs/architecture/adr/0003-cloud-media-and-cv-storage.md § Decisión\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #7 y dependencias relacionadas: ninguna"
   },
   {
     "id": "T07",
@@ -78,11 +84,12 @@
     "area": "Producto/Diseño",
     "labels": [
       "docs",
-      "blocked"
+      "blocked",
+      "Task"
     ],
     "estimate_hours": 4,
     "depends_on": [],
-    "body": "## Contexto\nLos filtros, iconos y fondo requieren decisiones pendientes explícitas del propietario.\n\n## Alcance (SÍ)\nConfirmar taxonomías de stack/rol, fuente de iconos con licencia y límite SVG, y umbrales FPS/LCP con dispositivo de referencia.\n\n## Fuera de alcance (NO)\nInventar valores o cambiar supuestos por decisiones aprobadas.\n\n## Criterios de aceptación (Gherkin)\nDado el registro D-07b–D-07d, cuando se autorice la implementación, entonces cada taxonomía y umbral requerido tiene valor acordado o permanece identificado PENDIENTE.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 0, D-07b–D-07d; docs/product/PRD.md § HU-06, HU-07, HU-08 y Requisitos no funcionales; docs/architecture/ARCHITECTURE.md § 8 y § 15\n\n## Dependencias\nSin dependencias de tickets previos."
+    "body": "## Objetivo\nLos filtros, iconos y fondo requieren decisiones pendientes explícitas del propietario.\n\n## Alcance\n- Confirmar taxonomías de stack/rol, fuente de iconos con licencia y límite SVG, y umbrales FPS/LCP con dispositivo de referencia.\n\n## Fuera de alcance\n- Inventar valores o cambiar supuestos por decisiones aprobadas.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el registro D-07b–D-07d, cuando se autorice la implementación, entonces cada taxonomía y umbral requerido tiene valor acordado o permanece identificado PENDIENTE.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- Sin dependencias de issues previos.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #9, #10, #11, #12, #13, #14.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 0, D-07b–D-07d\n- docs/product/PRD.md § HU-06, HU-07, HU-08 y Requisitos no funcionales\n- docs/architecture/ARCHITECTURE.md § 8 y § 15\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #8 y dependencias relacionadas: ninguna"
   },
   {
     "id": "T08",
@@ -90,11 +97,12 @@
     "area": "Producto/Diseño",
     "labels": [
       "design",
-      "docs"
+      "docs",
+      "Task"
     ],
     "estimate_hours": 4,
     "depends_on": [],
-    "body": "## Contexto\nD-07a (Paso 16) bloquea la identidad visual y detalles de Bloque B.\n\n## Alcance (SÍ)\nDefinir paleta, tipografía, espaciado y reglas visuales conforme a decisiones de producto.\n\n## Fuera de alcance (NO)\nDiseñar activos nuevos no requeridos ni redefinir el alcance congelado.\n\n## Criterios de aceptación (Gherkin)\nDado el diseño aprobado, cuando se consulta DESIGN.md, entonces especifica tokens y reglas visuales suficientes para implementar las filas 9 y 12–14.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 0, D-07a y § Paso 16; docs/product/PRD.md § HU-09; docs/product/BRIEF.md § Identidad visual y activos gráficos\n\n## Dependencias\nSin dependencias de tickets previos."
+    "body": "## Objetivo\nD-07a (Paso 16) bloquea la identidad visual y detalles de Bloque B.\n\n## Alcance\n- Definir paleta, tipografía, espaciado y reglas visuales conforme a decisiones de producto.\n\n## Fuera de alcance\n- Diseñar activos nuevos no requeridos ni redefinir el alcance congelado.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el diseño aprobado, cuando se consulta DESIGN.md, entonces especifica tokens y reglas visuales suficientes para implementar las filas 9 y 12–14.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- Sin dependencias de issues previos.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #10, #11, #12, #13, #14, #15.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 0, D-07a y § Paso 16\n- docs/product/PRD.md § HU-09\n- docs/product/BRIEF.md § Identidad visual y activos gráficos\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #9 y dependencias relacionadas: ninguna"
   },
   {
     "id": "T09",
@@ -102,11 +110,12 @@
     "area": "Cloud/Infra",
     "labels": [
       "docs",
-      "chore"
+      "chore",
+      "Task"
     ],
     "estimate_hours": 3,
     "depends_on": [],
-    "body": "## Contexto\nEl Paso 18 requiere reglas locales por carpeta para proteger límites y decisiones.\n\n## Alcance (SÍ)\nDocumentar reglas de raíz y específicas de frontend/backend/docs respetando ADRs y restricciones.\n\n## Fuera de alcance (NO)\nAlterar los contratos congelados o permitir modificaciones de lógica backend.\n\n## Criterios de aceptación (Gherkin)\nDado el monorepo, cuando un agente trabaja en cada carpeta, entonces encuentra reglas coherentes con ownership y decisiones aceptadas.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 18; docs/architecture/ARCHITECTURE.md § 2, § 15 y § 16; docs/architecture/adr/0001-monorepo-structure.md § Decisión\n\n## Dependencias\nSin dependencias de tickets previos."
+    "body": "## Objetivo\nEl Paso 18 requiere reglas locales por carpeta para proteger límites y decisiones.\n\n## Alcance\n- Documentar reglas de raíz y específicas de frontend/backend/docs respetando ADRs y restricciones.\n\n## Fuera de alcance\n- Alterar los contratos congelados o permitir modificaciones de lógica backend.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el monorepo, cuando un agente trabaja en cada carpeta, entonces encuentra reglas coherentes con ownership y decisiones aceptadas.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- Sin dependencias de issues previos.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #11, #12, #13, #14, #15, #16.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 18\n- docs/architecture/ARCHITECTURE.md § 2, § 15 y § 16\n- docs/architecture/adr/0001-monorepo-structure.md § Decisión\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #10 y dependencias relacionadas: ninguna"
   },
   {
     "id": "T10",
@@ -114,14 +123,15 @@
     "area": "Cloud/Infra",
     "labels": [
       "cloud",
-      "chore"
+      "chore",
+      "Task"
     ],
     "estimate_hours": 6,
     "depends_on": [
       "T03",
       "T06"
     ],
-    "body": "## Contexto\nFila 1 y HU-01 exigen historial limpio, medios externos y ausencia de binarios prohibidos.\n\n## Alcance (SÍ)\nCrear catálogo media.ts con URLs verificadas, alt ES/EN y fallback; ignorar información faltante y comprobar el árbol inicial.\n\n## Fuera de alcance (NO)\nArrastrar historial legado, imágenes locales prohibidas o archivos crudos.\n\n## Criterios de aceptación (Gherkin)\nDado el primer árbol del monorepo, cuando se inspeccionan archivos rastreados e historial, entonces no hay medios prohibidos ni rutas locales de imágenes y media.ts centraliza activos.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 1; docs/product/PRD.md § HU-01; docs/product/GLOSSARY.md § Política de medios y MediaAsset; docs/architecture/ARCHITECTURE.md § 11\n\n## Dependencias\nT03, T06"
+    "body": "## Objetivo\nFila 1 y HU-01 exigen historial limpio, medios externos y ausencia de binarios prohibidos.\n\n## Alcance\n- Crear catálogo media.ts con URLs verificadas, alt ES/EN y fallback\n- ignorar información faltante y comprobar el árbol inicial.\n\n## Fuera de alcance\n- Arrastrar historial legado, imágenes locales prohibidas o archivos crudos.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el primer árbol del monorepo, cuando se inspeccionan archivos rastreados e historial, entonces no hay medios prohibidos ni rutas locales de imágenes y media.ts centraliza activos.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #4: entrega el prerrequisito requerido para completar este alcance.\n- #7: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #12, #13, #14, #15, #16, #17.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 1\n- docs/product/PRD.md § HU-01\n- docs/product/GLOSSARY.md § Política de medios y MediaAsset\n- docs/architecture/ARCHITECTURE.md § 11\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #11 y dependencias relacionadas: #4, #7"
   },
   {
     "id": "T11",
@@ -129,13 +139,14 @@
     "area": "Frontend",
     "labels": [
       "front",
-      "cloud"
+      "cloud",
+      "Task"
     ],
     "estimate_hours": 6,
     "depends_on": [
       "T01"
     ],
-    "body": "## Contexto\nD-01 y ADR-0002 fijan Next.js output export y Cloudflare Pages.\n\n## Alcance (SÍ)\nConfigurar Next.js/TypeScript para exportar rutas estáticas / y /en con images.unoptimized y enlaces HTML entre idiomas.\n\n## Fuera de alcance (NO)\nUsar runtime de servidor Next.js, middleware dinámico o requerir JavaScript para contenido.\n\n## Criterios de aceptación (Gherkin)\nDado el build, cuando se exporta el sitio, entonces se producen HTML estáticos en español e inglés compatibles con Pages.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 2; docs/product/PRD.md § HU-02; docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión y Consecuencias; docs/architecture/ARCHITECTURE.md § 1\n\n## Dependencias\nT01"
+    "body": "## Objetivo\nD-01 y ADR-0002 fijan Next.js output export y Cloudflare Pages.\n\n## Alcance\n- Configurar Next.js/TypeScript para exportar rutas estáticas / y /en con images.unoptimized y enlaces HTML entre idiomas.\n\n## Fuera de alcance\n- Usar runtime de servidor Next.js, middleware dinámico o requerir JavaScript para contenido.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el build, cuando se exporta el sitio, entonces se producen HTML estáticos en español e inglés compatibles con Pages.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #2: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #13, #14, #15, #16, #17, #18.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 2\n- docs/product/PRD.md § HU-02\n- docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión y Consecuencias\n- docs/architecture/ARCHITECTURE.md § 1\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #12 y dependencias relacionadas: #2"
   },
   {
     "id": "T12",
@@ -143,14 +154,15 @@
     "area": "Frontend",
     "labels": [
       "front",
-      "back"
+      "back",
+      "Feature"
     ],
     "estimate_hours": 4,
     "depends_on": [
       "T05",
       "T11"
     ],
-    "body": "## Contexto\nEl Paso 11 requiere tipos y mocks alineados al contrato v1.0.\n\n## Alcance (SÍ)\nDerivar tipos TypeScript y fixtures de éxito/error del OpenAPI para contacto.\n\n## Fuera de alcance (NO)\nModificar OpenAPI ni incluir campos de honeypot/locale en el request.\n\n## Criterios de aceptación (Gherkin)\nDado el OpenAPI v1.0, cuando se compilan tipos/mocks, entonces payload y respuestas reflejan el contrato sin divergencias.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 11; docs/api/openapi.yaml § /api/v1/contactos; docs/architecture/DATA_MODEL.md § 4; docs/architecture/adr/0004-backend-cors-and-contact-contract.md § Payload ContactSubmission\n\n## Dependencias\nT05, T11"
+    "body": "## Objetivo\nEl Paso 11 requiere tipos y mocks alineados al contrato v1.0.\n\n## Alcance\n- Derivar tipos TypeScript y fixtures de éxito/error del OpenAPI para contacto.\n\n## Fuera de alcance\n- Modificar OpenAPI ni incluir campos de honeypot/locale en el request.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el OpenAPI v1.0, cuando se compilan tipos/mocks, entonces payload y respuestas reflejan el contrato sin divergencias.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #6: entrega el prerrequisito requerido para completar este alcance.\n- #12: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #14, #15, #16, #17, #18, #19.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 11\n- docs/api/openapi.yaml § /api/v1/contactos\n- docs/architecture/DATA_MODEL.md § 4\n- docs/architecture/adr/0004-backend-cors-and-contact-contract.md § Payload ContactSubmission\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #13 y dependencias relacionadas: #6, #12"
   },
   {
     "id": "T13",
@@ -158,21 +170,23 @@
     "area": "Producto/Diseño",
     "labels": [
       "docs",
-      "front"
+      "front",
+      "Task"
     ],
     "estimate_hours": 4,
     "depends_on": [
       "T04",
       "T06"
     ],
-    "body": "## Contexto\nFila 3a proporciona datos base para el WalkingSkeleton.\n\n## Alcance (SÍ)\nValidar perfil, experiencia, formación y ficha Tzompcomer en ES/EN sin añadir hechos no comprobados.\n\n## Fuera de alcance (NO)\nIncluir datos de CV no validados o enlaces de backend.\n\n## Criterios de aceptación (Gherkin)\nDado el contenido fuente, cuando se publica ES/EN, entonces los hechos son verificables y el proyecto usa únicamente sus enlaces permitidos.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 3a; docs/product/BRIEF.md § Fuentes de contenido y Regla general de enlaces; docs/product/GLOSSARY.md § Project y LocalizedProjectContent\n\n## Dependencias\nT04, T06"
+    "body": "## Objetivo\nFila 3a proporciona datos base para el WalkingSkeleton.\n\n## Alcance\n- Validar perfil, experiencia, formación y ficha Tzompcomer en ES/EN sin añadir hechos no comprobados.\n\n## Fuera de alcance\n- Incluir datos de CV no validados o enlaces de backend.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el contenido fuente, cuando se publica ES/EN, entonces los hechos son verificables y el proyecto usa únicamente sus enlaces permitidos.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #5: entrega el prerrequisito requerido para completar este alcance.\n- #7: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #15, #16, #17, #18, #19, #20.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 3a\n- docs/product/BRIEF.md § Fuentes de contenido y Regla general de enlaces\n- docs/product/GLOSSARY.md § Project y LocalizedProjectContent\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #14 y dependencias relacionadas: #5, #7"
   },
   {
     "id": "T14",
     "title": "Construir layout semántico bilingüe del portafolio",
     "area": "Frontend",
     "labels": [
-      "front"
+      "front",
+      "Feature"
     ],
     "estimate_hours": 6,
     "depends_on": [
@@ -180,33 +194,35 @@
       "T11",
       "T12"
     ],
-    "body": "## Contexto\nFila 4 define estructura semántica y contenido de perfil antes del diseño definitivo.\n\n## Alcance (SÍ)\nImplementar navbar, footer, hero, trayectoria y enlaces de idioma accesibles con texto ES/EN.\n\n## Fuera de alcance (NO)\nTomar decisiones visuales de D-07a o mostrar PENDIENTE en UI.\n\n## Criterios de aceptación (Gherkin)\nDado / y /en, cuando se inspecciona HTML, entonces estructura y textos/alt/aria-label están localizados y semánticos.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 4; docs/product/PRD.md § HU-02 y HU-03 escenario 3.2; docs/architecture/ARCHITECTURE.md § 1\n\n## Dependencias\nT10, T11, T12"
+    "body": "## Objetivo\nFila 4 define estructura semántica y contenido de perfil antes del diseño definitivo.\n\n## Alcance\n- Implementar navbar, footer, hero, trayectoria y enlaces de idioma accesibles con texto ES/EN.\n\n## Fuera de alcance\n- Tomar decisiones visuales de D-07a o mostrar PENDIENTE en UI.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado / y /en, cuando se inspecciona HTML, entonces estructura y textos/alt/aria-label están localizados y semánticos.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #11: entrega el prerrequisito requerido para completar este alcance.\n- #12: entrega el prerrequisito requerido para completar este alcance.\n- #13: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #16, #17, #18, #19, #20, #21.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 4\n- docs/product/PRD.md § HU-02 y HU-03 escenario 3.2\n- docs/architecture/ARCHITECTURE.md § 1\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #15 y dependencias relacionadas: #11, #12, #13"
   },
   {
     "id": "T15",
     "title": "Renderizar Tzompcomer en el WalkingSkeleton visible sin JavaScript",
     "area": "Frontend",
     "labels": [
-      "front"
+      "front",
+      "Feature"
     ],
     "estimate_hours": 6,
     "depends_on": [
       "T13"
     ],
-    "body": "## Contexto\nFila 5a constituye la rebanada vertical bilingüe inicial.\n\n## Alcance (SÍ)\nMostrar resumen y ficha completa con ancla #tzompcomer en ambas rutas y preparar mejora progresiva mínima.\n\n## Fuera de alcance (NO)\nOcultar detalles en HTML inicial o añadir los demás proyectos antes del hito.\n\n## Criterios de aceptación (Gherkin)\nDado JavaScript deshabilitado, cuando se carga / o /en, entonces Tzompcomer se ve con detalle completo, ancla estable y sin ocultamiento.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 5a y § Walking Skeleton; docs/product/PRD.md § HU-02 escenario 2.4 y HU-04 escenario 4.1; docs/product/GLOSSARY.md § Esqueleto funcional; docs/architecture/ARCHITECTURE.md § 13\n\n## Dependencias\nT13"
+    "body": "## Objetivo\nFila 5a constituye la rebanada vertical bilingüe inicial.\n\n## Alcance\n- Mostrar resumen y ficha completa con ancla #tzompcomer en ambas rutas y preparar mejora progresiva mínima.\n\n## Fuera de alcance\n- Ocultar detalles en HTML inicial o añadir los demás proyectos antes del hito.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado JavaScript deshabilitado, cuando se carga / o /en, entonces Tzompcomer se ve con detalle completo, ancla estable y sin ocultamiento.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #14: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #17, #18, #19, #20, #21, #22.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 5a y § Walking Skeleton\n- docs/product/PRD.md § HU-02 escenario 2.4 y HU-04 escenario 4.1\n- docs/product/GLOSSARY.md § Esqueleto funcional\n- docs/architecture/ARCHITECTURE.md § 13\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #16 y dependencias relacionadas: #14"
   },
   {
     "id": "T16",
     "title": "Publicar el WalkingSkeleton en Cloudflare Pages",
     "area": "Cloud/Infra",
     "labels": [
-      "cloud"
+      "cloud",
+      "Task"
     ],
     "estimate_hours": 4,
     "depends_on": [
       "T14"
     ],
-    "body": "## Contexto\nEl WalkingSkeleton requiere despliegue temprano verificable.\n\n## Alcance (SÍ)\nConfigurar despliegue del export estático con directorio de salida y comprobar / y /en.\n\n## Fuera de alcance (NO)\nAgregar backend serverless o cambiar proveedor seleccionado.\n\n## Criterios de aceptación (Gherkin)\nDado el build exportado, cuando se despliega, entonces ambas rutas responden con HTML localizados accesible sin JavaScript.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Walking Skeleton y filas 2/5a; docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión; docs/product/PRD.md § HU-02\n\n## Dependencias\nT14"
+    "body": "## Objetivo\nEl WalkingSkeleton requiere despliegue temprano verificable.\n\n## Alcance\n- Configurar despliegue del export estático con directorio de salida y comprobar / y /en.\n\n## Fuera de alcance\n- Agregar backend serverless o cambiar proveedor seleccionado.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el build exportado, cuando se despliega, entonces ambas rutas responden con HTML localizados accesible sin JavaScript.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #15: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #18, #19, #20, #21, #22, #23.\n\n## Referencias\n- docs/product/ROADMAP.md § Walking Skeleton y filas 2/5a\n- docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión\n- docs/product/PRD.md § HU-02\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #17 y dependencias relacionadas: #15"
   },
   {
     "id": "T17",
@@ -214,14 +230,15 @@
     "area": "Backend",
     "labels": [
       "back",
-      "cloud"
+      "cloud",
+      "Task"
     ],
     "estimate_hours": 3,
     "depends_on": [
       "T01",
       "T05"
     ],
-    "body": "## Contexto\nBloque A habilita el frontend configurando CORS sin modificar lógica de negocio.\n\n## Alcance (SÍ)\nReemplazar wildcard por FRONTEND_ORIGIN externalizado y registrar valor de producción.\n\n## Fuera de alcance (NO)\nEditar controlador, entidad, persistencia o validación de negocio.\n\n## Criterios de aceptación (Gherkin)\nDado el origen permitido, cuando se envía preflight/solicitud, entonces se admite ese origen y se rechazan orígenes no listados; el diff es solo configuración.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Bloque A; docs/product/PRD.md § HU-05 escenarios 5.3a/5.3b; docs/architecture/adr/0004-backend-cors-and-contact-contract.md § CORS externalizado; docs/architecture/ARCHITECTURE.md § 4 Frontend → Backend\n\n## Dependencias\nT01, T05"
+    "body": "## Objetivo\nBloque A habilita el frontend configurando CORS sin modificar lógica de negocio.\n\n## Alcance\n- Reemplazar wildcard por FRONTEND_ORIGIN externalizado y registrar valor de producción.\n\n## Fuera de alcance\n- Editar controlador, entidad, persistencia o validación de negocio.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el origen permitido, cuando se envía preflight/solicitud, entonces se admite ese origen y se rechazan orígenes no listados; el diff es solo configuración.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #2: entrega el prerrequisito requerido para completar este alcance.\n- #6: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #19, #20, #21, #22, #23, #24.\n\n## Referencias\n- docs/product/ROADMAP.md § Bloque A\n- docs/product/PRD.md § HU-05 escenarios 5.3a/5.3b\n- docs/architecture/adr/0004-backend-cors-and-contact-contract.md § CORS externalizado\n- docs/architecture/ARCHITECTURE.md § 4 Frontend → Backend\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #18 y dependencias relacionadas: #2, #6"
   },
   {
     "id": "T18",
@@ -229,14 +246,15 @@
     "area": "Frontend",
     "labels": [
       "front",
-      "back"
+      "back",
+      "Feature"
     ],
     "estimate_hours": 6,
     "depends_on": [
       "T12",
       "T16"
     ],
-    "body": "## Contexto\nHU-05 requiere contacto por backend con validación, honeypot y cold start.\n\n## Alcance (SÍ)\nImplementar campos nombre/email/mensaje, validación local, honeypot cliente, fetch configurable, estados de carga/éxito/error ES/EN, timeout suficiente y nota de privacidad.\n\n## Fuera de alcance (NO)\nEnviar honeypot/locale, exponer endpoint como enlace, añadir CAPTCHA o cambiar backend.\n\n## Criterios de aceptación (Gherkin)\nDado envío válido/vacío/inválido/error/red, cuando se usa el formulario en cada idioma, entonces muestra estado localizado y el honeypot completado no dispara HTTP.\n\n## Leer antes de empezar\ndocs/product/PRD.md § HU-05 escenarios 5.1–5.5; docs/api/openapi.yaml § /api/v1/contactos; docs/architecture/ARCHITECTURE.md § 6 Recorrido B y § 9; docs/architecture/adr/0004-backend-cors-and-contact-contract.md § Payload ContactSubmission\n\n## Dependencias\nT12, T16"
+    "body": "## Objetivo\nHU-05 requiere contacto por backend con validación, honeypot y cold start.\n\n## Alcance\n- Implementar campos nombre/email/mensaje, validación local, honeypot cliente, fetch configurable, estados de carga/éxito/error ES/EN, timeout suficiente y nota de privacidad.\n\n## Fuera de alcance\n- Enviar honeypot/locale, exponer endpoint como enlace, añadir CAPTCHA o cambiar backend.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado envío válido/vacío/inválido/error/red, cuando se usa el formulario en cada idioma, entonces muestra estado localizado y el honeypot completado no dispara HTTP.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #13: entrega el prerrequisito requerido para completar este alcance.\n- #17: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #20, #21, #22, #23, #24, #25.\n\n## Referencias\n- docs/product/PRD.md § HU-05 escenarios 5.1–5.5\n- docs/api/openapi.yaml § /api/v1/contactos\n- docs/architecture/ARCHITECTURE.md § 6 Recorrido B y § 9\n- docs/architecture/adr/0004-backend-cors-and-contact-contract.md § Payload ContactSubmission\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #19 y dependencias relacionadas: #13, #17"
   },
   {
     "id": "T19",
@@ -244,13 +262,14 @@
     "area": "Frontend",
     "labels": [
       "front",
-      "back"
+      "back",
+      "Feature"
     ],
     "estimate_hours": 3,
     "depends_on": [
       "T17"
     ],
-    "body": "## Contexto\nEl hito Bloque A combina esqueleto desplegado y contacto real.\n\n## Alcance (SÍ)\nIntegrar el formulario con / y /en y comprobar origen permitido y rechazo CORS.\n\n## Fuera de alcance (NO)\nIncluir catálogo completo del Bloque B.\n\n## Criterios de aceptación (Gherkin)\nDado despliegue con FRONTEND_ORIGIN correcto, cuando se envía contacto válido, entonces hay respuesta de éxito localizada y CORS respeta allowlist.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Bloque A; docs/product/PRD.md § HU-05 y HU-10 punto 8; docs/architecture/adr/0004-backend-cors-and-contact-contract.md § Consecuencias\n\n## Dependencias\nT17"
+    "body": "## Objetivo\nEl hito Bloque A combina esqueleto desplegado y contacto real.\n\n## Alcance\n- Integrar el formulario con / y /en y comprobar origen permitido y rechazo CORS.\n\n## Fuera de alcance\n- Incluir catálogo completo del Bloque B.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado despliegue con FRONTEND_ORIGIN correcto, cuando se envía contacto válido, entonces hay respuesta de éxito localizada y CORS respeta allowlist.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #18: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #21, #22, #23, #24, #25, #26.\n\n## Referencias\n- docs/product/ROADMAP.md § Bloque A\n- docs/product/PRD.md § HU-05 y HU-10 punto 8\n- docs/architecture/adr/0004-backend-cors-and-contact-contract.md § Consecuencias\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #20 y dependencias relacionadas: #18"
   },
   {
     "id": "T20",
@@ -258,7 +277,8 @@
     "area": "Producto/Diseño",
     "labels": [
       "docs",
-      "front"
+      "front",
+      "Task"
     ],
     "estimate_hours": 5,
     "depends_on": [
@@ -266,21 +286,22 @@
       "T07",
       "T12"
     ],
-    "body": "## Contexto\nFila 3b amplía los datos tipados a proyectos verificables restantes.\n\n## Alcance (SÍ)\nPreparar DivertiKids, Casa Zompantzi, Sunnyside Boutique, MediFlow y n8n en ES/EN con verificabilidad y privacidad.\n\n## Fuera de alcance (NO)\nInventar cifras/resultados, publicar repositorio n8n o URLs backend.\n\n## Criterios de aceptación (Gherkin)\nDado cada proyecto, cuando se revisan textos y URLs, entonces hay paridad ES/EN, privacidad y solo enlaces permitidos; n8n no expone enlaces externos.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 3b; docs/product/BRIEF.md § Integración MediFlow/n8n y matriz de enlaces; docs/product/PRD.md § HU-04 escenarios 4.2b–4.4; docs/architecture/DATA_MODEL.md § 2 Proyectos\n\n## Dependencias\nT04, T07, T12"
+    "body": "## Objetivo\nFila 3b amplía los datos tipados a proyectos verificables restantes.\n\n## Alcance\n- Preparar DivertiKids, Casa Zompantzi, Sunnyside Boutique, MediFlow y n8n en ES/EN con verificabilidad y privacidad.\n\n## Fuera de alcance\n- Inventar cifras/resultados, publicar repositorio n8n o URLs backend.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado cada proyecto, cuando se revisan textos y URLs, entonces hay paridad ES/EN, privacidad y solo enlaces permitidos; n8n no expone enlaces externos.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #5: entrega el prerrequisito requerido para completar este alcance.\n- #8: entrega el prerrequisito requerido para completar este alcance.\n- #13: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #22, #23, #24, #25, #26, #27.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 3b\n- docs/product/BRIEF.md § Integración MediFlow/n8n y matriz de enlaces\n- docs/product/PRD.md § HU-04 escenarios 4.2b–4.4\n- docs/architecture/DATA_MODEL.md § 2 Proyectos\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #21 y dependencias relacionadas: #5, #8, #13"
   },
   {
     "id": "T21",
     "title": "Renderizar catálogo completo con detalles visibles sin JavaScript",
     "area": "Frontend",
     "labels": [
-      "front"
+      "front",
+      "Feature"
     ],
     "estimate_hours": 7,
     "depends_on": [
       "T15",
       "T20"
     ],
-    "body": "## Contexto\nFila 5b amplía catálogo manteniendo la garantía ATS de contenido visible.\n\n## Alcance (SÍ)\nRenderizar todos los proyectos verificables con resumen, detalle, ancla y enlaces condicionales según la matriz.\n\n## Fuera de alcance (NO)\nUsar contenido exclusivo de cliente, ocultamiento CSS o enlaces PENDIENTE.\n\n## Criterios de aceptación (Gherkin)\nDado / o /en sin JavaScript, cuando se inspecciona el HTML inicial, entonces cada ficha completa es visible y todos los enlaces cumplen la matriz.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 5b; docs/product/PRD.md § HU-04 escenarios 4.1–4.4; docs/product/BRIEF.md § Regla general y matriz de enlaces; docs/product/GLOSSARY.md § Project\n\n## Dependencias\nT15, T20"
+    "body": "## Objetivo\nFila 5b amplía catálogo manteniendo la garantía ATS de contenido visible.\n\n## Alcance\n- Renderizar todos los proyectos verificables con resumen, detalle, ancla y enlaces condicionales según la matriz.\n\n## Fuera de alcance\n- Usar contenido exclusivo de cliente, ocultamiento CSS o enlaces PENDIENTE.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado / o /en sin JavaScript, cuando se inspecciona el HTML inicial, entonces cada ficha completa es visible y todos los enlaces cumplen la matriz.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #16: entrega el prerrequisito requerido para completar este alcance.\n- #21: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #23, #24, #25, #26, #27, #28.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 5b\n- docs/product/PRD.md § HU-04 escenarios 4.1–4.4\n- docs/product/BRIEF.md § Regla general y matriz de enlaces\n- docs/product/GLOSSARY.md § Project\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #22 y dependencias relacionadas: #16, #21"
   },
   {
     "id": "T22",
@@ -288,28 +309,30 @@
     "area": "Frontend",
     "labels": [
       "front",
-      "cloud"
+      "cloud",
+      "Feature"
     ],
     "estimate_hours": 3,
     "depends_on": [
       "T06",
       "T13"
     ],
-    "body": "## Contexto\nFila 7 y HU-03 exigen enlaces estáticos a los PDFs correctos.\n\n## Alcance (SÍ)\nExponer enlace ES en / y EN en /en desde la ubicación confirmada y etiquetarlo correctamente.\n\n## Fuera de alcance (NO)\nRediseñar PDFs o depender de JavaScript para descargar.\n\n## Criterios de aceptación (Gherkin)\nDado cada idioma, cuando se inspecciona el HTML, entonces el enlace apunta al PDF correspondiente y verificable por texto seleccionable.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 7; docs/product/PRD.md § HU-03; docs/product/BRIEF.md § CV por idioma\n\n## Dependencias\nT06, T13"
+    "body": "## Objetivo\nFila 7 y HU-03 exigen enlaces estáticos a los PDFs correctos.\n\n## Alcance\n- Exponer enlace ES en / y EN en /en desde la ubicación confirmada y etiquetarlo correctamente.\n\n## Fuera de alcance\n- Rediseñar PDFs o depender de JavaScript para descargar.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado cada idioma, cuando se inspecciona el HTML, entonces el enlace apunta al PDF correspondiente y verificable por texto seleccionable.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #7: entrega el prerrequisito requerido para completar este alcance.\n- #14: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #24, #25, #26, #27, #28, #29.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 7\n- docs/product/PRD.md § HU-03\n- docs/product/BRIEF.md § CV por idioma\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #23 y dependencias relacionadas: #7, #14"
   },
   {
     "id": "T23",
     "title": "Implementar modal y filtros progresivos",
     "area": "Frontend",
     "labels": [
-      "front"
+      "front",
+      "Feature"
     ],
     "estimate_hours": 6,
     "depends_on": [
       "T07",
       "T21"
     ],
-    "body": "## Contexto\nHU-06 mejora progresivamente catálogo estático con modal y filtros Stack/Rol.\n\n## Alcance (SÍ)\nAplicar filtros taxonómicos y modal/panel tras hidratar, con estado sin coincidencias localizado.\n\n## Fuera de alcance (NO)\nAlterar visibilidad inicial, inventar taxonomía o hacer modal requisito para leer detalle.\n\n## Criterios de aceptación (Gherkin)\nDado catálogo hidratado, cuando se combinan filtros o se abre detalle, entonces resultados y modal funcionan y el HTML sin JS sigue visible.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 10; docs/product/PRD.md § HU-06 escenarios 6.1–6.4; docs/product/ROADMAP.md § Paso 0, D-07b\n\n## Dependencias\nT07, T21"
+    "body": "## Objetivo\nHU-06 mejora progresivamente catálogo estático con modal y filtros Stack/Rol.\n\n## Alcance\n- Aplicar filtros taxonómicos y modal/panel tras hidratar, con estado sin coincidencias localizado.\n\n## Fuera de alcance\n- Alterar visibilidad inicial, inventar taxonomía o hacer modal requisito para leer detalle.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado catálogo hidratado, cuando se combinan filtros o se abre detalle, entonces resultados y modal funcionan y el HTML sin JS sigue visible.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #8: entrega el prerrequisito requerido para completar este alcance.\n- #22: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #25, #26, #27, #28, #29, #30.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 10\n- docs/product/PRD.md § HU-06 escenarios 6.1–6.4\n- docs/product/ROADMAP.md § Paso 0, D-07b\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #24 y dependencias relacionadas: #8, #22"
   },
   {
     "id": "T24",
@@ -317,7 +340,8 @@
     "area": "Frontend",
     "labels": [
       "front",
-      "design"
+      "design",
+      "Feature"
     ],
     "estimate_hours": 6,
     "depends_on": [
@@ -326,7 +350,7 @@
       "T13",
       "T03"
     ],
-    "body": "## Contexto\nHU-09 reúne identidad definitiva y SEO; la imagen OG requiere URL externa.\n\n## Alcance (SÍ)\nAplicar sistema de diseño, logo/foto confirmados, favicon permitido, metadata por ruta, canonical, hreflang x-default y sitemap.xml estático.\n\n## Fuera de alcance (NO)\nPublicar activos no sanitizados, links backend o contenido oculto.\n\n## Criterios de aceptación (Gherkin)\nDado / y /en, cuando se inspeccionan metadatos, entonces son localizados, canónicos, se enlazan con hreflang y sitemap incluye ambas rutas.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 9 y fila 11; docs/product/PRD.md § HU-09; docs/product/BRIEF.md § Identidad visual e i18n; docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión\n\n## Dependencias\nT08, T10, T13, T03"
+    "body": "## Objetivo\nHU-09 reúne identidad definitiva y SEO; la imagen OG requiere URL externa.\n\n## Alcance\n- Aplicar sistema de diseño, logo/foto confirmados, favicon permitido, metadata por ruta, canonical, hreflang x-default y sitemap.xml estático.\n\n## Fuera de alcance\n- Publicar activos no sanitizados, links backend o contenido oculto.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado / y /en, cuando se inspeccionan metadatos, entonces son localizados, canónicos, se enlazan con hreflang y sitemap incluye ambas rutas.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #9: entrega el prerrequisito requerido para completar este alcance.\n- #11: entrega el prerrequisito requerido para completar este alcance.\n- #14: entrega el prerrequisito requerido para completar este alcance.\n- #4: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #26, #27, #28, #29, #30.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 9 y fila 11\n- docs/product/PRD.md § HU-09\n- docs/product/BRIEF.md § Identidad visual e i18n\n- docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #25 y dependencias relacionadas: #9, #11, #14, #4"
   },
   {
     "id": "T25",
@@ -334,7 +358,8 @@
     "area": "Frontend",
     "labels": [
       "front",
-      "design"
+      "design",
+      "Feature"
     ],
     "estimate_hours": 5,
     "depends_on": [
@@ -342,7 +367,7 @@
       "T08",
       "T13"
     ],
-    "body": "## Contexto\nHU-07 requiere iconos de marca y nombres indexables con movimiento respetuoso.\n\n## Alcance (SÍ)\nRenderizar texto plano con iconos aprobados; pausar hover/focus/táctil y respetar prefers-reduced-motion.\n\n## Fuera de alcance (NO)\nUsar licencia no verificada, SVG sobre umbral, o eliminar texto indexable.\n\n## Criterios de aceptación (Gherkin)\nDado cada ruta, cuando se inspecciona HTML, entonces cada tecnología tiene texto; movimiento se pausa por interacción y respeta preferencia reducida.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 12; docs/product/PRD.md § HU-07; docs/product/ROADMAP.md § Paso 0, D-07c\n\n## Dependencias\nT07, T08, T13"
+    "body": "## Objetivo\nHU-07 requiere iconos de marca y nombres indexables con movimiento respetuoso.\n\n## Alcance\n- Renderizar texto plano con iconos aprobados\n- pausar hover/focus/táctil y respetar prefers-reduced-motion.\n\n## Fuera de alcance\n- Usar licencia no verificada, SVG sobre umbral, o eliminar texto indexable.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado cada ruta, cuando se inspecciona HTML, entonces cada tecnología tiene texto; movimiento se pausa por interacción y respeta preferencia reducida.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #8: entrega el prerrequisito requerido para completar este alcance.\n- #9: entrega el prerrequisito requerido para completar este alcance.\n- #14: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #27, #28, #29, #30.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 12\n- docs/product/PRD.md § HU-07\n- docs/product/ROADMAP.md § Paso 0, D-07c\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #26 y dependencias relacionadas: #8, #9, #14"
   },
   {
     "id": "T26",
@@ -350,7 +375,8 @@
     "area": "Frontend",
     "labels": [
       "front",
-      "design"
+      "design",
+      "Feature"
     ],
     "estimate_hours": 5,
     "depends_on": [
@@ -358,7 +384,7 @@
       "T08",
       "T13"
     ],
-    "body": "## Contexto\nHU-08 limita el efecto a escritorio sin preferencia de movimiento reducido.\n\n## Alcance (SÍ)\nImplementar modo reactivo con transform/opacity y apagarlo en táctil o reduced-motion.\n\n## Fuera de alcance (NO)\nAnimar propiedades costosas, cubrir contenido o imponer umbrales no aprobados.\n\n## Criterios de aceptación (Gherkin)\nDado escritorio elegible, cuando se mueve puntero, entonces fondo responde dentro de umbrales aprobados; en táctil/reduced-motion no hay listeners/animación.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 13; docs/product/PRD.md § HU-08; docs/architecture/ARCHITECTURE.md § 6 Recorrido C; docs/product/ROADMAP.md § Paso 0, D-07d\n\n## Dependencias\nT07, T08, T13"
+    "body": "## Objetivo\nHU-08 limita el efecto a escritorio sin preferencia de movimiento reducido.\n\n## Alcance\n- Implementar modo reactivo con transform/opacity y apagarlo en táctil o reduced-motion.\n\n## Fuera de alcance\n- Animar propiedades costosas, cubrir contenido o imponer umbrales no aprobados.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado escritorio elegible, cuando se mueve puntero, entonces fondo responde dentro de umbrales aprobados; en táctil/reduced-motion no hay listeners/animación.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #8: entrega el prerrequisito requerido para completar este alcance.\n- #9: entrega el prerrequisito requerido para completar este alcance.\n- #14: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #28, #29, #30.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 13\n- docs/product/PRD.md § HU-08\n- docs/architecture/ARCHITECTURE.md § 6 Recorrido C\n- docs/product/ROADMAP.md § Paso 0, D-07d\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #27 y dependencias relacionadas: #8, #9, #14"
   },
   {
     "id": "T27",
@@ -366,7 +392,8 @@
     "area": "Producto/Diseño",
     "labels": [
       "design",
-      "front"
+      "front",
+      "Task"
     ],
     "estimate_hours": 4,
     "depends_on": [
@@ -374,7 +401,7 @@
       "T25",
       "T26"
     ],
-    "body": "## Contexto\nFila 14 cierra microinteracciones, espaciado y accesibilidad después de filas 9–13.\n\n## Alcance (SÍ)\nAjustar consistencia visual y navegación accesible según DESIGN.md y contrastes acordados.\n\n## Fuera de alcance (NO)\nAñadir alcance funcional distinto o alterar criterios de contenido congelados.\n\n## Criterios de aceptación (Gherkin)\nDado el sistema visual aplicado, cuando se revisa teclado y vistas principales, entonces interacción y espaciado son consistentes y accesibles.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Matriz fila 14; docs/product/PRD.md § HU-09 y NFR Accesibilidad; docs/product/ROADMAP.md § Paso 0, D-07a\n\n## Dependencias\nT24, T25, T26"
+    "body": "## Objetivo\nFila 14 cierra microinteracciones, espaciado y accesibilidad después de filas 9–13.\n\n## Alcance\n- Ajustar consistencia visual y navegación accesible según DESIGN.md y contrastes acordados.\n\n## Fuera de alcance\n- Añadir alcance funcional distinto o alterar criterios de contenido congelados.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado el sistema visual aplicado, cuando se revisa teclado y vistas principales, entonces interacción y espaciado son consistentes y accesibles.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #25: entrega el prerrequisito requerido para completar este alcance.\n- #26: entrega el prerrequisito requerido para completar este alcance.\n- #27: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #29, #30.\n\n## Referencias\n- docs/product/ROADMAP.md § Matriz fila 14\n- docs/product/PRD.md § HU-09 y NFR Accesibilidad\n- docs/product/ROADMAP.md § Paso 0, D-07a\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #28 y dependencias relacionadas: #25, #26, #27"
   },
   {
     "id": "T28",
@@ -382,14 +409,15 @@
     "area": "Cloud/Infra",
     "labels": [
       "cloud",
-      "chore"
+      "chore",
+      "Task"
     ],
     "estimate_hours": 6,
     "depends_on": [
       "T11",
       "T14"
     ],
-    "body": "## Contexto\nPaso 24 requiere CI/CD básico para el monorepo y export estático.\n\n## Alcance (SÍ)\nConfigurar pipeline para instalar, revisar tipos/lint/build y publicar Pages desde frontend/.\n\n## Fuera de alcance (NO)\nDesplegar backend desde este pipeline o añadir servicios no aprobados.\n\n## Criterios de aceptación (Gherkin)\nDado un cambio propuesto, cuando CI se ejecuta, entonces verifica frontend y genera export estático; el despliegue publica artefactos validados.\n\n## Leer antes de empezar\ndocs/product/ROADMAP.md § Paso 24; docs/architecture/ARCHITECTURE.md § 13 Orden y responsabilidades; docs/architecture/adr/0001-monorepo-structure.md § Decisión; docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión\n\n## Dependencias\nT11, T14"
+    "body": "## Objetivo\nPaso 24 requiere CI/CD básico para el monorepo y export estático.\n\n## Alcance\n- Configurar pipeline para instalar, revisar tipos/lint/build y publicar Pages desde frontend/.\n\n## Fuera de alcance\n- Desplegar backend desde este pipeline o añadir servicios no aprobados.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dado un cambio propuesto, cuando CI se ejecuta, entonces verifica frontend y genera export estático; el despliegue publica artefactos validados.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #12: entrega el prerrequisito requerido para completar este alcance.\n- #15: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; #30.\n\n## Referencias\n- docs/product/ROADMAP.md § Paso 24\n- docs/architecture/ARCHITECTURE.md § 13 Orden y responsabilidades\n- docs/architecture/adr/0001-monorepo-structure.md § Decisión\n- docs/architecture/adr/0002-ssg-framework-and-hosting.md § Decisión\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #29 y dependencias relacionadas: #12, #15"
   },
   {
     "id": "T29",
@@ -397,7 +425,8 @@
     "area": "Cloud/Infra",
     "labels": [
       "cloud",
-      "docs"
+      "docs",
+      "Task"
     ],
     "estimate_hours": 7,
     "depends_on": [
@@ -415,6 +444,6 @@
       "T27",
       "T28"
     ],
-    "body": "## Contexto\nHU-10 define nueve comprobaciones obligatorias previas a cada merge a main.\n\n## Alcance (SÍ)\nVerificar HTML ES/EN sin JS y detalle, CV, higiene Git/gitleaks, ausencia de rutas locales, activos HTTP 200, enlaces/privacidad, cero PENDIENTE/Render, contacto+CORS y criterios posteriores de marquee/performance.\n\n## Fuera de alcance (NO)\nAprobar fallos ni modificar los umbrales congelados/pedientes.\n\n## Criterios de aceptación (Gherkin)\nDada una versión candidata, cuando se corre el checklist HU-10, entonces se documentan las nueve comprobaciones y cualquier fallo bloquea merge hasta resolución.\n\n## Leer antes de empezar\ndocs/product/PRD.md § HU-10 escenarios y Requisitos no funcionales; docs/product/ROADMAP.md § Matriz fila 8 y Paso 24; docs/architecture/ARCHITECTURE.md § 15 Trazabilidad NFR; docs/architecture/DATA_MODEL.md § 3\n\n## Dependencias\nT10, T15, T17, T18, T19, T21, T22, T23, T24, T25, T26, T27, T28"
+    "body": "## Objetivo\nHU-10 define nueve comprobaciones obligatorias previas a cada merge a main.\n\n## Alcance\n- Verificar HTML ES/EN sin JS y detalle, CV, higiene Git/gitleaks, ausencia de rutas locales, activos HTTP 200, enlaces/privacidad, cero PENDIENTE/Render, contacto+CORS y criterios posteriores de marquee/performance.\n\n## Fuera de alcance\n- Aprobar fallos ni modificar los umbrales congelados/pedientes.\nLas exclusiones se atienden en los issues posteriores que las implementan; si no existe uno, requieren decisión de alcance antes de ampliarse.\n\n## Criterios de aceptación\n- [ ] El caso nominal cumple: Dada una versión candidata, cuando se corre el checklist HU-10, entonces se documentan las nueve comprobaciones y cualquier fallo bloquea merge hasta resolución.\n- [ ] Los datos o configuración publicados coinciden con el alcance y las referencias declaradas; el resultado es comprobable mediante revisión del artefacto o respuesta observable.\n- [ ] Los errores y límites aplicables se rechazan o quedan identificados sin publicar valores no confirmados.\n\n## Dependencias\n- #11: entrega el prerrequisito requerido para completar este alcance.\n- #16: entrega el prerrequisito requerido para completar este alcance.\n- #18: entrega el prerrequisito requerido para completar este alcance.\n- #19: entrega el prerrequisito requerido para completar este alcance.\n- #20: entrega el prerrequisito requerido para completar este alcance.\n- #22: entrega el prerrequisito requerido para completar este alcance.\n- #23: entrega el prerrequisito requerido para completar este alcance.\n- #24: entrega el prerrequisito requerido para completar este alcance.\n- #25: entrega el prerrequisito requerido para completar este alcance.\n- #26: entrega el prerrequisito requerido para completar este alcance.\n- #27: entrega el prerrequisito requerido para completar este alcance.\n- #28: entrega el prerrequisito requerido para completar este alcance.\n- #29: entrega el prerrequisito requerido para completar este alcance.\n\n## Integración posterior\nEste entregable queda disponible para los tickets posteriores que lo consumen en el roadmap; no hay tickets posteriores.\n\n## Referencias\n- docs/product/PRD.md § HU-10 escenarios y Requisitos no funcionales\n- docs/product/ROADMAP.md § Matriz fila 8 y Paso 24\n- docs/architecture/ARCHITECTURE.md § 15 Trazabilidad NFR\n- docs/architecture/DATA_MODEL.md § 3\n- `docs/product/PRD.md` § requisitos e historias relacionados\n- `docs/product/ROADMAP.md` § paso/matriz relacionado\n- `docs/architecture/ARCHITECTURE.md` v1.0 § decisiones relacionadas\n- `docs/architecture/DATA_MODEL.md` v1.0 § contrato relacionado\n- `docs/api/openapi.yaml` v1.0 § contrato API relacionado\n- Issue #30 y dependencias relacionadas: #11, #16, #18, #19, #20, #22, #23, #24, #25, #26, #27, #28, #29"
   }
 ]
