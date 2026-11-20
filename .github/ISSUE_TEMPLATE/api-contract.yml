@@ -1,0 +1,51 @@
+name: Cambio de contrato API
+description: Proponer un cambio coordinado del contrato o modelo de datos
+title: "[API Contract]: "
+labels: ["api", "contract"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto
+      description: Necesidad, consumidores afectados y motivo del cambio.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Alcance
+      description: Indica explícitamente qué SÍ y qué NO cambia.
+      placeholder: "SÍ: ...\nNO: ..."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Criterios de aceptación (Gherkin)
+      placeholder: "Dado ...\nCuando ...\nEntonces ..."
+    validations:
+      required: true
+  - type: textarea
+    id: documents
+    attributes:
+      label: Documentos a leer
+      description: Incluye OpenAPI, arquitectura y modelo de datos relevantes.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencias
+      description: Issues, servicios y equipos consumidores; escribe Ninguna si no aplica.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Frontend
+        - Backend
+        - Infra/Docs
+    validations:
+      required: true

@@ -1,0 +1,51 @@
+name: Reporte de error
+description: Reportar un comportamiento incorrecto
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto
+      description: ¿Dónde y en qué condiciones ocurre?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Alcance
+      description: Indica qué SÍ debe corregirse y qué NO forma parte de este cambio.
+      placeholder: "SÍ: ...\nNO: ..."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Criterios de aceptación (Gherkin)
+      placeholder: "Dado ...\nCuando ...\nEntonces ..."
+    validations:
+      required: true
+  - type: textarea
+    id: documents
+    attributes:
+      label: Documentos a leer
+      description: Lista las rutas de documentos que deben consultarse.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencias
+      description: Issues o condiciones relacionadas; escribe Ninguna si no aplica.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Frontend
+        - Backend
+        - Infra/Docs
+    validations:
+      required: true
