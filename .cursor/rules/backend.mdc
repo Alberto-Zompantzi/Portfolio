@@ -1,0 +1,7 @@
+---
+description: Convenciones para la API Spring Boot y su configuración.
+globs: backend/**
+alwaysApply: false
+---
+
+Sigue `backend/AGENTS.md`. Mantén las capas controller, service y repository, valida con Bean Validation y externaliza CORS mediante `FRONTEND_ORIGIN`. Evita datos personales en logs.
