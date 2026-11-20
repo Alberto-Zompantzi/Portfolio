@@ -1,0 +1,170 @@
+openapi: 3.1.0
+info:
+  title: API de contacto del portafolio
+  version: 1.0.0
+  description: >-
+    Contrato del endpoint de contacto del backend existente, conforme a la
+    arquitectura congelada v1.0 (ARCHITECTURE.md, §§3, 4, 8, 9 y 14) y a la
+    decisión vinculante de ADR-0004. Documenta únicamente la operación POST
+    /api/v1/contactos definida para la integración del frontend estático.
+
+servers:
+  - url: "{apiBaseUrl}"
+    description: >-
+      Base URL del backend. En desarrollo local, apiBaseUrl vale
+      http://localhost:8080. El frontend incorpora el host desde
+      NEXT_PUBLIC_API_BASE_URL; el host de producción sigue PENDIENTE en D-05.
+    variables:
+      apiBaseUrl:
+        default: "http://localhost:8080"
+        description: URL base del backend, inyectada en el frontend mediante NEXT_PUBLIC_API_BASE_URL.
+
+paths:
+  /api/v1/contactos:
+    post:
+      operationId: createContacto
+      summary: Crear un contacto
+      description: >-
+        Recibe el formulario de contacto enviado desde el frontend estático y
+        crea un registro mediante el backend existente. CORS se restringe por
+        configuración al origen definido en FRONTEND_ORIGIN, según ADR-0004.
+        La validación anti-spam HoneypotField y el idioma Locale se gestionan
+        exclusivamente en el cliente y nunca viajan en el payload. El payload
+        contiene nombre, email y mensaje; asunto se omite conforme a ADR-0004.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactoRequest"
+            example:
+              nombre: Alberto Zompantzi
+              email: alberto@example.com
+              mensaje: Me gustaría conversar sobre una oportunidad.
+      responses:
+        "201":
+          description: Contacto creado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactoCreatedResponse"
+              example:
+                id: 1
+                nombre: Alberto Zompantzi
+                email: alberto@example.com
+                asunto: null
+                mensaje: Me gustaría conversar sobre una oportunidad.
+                fechaRegistro: "2026-11-19T12:30:00"
+        "400":
+          description: >-
+            Bad Request. Falló la validación Bean Validation declarada en
+            ContactoDTO (@NotBlank o @Email). No se encontró un @ControllerAdvice
+            personalizado en backend/; el cuerpo representa la estructura de
+            error estándar de Spring Boot.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpringDefaultErrorResponse"
+              example:
+                timestamp: "2026-11-19T12:30:00.000+00:00"
+                status: 400
+                error: Bad Request
+                path: /api/v1/contactos
+        "500":
+          description: >-
+            Internal Server Error por un error inesperado de persistencia o del
+            servidor. backend/ no define un @ControllerAdvice personalizado;
+            el cuerpo representa la estructura de error estándar de Spring Boot.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpringDefaultErrorResponse"
+              example:
+                timestamp: "2026-11-19T12:30:00.000+00:00"
+                status: 500
+                error: Internal Server Error
+                path: /api/v1/contactos
+
+components:
+  schemas:
+    ContactoRequest:
+      type: object
+      description: >-
+        Datos enviados por el cliente conforme a ADR-0004. asunto existe como
+        campo opcional en ContactoDTO.java, pero el frontend lo omite por
+        decisión de ADR-0004. HoneypotField y Locale son exclusivamente del
+        cliente y no forman parte del payload.
+      required:
+        - nombre
+        - email
+        - mensaje
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+          description: Nombre de contacto; ContactoDTO aplica @NotBlank.
+        email:
+          type: string
+          format: email
+          minLength: 1
+          description: Correo de contacto; ContactoDTO aplica @NotBlank y @Email.
+        mensaje:
+          type: string
+          minLength: 1
+          description: Mensaje de contacto; ContactoDTO aplica @NotBlank.
+
+    ContactoCreatedResponse:
+      type: object
+      description: Entidad Contacto persistida y devuelta por el backend.
+      required:
+        - id
+        - nombre
+        - email
+        - mensaje
+        - fechaRegistro
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Identificador generado por la persistencia.
+        nombre:
+          type: string
+        email:
+          type: string
+          format: email
+        asunto:
+          type:
+            - string
+            - "null"
+          description: Campo opcional de Contacto; el cliente lo omite conforme a ADR-0004.
+        mensaje:
+          type: string
+        fechaRegistro:
+          type: string
+          format: date-time
+          description: LocalDateTime serializado sin zona horaria.
+
+    SpringDefaultErrorResponse:
+      type: object
+      description: >-
+        Estructura estándar de error de Spring Boot. backend/ no define un
+        @ControllerAdvice personalizado para transformar estas respuestas.
+      required:
+        - timestamp
+        - status
+        - error
+        - path
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Instante en que se produjo el error.
+        status:
+          type: integer
+          description: Código HTTP de error.
+        error:
+          type: string
+          description: Motivo HTTP del error.
+        path:
+          type: string
+          description: Ruta de la solicitud que produjo el error.
