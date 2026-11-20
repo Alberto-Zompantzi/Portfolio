@@ -1,0 +1,7 @@
+---
+description: Convenciones del frontend estático bilingüe y accesible.
+globs: frontend/**
+alwaysApply: false
+---
+
+Sigue `frontend/AGENTS.md` y los tokens e interacciones de `DESIGN.md`. Conserva el HTML prerenderizado, las fichas visibles, el fallback `MediaAsset.visualFallback` y la mejora progresiva definida para el catálogo y el contacto.

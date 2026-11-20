@@ -1,0 +1,7 @@
+---
+description: Protección de contratos compartidos de API.
+globs: docs/api/**
+alwaysApply: false
+---
+
+Los contratos publicados deben permanecer alineados con `docs/architecture/ARCHITECTURE.md` y `DATA_MODEL.md` v1.0. Si un issue requiere cambiar un archivo de `docs/api/`, detente y avisa antes de editarlo.
