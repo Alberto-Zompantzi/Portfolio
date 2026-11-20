@@ -305,13 +305,13 @@
   - **Entonces** se comprueban con éxito todos los criterios siguientes:
     1. HTML inicial sin JS de `/` y `/en` con todos los campos clave de la Métrica 1 (**nombre, rol profesional, resumen de perfil, experiencia/formación, stack tecnológico, títulos/descripciones de proyectos y enlaces**) y detalle completo de proyectos visible sin mecanismos de ocultamiento.
     2. Descarga correcta del CV correspondiente por ruta (`/` -> ES, `/en` -> EN) y verificación de texto seleccionable en ambos PDFs.
-    3. `git ls-files` y `git log` con cero binarios no exentos y cero archivos de `información faltante/`.
+    3. Escaneo de secretos con `gitleaks` antes del merge a `main`; `git ls-files` y `git log` con cero binarios no exentos y cero archivos de `información faltante/`.
     4. Búsqueda en el código fuente con cero coincidencias de `frontend/public/imagenes/`.
     5. Respuesta HTTP `200` en todas las URLs externas configuradas en `frontend/src/config/media.ts`.
     6. Enlaces visibles en la UI estrictamente conformes a la matriz del Brief (sin enlaces a backend/Render y sin enlaces externos en n8n).
     7. Cero ocurrencias del texto `PENDIENTE` en la UI.
     8. Envío real del formulario de contacto y configuración CORS verificados contra el dominio final de producción.
-    9. Tras integrar el Bloque B, presencia de texto plano indexable junto a cada icono del marquee.
+    9. Tras integrar el Bloque B, presencia de texto plano indexable junto a cada icono del marquee y verificación de que cada SVG pesa ≤ umbral D-07c (PENDIENTE; SUPUESTO <= 15 KB).
 - **Escenario 10.2 (Caso de error — Incumplimiento de cualquier criterio de puerta):**
   - **Dado** que cualquiera de los puntos de verificación anteriores falla durante la revisión previa al merge,
   - **Cuando** se evalúa la rama candidata,
