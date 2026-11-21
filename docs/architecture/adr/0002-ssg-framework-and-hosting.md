@@ -1,6 +1,6 @@
 # ADR-0002: Propuesta de Framework SSG (Next.js Static Export) y Hosting en Cloudflare Pages (`D-01`)
 
-- **Estado:** Aceptado (stack SSG y hosting aprobados; dominio final de D-01 permanece PENDIENTE)
+- **Estado:** Aceptado (stack SSG, hosting y dominio de producción confirmados)
 - **Fecha:** 2026-11-19
 - **Decidido por:** Alberto Zompantzi
 
@@ -18,7 +18,7 @@ El desbloqueo `D-01` (`ROADMAP.md`, `PENDIENTE`) abarca la selección de la herr
 
 ## Decisión
 
-Seleccionar **Next.js configurado con exportación estática (output: 'export')** en TypeScript como herramienta SSG y **Cloudflare Pages** ($0 USD/mes, SUPUESTO) como plataforma de hosting estático. Dentro de D-01, queda únicamente PENDIENTE confirmar el **dominio final de producción** (subdominio \*.pages.dev o dominio personalizado).
+Seleccionar **Next.js configurado con exportación estática (output: 'export')** en TypeScript como herramienta SSG y **Cloudflare Pages** ($0 USD/mes, SUPUESTO) como plataforma de hosting estático. El propietario confirma como dominio final de producción y origen canónico `https://albertozompantzi-portfolio.pages.dev`. Las rutas `/` y `/en` se publican como exportaciones estáticas.
 
 ## Consecuencias
 

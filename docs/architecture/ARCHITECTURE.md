@@ -24,7 +24,7 @@ Flujos:
 - **Estáticos en build:** los datos versionados de proyectos se incorporan al HTML exportado. La generación de `/` y `/en` es local al build; no supone una llamada de red a Backend ni a Cloudflare R2.
 - **Entrega estática:** Cloudflare Pages sirve la exportación de Next.js. El HTML debe incluir el perfil y las Ficha técnica en línea completas, visibles sin JavaScript.
 - **Asíncronos en cliente:** el navegador obtiene medios y CV desde las URLs HTTPS configuradas en `frontend/src/config/media.ts`; el formulario de contacto envía un POST al Backend. Los estados de carga, éxito y error del formulario pertenecen al cliente.
-- **Host final:** `PENDIENTE` en D-01 (propuesto: `albertozompantzi-portfolio.pages.dev`; no confirmado por ADR-0002 ni ROADMAP).
+- **Host final y origen canónico:** `https://albertozompantzi-portfolio.pages.dev` (confirmado por el propietario; D-01 cerrado). Cloudflare Pages sirve las rutas estáticas `/` y `/en` generadas por Next.js `output: 'export'`.
 
 ## 2. Ownership por servicio/componente
 
