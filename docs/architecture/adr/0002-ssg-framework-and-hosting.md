@@ -6,7 +6,7 @@
 
 ## Contexto
 
-El desbloqueo `D-01` (`ROADMAP.md`, `PENDIENTE`) abarca la selección de la herramienta SSG, la plataforma de hosting estático y el dominio final de producción. El sitio debe generar páginas HTML estáticas prerenderizadas (`SSR_STATIC`) para `/` (`es`) y `/en` (`en`) que sean 100% legibles sin JavaScript para sistemas ATS y reclutadores (`HU-02`, `HU-03`, `HU-04`, `HU-09`), aplicando mejora progresiva (`HYDRATED`) en React y TypeScript para filtros por Stack/Rol, modal de detalle, pausa de marquesina y fondo reactivo (`HU-05` a `HU-08`), con costo operativo recurrente de `$0 USD/mes` (`SUPUESTO`).
+El desbloqueo `D-01` (`ROADMAP.md`, ahora cerrado) abarcó la selección de la herramienta SSG, la plataforma de hosting estático y el dominio final de producción. El sitio debe generar páginas HTML estáticas prerenderizadas (`SSR_STATIC`) para `/` (`es`) y `/en` (`en`) que sean 100% legibles sin JavaScript para sistemas ATS y reclutadores (`HU-02`, `HU-03`, `HU-04`, `HU-09`), aplicando mejora progresiva (`HYDRATED`) en React y TypeScript para filtros por Stack/Rol, modal de detalle, pausa de marquesina y fondo reactivo (`HU-05` a `HU-08`), con costo operativo recurrente de `$0 USD/mes` (`SUPUESTO`).
 
 ## Opciones evaluadas
 

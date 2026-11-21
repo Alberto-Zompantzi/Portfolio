@@ -64,7 +64,7 @@ Flujos:
 ### `POST /api/v1/contactos`
 
 - **URL absoluta:** `{NEXT_PUBLIC_API_BASE_URL}/api/v1/contactos` (host base PENDIENTE).
-- **Headers de petición:** `Content-Type: application/json`. En petición cross-origin el navegador envía el Origin de la página; el dominio final permanece `PENDIENTE` (propuesto: `https://albertozompantzi-portfolio.pages.dev`).
+- **Headers de petición:** `Content-Type: application/json`. En petición cross-origin el navegador envía el Origin de la página; el origen de producción confirmado es `https://albertozompantzi-portfolio.pages.dev`. Su configuración en `FRONTEND_ORIGIN` sigue pendiente de implementación en Bloque A.
 - **CORS y decisión vinculante (ADR-0004):** el código local inspeccionado declara `@CrossOrigin(origins = "*")` y `application.yml` no muestra una variable CORS. Durante Bloque A se sustituirá el wildcard por configuración externalizada con `FRONTEND_ORIGIN`; el backend aceptará únicamente el origen configurado y rechazará los no listados. Configurar `FRONTEND_ORIGIN` en el entorno del backend antes de probar producción es requisito operativo; HU-10 punto 8 valida envío y CORS contra el dominio final.
 - **Request JSON** del frontend (payload `ContactSubmission`; omite `asunto`):
 
@@ -394,7 +394,7 @@ Estos son tipos internos de presentación, no enums de dominio. `code` es uno de
 
 ## 15. Alcance y exclusiones del MVP
 
-**Restricciones de exportación estática:** configurar `images.unoptimized: true` según ADR-0002; política de barra final `PENDIENTE` de D-01/PRD 2.1; `sitemap.xml` debe generarse como archivo estático durante build, con mecanismo pendiente de concretar.
+**Restricciones de exportación estática:** configurar `images.unoptimized: true` según ADR-0002; política de barra final `PENDIENTE` según PRD 2.1; `sitemap.xml` debe generarse como archivo estático durante build, con mecanismo pendiente de concretar.
 
 **Trazabilidad NFR → componente → verificación:**
 

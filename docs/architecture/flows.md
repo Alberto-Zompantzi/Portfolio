@@ -1,7 +1,7 @@
 # Diagramas de Flujo y Estados del Sistema
 
 > **Fuentes:** `docs/product/BRIEF.md` (v1.7), `docs/product/ROADMAP.md` (v1.4), `docs/product/PRD.md` (v1.2) y `docs/product/GLOSSARY.md`.  
-> **Nota:** Las decisiones marcadas como `PENDIENTE` (`D-01`, `D-03`, `D-04a`/`D-04b`, `D-05`, `D-06`, `D-07a`–`D-07d`) se representan como interfaces abstractas hasta cerrarse en los Pasos 7 y 8.
+> **Nota:** Las decisiones aún marcadas como `PENDIENTE` (`D-03`, `D-04a`/`D-04b`, `D-05`, `D-06`, `D-07a`–`D-07d`) se representan como interfaces abstractas hasta cerrarse en los Pasos 7 y 8. D-01 está cerrado; ADR-0002 define Next.js con exportación estática en Cloudflare Pages y el dominio de producción.
 
 ---
 
@@ -9,7 +9,7 @@
 
 ```mermaid
 flowchart TD
-    A["Build SSG (Herramienta D-01: PENDIENTE)"] --> B["Genera '/' con <html lang='es'> y <a href='/en'>"]
+    A["Build SSG (Next.js output: export; D-01) "] --> B["Genera '/' con <html lang='es'> y <a href='/en'>"]
     A --> C["Genera '/en' con <html lang='en'> y <a href='/'>"]
     A --> D["Genera SEO por ruta (title, description, canonical, hreflang es/en/x-default->'/', og:image absoluta) y sitemap.xml"]
 
