@@ -26,4 +26,3 @@ El uso del mismo archivo para ambas rutas fue confirmado por Alberto. No se dedu
 | --- | --- |
 | Logo | Pendiente de confirmar archivo/ruta y URL pública ImageKit |
 | Foto de perfil | Pendiente de confirmar disponibilidad y URL pública ImageKit |
-
