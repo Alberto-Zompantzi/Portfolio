@@ -17,6 +17,10 @@ Se sustituirá el wildcard actual `@CrossOrigin(origins = "*")` por configuraci�
 
 El frontend enviará únicamente `{ "nombre": string, "email": string, "mensaje": string }` a `POST /api/v1/contactos`. Omitirá `asunto`, que es opcional y carece de `@NotBlank` en `ContactoDTO`. `honeypot` y `locale` son datos locales del cliente y no se envían.
 
+### Estado observado de implementación (revisión D-05)
+
+La inspección del backend local confirma el contrato del DTO y la respuesta `201 Created` descritos en `docs/api/openapi.yaml`. La decisión CORS de la sección 1 todavía no está aplicada: `ContactoController` conserva `@CrossOrigin(origins = "*")` y `application.yml` no define `FRONTEND_ORIGIN`. Este registro describe el estado actual; cerrar D-05 no cambia ni declara implementada la configuración CORS, que requiere el trabajo de configuración previsto por este ADR.
+
 ## Consecuencias
 
 - El contrato de envío del frontend queda explícito y no requiere añadir o modificar lógica de negocio ni persistencia.

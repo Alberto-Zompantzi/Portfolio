@@ -3,17 +3,17 @@ info:
   title: API de contacto del portafolio
   version: 1.0.0
   description: >-
-    Contrato del endpoint de contacto del backend existente, conforme a la
-    arquitectura congelada v1.0 (ARCHITECTURE.md, §§3, 4, 8, 9 y 14) y a la
-    decisión vinculante de ADR-0004. Documenta únicamente la operación POST
-    /api/v1/contactos definida para la integración del frontend estático.
+    Contrato observado del endpoint de contacto existente, conforme a la
+    arquitectura v1.0 (ARCHITECTURE.md, §§3, 4, 8, 9 y 14) y al payload de
+    frontend definido por ADR-0004. Distingue el DTO que acepta backend del
+    payload reducido que envía el frontend.
 
 servers:
   - url: "{apiBaseUrl}"
     description: >-
       Base URL del backend. En desarrollo local, apiBaseUrl vale
       http://localhost:8080. El frontend incorpora el host desde
-      NEXT_PUBLIC_API_BASE_URL; el host de producción sigue PENDIENTE en D-05.
+      NEXT_PUBLIC_API_BASE_URL.
     variables:
       apiBaseUrl:
         default: "http://localhost:8080"
@@ -26,11 +26,14 @@ paths:
       summary: Crear un contacto
       description: >-
         Recibe el formulario de contacto enviado desde el frontend estático y
-        crea un registro mediante el backend existente. CORS se restringe por
-        configuración al origen definido en FRONTEND_ORIGIN, según ADR-0004.
-        La validación anti-spam HoneypotField y el idioma Locale se gestionan
-        exclusivamente en el cliente y nunca viajan en el payload. El payload
-        contiene nombre, email y mensaje; asunto se omite conforme a ADR-0004.
+        crea un registro mediante el backend existente. ContactoDTO requiere
+        nombre, email y mensaje; asunto es opcional. El frontend envía solo
+        nombre, email y mensaje conforme a ADR-0004. HoneypotField y Locale son
+        exclusivamente del cliente y no viajan en el payload. La implementación
+        actual de ContactoController permite cualquier origen con @CrossOrigin("*");
+        la allowlist FRONTEND_ORIGIN prevista por ADR-0004 aún no está aplicada.
+        No se observan límites de longitud, autenticación ni protección anti-spam
+        del lado del servidor en el código revisado.
       requestBody:
         required: true
         content:
@@ -38,9 +41,9 @@ paths:
             schema:
               $ref: "#/components/schemas/ContactoRequest"
             example:
-              nombre: Alberto Zompantzi
-              email: alberto@example.com
-              mensaje: Me gustaría conversar sobre una oportunidad.
+              nombre: Alex Ejemplo
+              email: alex@example.test
+              mensaje: Hola, me gustaría ponerme en contacto.
       responses:
         "201":
           description: Contacto creado correctamente.
@@ -50,25 +53,40 @@ paths:
                 $ref: "#/components/schemas/ContactoCreatedResponse"
               example:
                 id: 1
-                nombre: Alberto Zompantzi
-                email: alberto@example.com
+                nombre: Alex Ejemplo
+                email: alex@example.test
                 asunto: null
-                mensaje: Me gustaría conversar sobre una oportunidad.
+                mensaje: Hola, me gustaría ponerme en contacto.
                 fechaRegistro: "2026-11-19T12:30:00"
         "400":
           description: >-
-            Bad Request. Falló la validación Bean Validation declarada en
-            ContactoDTO (@NotBlank o @Email). No se encontró un @ControllerAdvice
-            personalizado en backend/; el cuerpo representa la estructura de
-            error estándar de Spring Boot.
+            Bad Request por JSON mal formado o por validación Bean Validation
+            de ContactoDTO (@NotBlank o @Email). @NotBlank rechaza valores nulos,
+            vacíos o compuestos solo por espacios; @Email aplica la validación
+            de formato de Jakarta Bean Validation. No hay @ControllerAdvice
+            personalizado; Spring Boot genera el cuerpo de error predeterminado.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/SpringDefaultErrorResponse"
               example:
-                timestamp: "2026-11-19T12:30:00.000+00:00"
+                timestamp: "2026-01-01T00:00:00Z"
                 status: 400
                 error: Bad Request
+                path: /api/v1/contactos
+        "415":
+          description: >-
+            Unsupported Media Type cuando el Content-Type no es compatible con
+            application/json. El cuerpo lo genera el manejo predeterminado de
+            Spring Boot; no hay un sobre de error personalizado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpringDefaultErrorResponse"
+              example:
+                timestamp: "2026-01-01T00:00:00Z"
+                status: 415
+                error: Unsupported Media Type
                 path: /api/v1/contactos
         "500":
           description: >-
@@ -80,7 +98,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/SpringDefaultErrorResponse"
               example:
-                timestamp: "2026-11-19T12:30:00.000+00:00"
+                timestamp: "2026-01-01T00:00:00Z"
                 status: 500
                 error: Internal Server Error
                 path: /api/v1/contactos
@@ -90,10 +108,10 @@ components:
     ContactoRequest:
       type: object
       description: >-
-        Datos enviados por el cliente conforme a ADR-0004. asunto existe como
-        campo opcional en ContactoDTO.java, pero el frontend lo omite por
-        decisión de ADR-0004. HoneypotField y Locale son exclusivamente del
-        cliente y no forman parte del payload.
+        Representa el DTO de entrada ContactoDTO. El servidor acepta asunto como
+        opcional, pero el frontend lo omite conforme a ADR-0004. HoneypotField
+        y Locale son exclusivamente del cliente y no forman parte del payload.
+        El código no declara longitudes máximas para estos campos.
       required:
         - nombre
         - email
@@ -102,16 +120,31 @@ components:
         nombre:
           type: string
           minLength: 1
-          description: Nombre de contacto; ContactoDTO aplica @NotBlank.
+          description: >-
+            Nombre de contacto. ContactoDTO aplica @NotBlank, que también
+            rechaza cadenas compuestas solo por espacios; no hay longitud
+            máxima declarada en el DTO.
         email:
           type: string
           format: email
           minLength: 1
-          description: Correo de contacto; ContactoDTO aplica @NotBlank y @Email.
+          description: >-
+            Correo de contacto. ContactoDTO aplica @NotBlank y @Email; no hay
+            longitud máxima declarada en el DTO.
+        asunto:
+          type:
+            - string
+            - "null"
+          description: >-
+            Campo opcional sin restricciones Bean Validation en ContactoDTO.
+            ADR-0004 indica que el frontend lo omite.
         mensaje:
           type: string
           minLength: 1
-          description: Mensaje de contacto; ContactoDTO aplica @NotBlank.
+          description: >-
+            Mensaje de contacto. ContactoDTO aplica @NotBlank, que también
+            rechaza cadenas compuestas solo por espacios; no hay longitud
+            máxima declarada en el DTO.
 
     ContactoCreatedResponse:
       type: object
@@ -120,6 +153,7 @@ components:
         - id
         - nombre
         - email
+        - asunto
         - mensaje
         - fechaRegistro
       properties:
@@ -136,13 +170,17 @@ components:
           type:
             - string
             - "null"
-          description: Campo opcional de Contacto; el cliente lo omite conforme a ADR-0004.
+          description: >-
+            Campo nullable de la entidad devuelta. Si el request omite asunto,
+            ContactoServiceImpl lo deja null.
         mensaje:
           type: string
         fechaRegistro:
           type: string
-          format: date-time
-          description: LocalDateTime serializado sin zona horaria.
+          format: local-date-time
+          description: >-
+            LocalDateTime asignado en @PrePersist y serializado como fecha y
+            hora ISO-8601 sin zona horaria ni offset.
 
     SpringDefaultErrorResponse:
       type: object

@@ -1,7 +1,7 @@
 # Diagramas de Flujo y Estados del Sistema
 
 > **Fuentes:** `docs/product/BRIEF.md` (v1.7), `docs/product/ROADMAP.md` (v1.4), `docs/product/PRD.md` (v1.2) y `docs/product/GLOSSARY.md`.  
-> **Nota:** Las decisiones aún marcadas como `PENDIENTE` (`D-03`, `D-04a`/`D-04b`, `D-05`, `D-06`, `D-07a`–`D-07d`) se representan como interfaces abstractas hasta cerrarse en los Pasos 7 y 8. D-01 está cerrado; ADR-0002 define Next.js con exportación estática en Cloudflare Pages y el dominio de producción.
+> **Nota:** Las decisiones aún marcadas como `PENDIENTE` (`D-03`, `D-04a`/`D-04b`, `D-06`, `D-07a`–`D-07d`) se representan como interfaces abstractas hasta cerrarse en los Pasos 7 y 8. D-01 está cerrado; D-05 quedó verificado contra el código local y se documenta en OpenAPI. La configuración CORS de ADR-0004 sigue pendiente de implementación. ADR-0002 define Next.js con exportación estática en Cloudflare Pages y el dominio de producción.
 
 ---
 
@@ -47,7 +47,7 @@ stateDiagram-v2
     IDLE --> VALIDATING: Evento submit en formulario
 
     VALIDATING --> DROPPED_HONEYPOT: Campo trampa contiene texto (sin petición HTTP ni error)
-    VALIDATING --> ERROR_VALIDATION: Campos obligatorios (D-05) vacíos o email inválido en cliente
+    VALIDATING --> ERROR_VALIDATION: nombre/email/mensaje vacíos o email inválido en cliente
     VALIDATING --> SUBMITTING: Validación en cliente exitosa y campo trampa vacío
 
     ERROR_VALIDATION --> VALIDATING: Usuario corrige datos y vuelve a enviar
@@ -83,11 +83,12 @@ sequenceDiagram
     end
 
     opt Usuario envía formulario de contacto (requiere ejecución de script en cliente; sin JS el formulario no envía)
-        Note over U: Validación de formato en cliente + revisión de campo trampa vacío
-        U->>B: POST <ENDPOINT_ENV> (payload según D-05 PENDIENTE, Origin: dominio final)
-        alt Envío aceptado por backend/ (origen CORS permitido y respuesta exitosa)
-            B-->>U: Respuesta exitosa (mensaje de confirmación localizado ES/EN)
-        else Error observado por el cliente (fallo de red, rechazo CORS o respuesta HTTP de error)
+        Note over U: Payload {nombre, email, mensaje}; ContactoDTO acepta asunto opcional, omitido por el frontend. Honeypot y Locale no se envían.
+        U->>B: POST {NEXT_PUBLIC_API_BASE_URL}/api/v1/contactos (Content-Type: application/json)
+        alt Backend crea el contacto
+            B-->>U: 201 Created + entidad Contacto (id, nombre, email, asunto nullable, mensaje, fechaRegistro local)
+            Note over U: Muestra confirmación localizada ES/EN
+        else Error HTTP (400 JSON/validación, 415 Content-Type, 500 servidor), rechazo CORS o fallo de red
             Note over U: Fallo de red, rechazo CORS en navegador o respuesta HTTP de error
             Note over U: Detiene estado de carga y muestra error localizado ES/EN
         end

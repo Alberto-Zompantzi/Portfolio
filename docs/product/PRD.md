@@ -161,19 +161,20 @@
 **para** contactar al candidato sin depender de clientes de correo externos.
 
 - **Escenario 5.1 (Camino feliz — Envío válido al `backend/`):**
-  - **Dado** que el usuario completa los campos requeridos documentados en `D-05` (`nombre`, `email`, `mensaje` — _por verificar_) con formato válido y deja vacío el campo _honeypot_,
+  - **Dado** que el usuario completa los campos requeridos documentados en `D-05` (`nombre`, `email`, `mensaje`) con formato válido y deja vacío el campo _honeypot_ (`asunto` es opcional en el DTO, pero el frontend lo omite conforme a ADR-0004),
   - **Cuando** envía el formulario en `/` o `/en`,
   - **Entonces** la interfaz muestra un estado de carga localizado (contemplando espera por _cold start_),
   - **Y** realiza la petición al endpoint consumido exclusivamente desde variable de entorno (nunca expuesto como enlace visible en la UI),
-  - **Y** al recibir respuesta exitosa del `backend/`, muestra un mensaje de confirmación localizado en el idioma activo (`ES` o `EN`).
+  - **Y** al recibir `201 Created` del `backend/` muestra un mensaje de confirmación localizado en el idioma activo (`ES` o `EN`); el servidor devuelve la entidad creada.
 - **Escenario 5.2a (Caso de error — Validación de formato en cliente):**
-  - **Dado** que el usuario intenta enviar campos obligatorios documentados en `D-05` vacíos o un correo electrónico con formato inválido,
+  - **Dado** que el usuario intenta enviar campos obligatorios documentados en `D-05` vacíos, compuestos solo por espacios o con un correo electrónico de formato inválido,
   - **Cuando** pulsa el botón de envío,
   - **Entonces** la validación en cliente detiene el envío antes de invocar al `backend/` y muestra mensajes de error localizados en el idioma activo (`ES` o `EN`).
 - **Escenario 5.2b (Caso de error — Fallo de servidor o petición de red al `backend/`):**
   - **Dado** que el formulario supera la validación en cliente y envía la petición al endpoint configurado,
   - **Cuando** el `backend/` responde con error HTTP o falla la petición de red,
   - **Entonces** la interfaz detiene el estado de carga y muestra un mensaje de error localizado en el idioma activo (`ES` o `EN`).
+  - Las respuestas HTTP observadas para este contrato son `400 Bad Request` por JSON mal formado o validación, `415 Unsupported Media Type` por tipo de contenido incompatible y `500 Internal Server Error` por fallos inesperados; el backend no define un sobre de error personalizado.
 - **Escenario 5.3a (Caso límite — Origen CORS permitido y configuración limpia sin tocar lógica de negocio):**
   - **Dado** que los orígenes permitidos se definen por variable de entorno en `backend/` (solo configuración),
   - **Cuando** se realiza un envío válido del formulario desde un origen registrado en dicha variable,

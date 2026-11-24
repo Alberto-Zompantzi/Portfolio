@@ -57,22 +57,22 @@ Flujos:
 
 ## 3. Endpoints externos
 
-**Decisión.** El cliente usará `NEXT_PUBLIC_API_BASE_URL`, incorporada en build por `output: 'export'`, como URL base del Backend y concatenará la ruta relativa documentada abajo. El host del Backend permanece PENDIENTE. ADR-0004 cierra D-05 arquitectónicamente: el frontend envía únicamente `nombre`, `email` y `mensaje`; `asunto` se omite porque es opcional en `ContactoDTO`. Durante Bloque A, el wildcard CORS se sustituirá por allowlist externalizada mediante `FRONTEND_ORIGIN`, sin alterar la lógica del controlador ni la entidad. El dominio Pages permanece PENDIENTE según ADR-0002.
+**Decisión.** El cliente usará `NEXT_PUBLIC_API_BASE_URL`, incorporada en build por `output: 'export'`, como URL base del Backend y concatenará la ruta relativa documentada abajo. El host de la API de producción no está confirmado. El contrato D-05 se verificó en el código local: el DTO requiere `nombre`, `email` y `mensaje`, acepta `asunto` opcional, y el frontend envía únicamente los tres campos requeridos conforme a ADR-0004. Durante Bloque A, el wildcard CORS debe sustituirse por allowlist externalizada mediante `FRONTEND_ORIGIN`, sin alterar la lógica del controlador ni la entidad; esa configuración aún no está implementada en el backend revisado. El dominio Pages se confirma en ADR-0002.
 
 **Por qué.** Se utiliza el controlador existente en `backend/` sin añadir endpoints ni alterar su lógica. La variable se sustituye durante build; un cambio de backend/origen para Preview o producción requiere configurar el entorno correspondiente y generar un nuevo build. No es un secreto.
 
 ### `POST /api/v1/contactos`
 
-- **URL absoluta:** `{NEXT_PUBLIC_API_BASE_URL}/api/v1/contactos` (host base PENDIENTE).
+- **URL absoluta:** `{NEXT_PUBLIC_API_BASE_URL}/api/v1/contactos` (host de API de producción aún por confirmar).
 - **Headers de petición:** `Content-Type: application/json`. En petición cross-origin el navegador envía el Origin de la página; el origen de producción confirmado es `https://albertozompantzi-portfolio.pages.dev`. Su configuración en `FRONTEND_ORIGIN` sigue pendiente de implementación en Bloque A.
 - **CORS y decisión vinculante (ADR-0004):** el código local inspeccionado declara `@CrossOrigin(origins = "*")` y `application.yml` no muestra una variable CORS. Durante Bloque A se sustituirá el wildcard por configuración externalizada con `FRONTEND_ORIGIN`; el backend aceptará únicamente el origen configurado y rechazará los no listados. Configurar `FRONTEND_ORIGIN` en el entorno del backend antes de probar producción es requisito operativo; HU-10 punto 8 valida envío y CORS contra el dominio final.
-- **Request JSON** del frontend (payload `ContactSubmission`; omite `asunto`):
+- **Request JSON** del frontend (payload `ContactSubmission`; `ContactoDTO` también acepta `asunto` opcional, que el frontend omite):
 
 ```json
 {
-  "nombre": "Alberto Zompantzi",
-  "email": "alberto@example.com",
-  "mensaje": "Me gustaría conversar sobre una oportunidad."
+  "nombre": "Alex Ejemplo",
+  "email": "alex@example.test",
+  "mensaje": "Hola, me gustaría ponerme en contacto."
 }
 ```
 
@@ -81,20 +81,20 @@ Flujos:
 ```json
 {
   "id": 1,
-  "nombre": "Alberto Zompantzi",
-  "email": "alberto@example.com",
+  "nombre": "Alex Ejemplo",
+  "email": "alex@example.test",
   "asunto": null,
-  "mensaje": "Me gustaría conversar sobre una oportunidad.",
+  "mensaje": "Hola, me gustaría ponerme en contacto.",
   "fechaRegistro": "2026-11-19T12:30:00"
 }
 ```
 
-- **Validaciones observadas en código local, pendientes de verificación externa** (`backend/src/main/java/com/alberto/portfolio/dtos/ContactoDTO.java`): `nombre` y `mensaje` tienen `@NotBlank`; `email` tiene `@NotBlank` y `@Email`; `asunto` no tiene anotación y el frontend lo omite por ADR-0004. La respuesta de error 400 en runtime permanece **PENDIENTE**. ROADMAP conserva D-05 como registro de desbloqueo, pero su contrato arquitectónico queda resuelto por ADR-0004. El código citado está presente en el árbol local de esta edición, pero no formó parte del paquete revisado por el auditor externo. No se encontró manejo de error global propio en los archivos revisados.
-- **Otros estados:** respuestas de errores de persistencia/servidor PENDIENTE; el controlador no declara esos contratos.
+- **Validaciones observadas en código local** (`backend/src/main/java/com/alberto/portfolio/dtos/ContactoDTO.java`): `nombre`, `email` y `mensaje` tienen `@NotBlank`; `email` también tiene `@Email`; `asunto` no tiene restricciones Bean Validation ni longitud máxima declarada. `@NotBlank` rechaza valores nulos, vacíos o compuestos solo por espacios. Se verificó el mapeo de `400 Bad Request` para JSON mal formado o fallos de validación; el `201 Created` devuelve la entidad persistida. `415 Unsupported Media Type` aplica a tipos de contenido incompatibles y fallos no controlados producen `500 Internal Server Error`. El backend no define `@ControllerAdvice`; estos errores usan el manejo predeterminado de Spring Boot. La documentación se verificó contra el código fuente local; no se realizó una llamada a una instancia en ejecución.
+- **CORS observado:** `ContactoController` declara `@CrossOrigin(origins = "*")`; no se encontró configuración `FRONTEND_ORIGIN` en `application.yml`. La allowlist de ADR-0004 es una decisión pendiente de implementación, no el comportamiento actual. Este ticket no modifica backend.
 
 ## 4. Contratos internos y fronteras
 
-**Decisión.** Los datos estáticos se tipan y resuelven en build; `media.ts` relaciona MediaAsset y CV con URLs públicas de ImageKit; el formulario transforma los campos definidos por el producto en el payload de `ContactSubmission`, con esquema vinculante `{ nombre: string, email: string, mensaje: string }` según ADR-0004. `ContactoDTO` local se describe en la sección 3. La forma definitiva del contenido de proyectos y la implementación de `visualFallback` siguen pendientes donde GLOSSARY las marca como propuesta.
+**Decisión.** Los datos estáticos se tipan y resuelven en build; `media.ts` relaciona MediaAsset y CV con URLs públicas de ImageKit; el formulario transforma los campos definidos por el producto en el payload de `ContactSubmission`, con esquema `{ nombre: string, email: string, mensaje: string }` según ADR-0004. Este payload frontend es un subconjunto del DTO: el backend también acepta `asunto` opcional. `ContactoDTO` local se describe en la sección 3. La forma definitiva del contenido de proyectos y la implementación de `visualFallback` siguen pendientes donde GLOSSARY las marca como propuesta.
 
 **Por qué.** Los contratos hacen explícito qué cruza cada frontera, sin introducir CMS, una base de datos nueva ni capacidades no presentes.
 
@@ -168,9 +168,9 @@ Frontera `ContactSubmission` según ADR-0004: `payload` contiene únicamente `no
 
 ```json
 {
-  "nombre": "Alberto Zompantzi",
-  "email": "alberto@example.com",
-  "mensaje": "Me gustaría conversar sobre una oportunidad."
+  "nombre": "Alex Ejemplo",
+  "email": "alex@example.test",
+  "mensaje": "Hola, me gustaría ponerme en contacto."
 }
 ```
 
@@ -359,7 +359,7 @@ Orden: seguir explícitamente los Pasos 3–5 y Bloques A/B del ROADMAP. En Bloq
 
 ## 14. Contrato mínimo de errores HTTP
 
-**Decisión.** La capa de presentación clasifica el resultado HTTP y muestra mensajes ES/EN; no expone el cuerpo de error del Backend como texto de interfaz. El contrato observado para éxito es `201 Created` con la entidad `Contacto`. Para errores, los documentos y el código inspeccionado no definen una estructura JSON propia uniforme del Backend. Por ello, la capa cliente normaliza los errores a esta estructura interna (no es un contrato de respuesta que se atribuya al Backend):
+**Decisión.** La capa de presentación clasifica el resultado HTTP y muestra mensajes ES/EN; no expone el cuerpo de error del Backend como texto de interfaz. El contrato observado para éxito es `201 Created` con la entidad `Contacto`. En el código local se observan `400 Bad Request` por JSON mal formado o validación, `415 Unsupported Media Type` por tipo de contenido incompatible y `500 Internal Server Error` por errores no controlados. No hay `@ControllerAdvice` propio; Spring Boot genera el cuerpo de error predeterminado. La forma de error no es un sobre de aplicación personalizado y los detalles incluidos dependen de la configuración estándar de Spring. Por ello, la capa cliente normaliza los errores a esta estructura interna (no es un contrato de respuesta que se atribuya al Backend):
 
 ```json
 {
@@ -383,13 +383,14 @@ Estos son tipos internos de presentación, no enums de dominio. `code` es uno de
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | 2xx                                         | Éxito; detener carga                                                                                                                    | Confirmación localizada y estado `SUCCESS`. No exigir parsear un cuerpo de error.                         |
 | 3xx                                         | La política cliente debe fijarse como `fetch` con `redirect: 'error'`; el rechazo se clasifica `NETWORK_ERROR` sin estado HTTP legible. | Error localizado genérico.                                                                                |
-| 400                                         | `HTTP_ERROR`, estado 400                                                                                                                | Error localizado genérico; no asumir esquema de validación del Backend.                                   |
+| 400                                         | `HTTP_ERROR`, estado 400                                                                                                                | Error localizado genérico; no asumir un esquema de validación propio del Backend.                          |
+| 415                                         | `HTTP_ERROR`, estado 415                                                                                                                | Error localizado genérico por tipo de contenido no compatible.                                           |
 | 401, 403 o rechazo CORS                     | Si se recibe HTTP 401/403, `HTTP_ERROR`; si el navegador bloquea CORS, `CORS_OR_NETWORK_ERROR` sin estado legible                       | Error localizado genérico.                                                                                |
 | 429, si aplica y si el servidor lo devuelve | `HTTP_ERROR`, estado 429                                                                                                                | Error localizado genérico; no se presupone que Backend implemente rate-limiting ni que emita este código. |
-| 5xx                                         | `HTTP_ERROR`, estado recibido                                                                                                           | Error localizado genérico y reintento manual disponible.                                                  |
+| 500                                         | `HTTP_ERROR`, estado 500                                                                                                                | Error localizado genérico y reintento manual disponible.                                                  |
 | Error de red o timeout                      | `NETWORK_ERROR` o `TIMEOUT`, sin estado                                                                                                 | Error localizado genérico y reintento manual disponible.                                                  |
 
-**Por qué.** La normalización ofrece una interfaz estable a la presentación bilingüe y mantiene separado lo que el frontend puede garantizar de las respuestas de error que el Backend todavía no documenta.
+**Por qué.** La normalización ofrece una interfaz estable a la presentación bilingüe y mantiene separado el comportamiento HTTP observado del sobre de error interno del frontend. Los estados y estructura predeterminada se documentan en OpenAPI; no se atribuye al backend un formato de error personalizado.
 
 ## 15. Alcance y exclusiones del MVP
 
