@@ -6,14 +6,14 @@ Portafolio bilingüe (español e inglés) dirigido a reclutadores y hiring manag
 
 ## Diagrama de arquitectura
 
-El flujo sigue la arquitectura congelada v1.0: los datos se incorporan durante el build; Pages sirve el sitio estático y el navegador consulta medios/CV y envía contactos de forma asíncrona.
+El flujo sigue la arquitectura v1.0 y la decisión vigente de ADR-0005: los datos se incorporan durante el build; Pages sirve el sitio estático, el navegador consulta los medios y CV desde ImageKit y envía contactos de forma asíncrona.
 
 ```mermaid
 flowchart LR
   D["Datos estáticos tipados<br/>frontend/src/data/projects.ts"] -->|"síncrono durante build"| N["Next.js SSG<br/>output: export"]
   N -->|"archivos estáticos exportados"| P["Cloudflare Pages"]
   P -->|"HTTP: HTML/CSS/JS"| U["Navegador / ATS"]
-  U -->|"HTTPS GET de MediaAsset y CVs<br/>asíncrono en cliente"| R["Cloudflare R2"]
+  U -->|"HTTPS GET de MediaAsset y CVs<br/>asíncrono en cliente"| I["ImageKit"]
   U -->|"POST /api/v1/contactos<br/>asíncrono en cliente; tras submit"| B["Backend existente"]
 ```
 
@@ -34,6 +34,8 @@ Usa los archivos de ejemplo como referencia. Copia cada uno a `.env` local en su
 | `backend/.env.example` | `SPRING_PROFILES_ACTIVE` | Perfil de Spring; el ejemplo activa `dev`. |
 | `backend/.env.example` | `DATABASE_URL` | URL JDBC de PostgreSQL local. |
 | `backend/.env.example` | `DATABASE_USER`, `DATABASE_PASSWORD` | Credenciales locales de base de datos; reemplaza el valor de ejemplo y no las compartas. |
+
+ImageKit entrega los activos mediante URLs públicas HTTPS registradas en el catálogo de medios; el frontend no necesita credenciales de ImageKit.
 
 ## Cómo correrlo en local
 
@@ -67,4 +69,6 @@ En Windows usa `gradlew.bat bootRun`. El frontend actual inicia con Vite en `htt
 - [ADR 0002: SSG y hosting](docs/architecture/adr/0002-ssg-framework-and-hosting.md)
 - [ADR 0003: medios y CV](docs/architecture/adr/0003-cloud-media-and-cv-storage.md)
 - [ADR 0004: CORS y contrato de contacto](docs/architecture/adr/0004-backend-cors-and-contact-contract.md)
+- [ADR 0005: entrega de medios y CV con ImageKit](docs/architecture/adr/0005-imagekit-media-and-cv-delivery.md)
+- [Inventario de medios publicados](docs/product/MEDIA_ASSETS.md)
 - [HU-10: Puerta de Aceptación](docs/product/PRD.md) (checklist previo a merge a `main`, según PRD y arquitectura).
