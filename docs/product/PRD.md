@@ -98,15 +98,15 @@
 - **Escenario 3.1 (Camino feliz — Contenido de perfil y descarga de CV por idioma):**
   - **Dado** que el perfil y la trayectoria se extrajeron del CV vigente ES/EN y fueron validados manualmente por Alberto Zompantzi sin añadir hechos no verificados,
   - **Cuando** el usuario visita `/` y pulsa el enlace de descarga de CV,
-  - **Entonces** descarga o abre el archivo PDF del CV en Español (desde la ubicación definida en `D-06`),
-  - **Y** cuando visita `/en` y pulsa el mismo control, descarga o abre el archivo PDF del CV en Inglés.
+  - **Entonces** descarga o abre el PDF de CV en la ubicación pública definida por `D-06`,
+  - **Y** cuando visita `/en` y pulsa el mismo control, descarga o abre el PDF de CV asignado a Inglés; las rutas ES y EN pueden reutilizar el mismo archivo cuando Alberto lo confirma.
 - **Escenario 3.2 (Caso límite — Layout base provisional con estructura semántica y accesibilidad):**
   - **Dado** que se construye el layout provisional (Fila 4) antes de aplicar `DESIGN.md` (`D-07a`),
   - **Cuando** se renderizan `/` y `/en`,
   - **Entonces** están presentes los elementos semánticos de estructura (`navbar`, `footer`, `hero` y trayectoria de experiencia/formación),
   - **Y** todos los atributos `alt` y `aria-label` están traducidos al idioma de la ruta, sin contenedores de imagen rotos ni textos `PENDIENTE`.
 - **Escenario 3.3 (Caso de error — Enlace estático y verificación de texto seleccionable en CV):**
-  - **Dado** que `D-06` define la ubicación de los dos PDFs del CV (en la nube o en `frontend/public/`),
+  - **Dado** que `D-06` define URLs públicas ImageKit para el CV de cada idioma, que pueden apuntar al mismo PDF por confirmación del propietario,
   - **Cuando** se inspecciona el HTML inicial y los archivos PDF antes de aprobar la puerta de aceptación (Fila 8),
   - **Entonces** el control de descarga existe como enlace HTML estándar `<a href>` en el DOM inicial (sin depender de JavaScript),
   - **Y** si alguno de los dos PDFs carece de texto seleccionable legible por filtros ATS, falla la verificación de `D-06` / Fila 8 y bloquea el merge a `main`.

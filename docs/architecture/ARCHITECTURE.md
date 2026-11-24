@@ -1,12 +1,12 @@
 # Arquitectura del Sistema — Portafolio Bilingüe
 
 - **Versión:** v1.0
-- **Estado:** Congelado (Baseline v1.0)
+- **Estado:** Contratos v1.0 congelados; proveedor externo de medios actualizado por ADR-0005 sin cambios de contrato
 - **Fecha:** 2026-11-19
 
 ## 1. Arquitectura general y flujo de datos
 
-**Decisión.** El proceso de build de Next.js con `output: 'export'` genera las rutas estáticas `/` (Locale `es`) y `/en` (Locale `en`). Cloudflare Pages entrega esos archivos estáticos. El navegador carga los MediaAsset y PDFs de CV por HTTPS desde Cloudflare R2, y cuando el usuario envía el formulario, el cliente llama de forma asíncrona al Backend existente. El build no llama al Backend ni a R2 para enviar formularios.
+**Decisión.** El proceso de build de Next.js con `output: 'export'` genera las rutas estáticas `/` (Locale `es`) y `/en` (Locale `en`). Cloudflare Pages entrega esos archivos estáticos. El navegador carga los MediaAsset y PDFs de CV por HTTPS desde ImageKit, y cuando el usuario envía el formulario, el cliente llama de forma asíncrona al Backend existente. El build no llama al Backend ni a ImageKit para enviar formularios.
 
 **Por qué.** Esta distribución aplica los ADR aceptados, mantiene el HTML inicial disponible para ATS sin JavaScript y limita las interacciones de contacto a la ejecución del cliente.
 
@@ -15,13 +15,13 @@ flowchart LR
   D["Datos estáticos tipados<br/>frontend/src/data/projects.ts"] -->|"síncrono durante build"| N["Next.js SSG<br/>output: export"]
   N -->|"archivos estáticos exportados"| P["Cloudflare Pages"]
   P -->|"HTTP: HTML/CSS/JS"| U["Navegador / ATS"]
-  U -->|"HTTPS GET de MediaAsset y CVs<br/>asíncrono en cliente"| R["Cloudflare R2"]
+  U -->|"HTTPS GET de MediaAsset y CVs<br/>asíncrono en cliente"| I["ImageKit"]
   U -->|"POST /api/v1/contactos<br/>asíncrono en cliente; tras submit"| B["Backend existente"]
 ```
 
 Flujos:
 
-- **Estáticos en build:** los datos versionados de proyectos se incorporan al HTML exportado. La generación de `/` y `/en` es local al build; no supone una llamada de red a Backend ni a Cloudflare R2.
+- **Estáticos en build:** los datos versionados de proyectos se incorporan al HTML exportado. La generación de `/` y `/en` es local al build; no supone una llamada de red a Backend ni a ImageKit.
 - **Entrega estática:** Cloudflare Pages sirve la exportación de Next.js. El HTML debe incluir el perfil y las Ficha técnica en línea completas, visibles sin JavaScript.
 - **Asíncronos en cliente:** el navegador obtiene medios y CV desde las URLs HTTPS configuradas en `frontend/src/config/media.ts`; el formulario de contacto envía un POST al Backend. Los estados de carga, éxito y error del formulario pertenecen al cliente.
 - **Host final y origen canónico:** `https://albertozompantzi-portfolio.pages.dev` (confirmado por el propietario; D-01 cerrado). Cloudflare Pages sirve las rutas estáticas `/` y `/en` generadas por Next.js `output: 'export'`.
@@ -37,7 +37,7 @@ Flujos:
 | Datos tipados del catálogo y contenido bilingüe incorporados al build                                             | Frontend SSG/Cliente                                           |
 | Generación de las rutas `/` y `/en`, HTML inicial, metadatos y ProgressiveEnhancement en el navegador             | Frontend SSG/Cliente                                           |
 | `media.ts`: registro central de URLs de MediaAsset y textos `alt` por Locale; registro/selección de CV por idioma | Frontend SSG/Cliente                                           |
-| Aprovisionamiento del bucket y subida de activos sanitizados a R2                                                 | Alberto Zompantzi / proceso manual (D-03/D-06 PENDIENTE)       |
+| Gestión del catálogo público de medios y CV en ImageKit                                                        | Alberto Zompantzi / proceso manual (D-03 pendiente por logo y foto de perfil) |
 | Sanitización de capturas antes de subirlas                                                                        | Alberto Zompantzi / proceso manual (D-02)                      |
 | Aplicación de la regla de visibilidad de enlaces                                                                  | Frontend SSG/Cliente, según D-04a/D-04b                        |
 | Configuración CORS para el origen desplegado                                                                      | Backend existente (variable `FRONTEND_ORIGIN`, ADR-0004) |
@@ -45,14 +45,14 @@ Flujos:
 | Validación cliente, HoneypotField, estados localizados y llamada HTTP de contacto                                 | Frontend SSG/Cliente                                           |
 | Recepción del DTO `ContactoDTO`, validaciones declaradas en DTO, guardado y respuesta de contacto                 | Backend existente                                              |
 | Persistencia de `Contacto` mediante repositorio existente                                                         | Backend existente                                              |
-| Almacenamiento y entrega HTTPS de MediaAsset sanitizados y PDFs de CV                                             | Cloudflare R2                                                  |
+| Almacenamiento y entrega HTTPS de MediaAsset sanitizados y PDFs de CV                                             | ImageKit                                                       |
 | Alojamiento y entrega de los archivos estáticos exportados                                                        | Cloudflare Pages                                               |
 
 **Qué NO hace cada componente**
 
-- **Frontend SSG/Cliente:** no persiste contactos; no valida ni aplica CORS en el servidor; no sube activos a R2 durante la navegación; no incluye CMS ni base de datos nueva. HoneypotField no protege contra POST directo al endpoint.
+- **Frontend SSG/Cliente:** no persiste contactos; no valida ni aplica CORS en el servidor; no sube activos a ImageKit durante la navegación; no incluye CMS ni base de datos nueva. HoneypotField no protege contra POST directo al endpoint.
 - **Backend existente:** no sirve el sitio estático ni los medios/CVs; no define contenido del catálogo; no implementa rate-limiting (excluido); no se atribuye la validación del HoneypotField, que es solo cliente.
-- **Cloudflare R2:** no genera HTML ni procesa formularios; no administra el catálogo ni transforma la respuesta del Backend.
+- **ImageKit:** entrega medios y aplica las transformaciones configuradas en sus URLs; no genera HTML ni procesa formularios, no administra el catálogo de proyectos ni transforma la respuesta del Backend.
 - **Cloudflare Pages:** no ejecuta lógica de servidor de Next.js ni es el Backend de contacto; entrega los archivos estáticos exportados.
 
 ## 3. Endpoints externos
@@ -94,7 +94,7 @@ Flujos:
 
 ## 4. Contratos internos y fronteras
 
-**Decisión.** Los datos estáticos se tipan y resuelven en build; `media.ts` relaciona MediaAsset con URLs de R2; el formulario transforma los campos definidos por el producto en el payload de `ContactSubmission`, con esquema vinculante `{ nombre: string, email: string, mensaje: string }` según ADR-0004. `ContactoDTO` local se describe en la sección 3. La forma definitiva del contenido de proyectos y la implementación de `visualFallback` siguen pendientes donde GLOSSARY las marca como propuesta.
+**Decisión.** Los datos estáticos se tipan y resuelven en build; `media.ts` relaciona MediaAsset y CV con URLs públicas de ImageKit; el formulario transforma los campos definidos por el producto en el payload de `ContactSubmission`, con esquema vinculante `{ nombre: string, email: string, mensaje: string }` según ADR-0004. `ContactoDTO` local se describe en la sección 3. La forma definitiva del contenido de proyectos y la implementación de `visualFallback` siguen pendientes donde GLOSSARY las marca como propuesta.
 
 **Por qué.** Los contratos hacen explícito qué cruza cada frontera, sin introducir CMS, una base de datos nueva ni capacidades no presentes.
 
@@ -144,14 +144,14 @@ Ejemplo JSON válido con campos según el esquema conceptual; las taxonomías si
 
 Este ejemplo ilustra estructura y no afirma un proyecto real ni valores aprobados. `visibilityRule` es una regla de presentación: cada botón/enlace solo se renderiza si su URL correspondiente no es `null`, sujeto a las confirmaciones D-04a/D-04b.
 
-### Frontend → Cloudflare R2 vía `media.ts`
+### Frontend → ImageKit vía `media.ts`
 
-El Glosario define conceptualmente `MediaAsset` como recurso visual con `id`, `url`, `alt` por Locale y `visualFallback`. El PDF de CV no es `MediaAsset`; su registro es una referencia URL por `Locale` y un texto/`aria-label` localizado del enlace, con esquema concreto PENDIENTE. Las URLs definitivas y la implementación de fallback siguen PENDIENTE.
+El Glosario define conceptualmente `MediaAsset` como recurso visual con `id`, `url`, `alt` por Locale y `visualFallback`. El PDF de CV no es `MediaAsset`; su registro es una referencia URL por `Locale` y un texto/`aria-label` localizado del enlace, con esquema concreto PENDIENTE. Las URLs verificadas se registran en `docs/product/MEDIA_ASSETS.md`; la implementación de fallback sigue PENDIENTE. Por confirmación de Alberto, los locales `es` y `en` pueden apuntar al mismo PDF.
 
 ```json
 {
   "id": "profile",
-  "url": "https://<bucket-publico-pendiente>.r2.dev/profile.webp",
+  "url": "https://ik.imagekit.io/<imagekit_id>/Portfolio/profile.webp",
   "alt": {
     "es": "Retrato de perfil",
     "en": "Profile portrait"
@@ -160,7 +160,7 @@ El Glosario define conceptualmente `MediaAsset` como recurso visual con `id`, `u
 }
 ```
 
-URL ilustrativa no desplegable: el dominio público del bucket y las rutas deben concretarse en D-03/D-06. `visualFallback` es obligatorio según GLOSSARY; su tipo/configuración concreta permanece PENDIENTE. Navegación: el cliente realiza GET HTTPS al recurso; no existe aquí un endpoint de escritura/subida definido para el navegador.
+URL ilustrativa: el endpoint y el ID de ImageKit deben corresponder a la cuenta elegida y las rutas al inventario aprobado; no se incluyen claves privadas. `visualFallback` es obligatorio según GLOSSARY; su tipo/configuración concreta permanece PENDIENTE. Navegación: el cliente realiza GET HTTPS al recurso; no existe aquí un endpoint de escritura/subida definido para el navegador.
 
 ### Frontend → Backend existente
 
@@ -179,7 +179,7 @@ La respuesta de éxito corresponde a la entidad `Contacto` descrita en la secci�
 ### Puntos de coherencia de ownership
 
 - Cloudflare Pages es dueño de entregar archivos estáticos; Frontend SSG/Cliente es dueño de generarlos.
-- Cloudflare R2 es dueño del almacenamiento/entrega de objetos; Frontend SSG/Cliente es dueño del registro `media.ts` y de solicitar los objetos.
+- ImageKit es dueño del almacenamiento y la entrega pública de objetos; Frontend SSG/Cliente es dueño del registro `media.ts` y de solicitar los objetos.
 - Backend existente es dueño de validar el DTO declarado y persistir el contacto; Frontend SSG/Cliente es dueño de la validación de formato cliente, del HoneypotField y de presentar estados de interacción.
 
 ## 5. Respuesta canónica y reglas de campos derivados
@@ -307,24 +307,23 @@ No existe base de datos propia del portafolio ni persistencia de envíos en fron
 
 **Por qué.** Los módulos tipados constituyen una fuente revisable en Git y alimentan la exportación estática bilingüe del ADR-0002. Mantener efímero el formulario satisface los requisitos de privacidad y evita introducir un CMS, una base de datos o almacenamiento adicional.
 
-## 11. Almacenamiento externo y convención de claves
+## 11. Entrega externa de medios y convención de rutas
 
-**Decisión.** Cloudflare R2 se utiliza como bucket público de solo lectura para capturas sanitizadas y PDFs de CV, según ADR-0003. Las rutas siguientes son convenciones recomendadas dentro de un único bucket; el nombre del bucket, dominio público y URLs finales siguen PENDIENTE en D-03/D-06 hasta la subida y verificación:
+**Decisión.** ImageKit es el proveedor único de almacenamiento y entrega HTTPS para imágenes sanitizadas, identidad visual, imágenes Open Graph y CV, según ADR-0005. Los activos se organizan en la carpeta `Portfolio/` de la Media Library. Las URLs concretas y los MIME verificados se registran en `docs/product/MEDIA_ASSETS.md`; no se guardan credenciales de ImageKit en el frontend ni en Git.
 
-| Uso                            | Clave recomendada                            | Content-Type                                   |
-| ------------------------------ | -------------------------------------------- | ---------------------------------------------- |
-| Captura sanitizada de proyecto | `projects/<slug>/<asset-id>.<version>.<ext>` | `image/webp` o `image/png`, según formato real |
-| CV español                     | `cv/es/<nombre>.<version>.pdf`               | `application/pdf`                              |
-| CV inglés                      | `cv/en/<nombre>.<version>.pdf`               | `application/pdf`                              |
-| Foto de perfil                 | `profile/<nombre>.<version>.<ext>`           | `image/webp` o `image/png`, según formato real |
-| Logo                           | `brand/<nombre>.<version>.<ext>`             | MIME según formato real                        |
-| Open Graph                     | `og/<locale>/<nombre>.<version>.<ext>`       | MIME según formato real                        |
+| Uso                            | Ruta recomendada en ImageKit                 | Content-Type esperado                        |
+| ------------------------------ | -------------------------------------------- | -------------------------------------------- |
+| Captura sanitizada de proyecto | `Portfolio/<asset-id>.<ext>`                 | MIME verificado de la URL final              |
+| CV ES y EN                     | `Portfolio/<nombre>.pdf`                      | `application/pdf`                             |
+| Foto de perfil                 | `Portfolio/<nombre>.<ext>`                    | MIME verificado de la URL final              |
+| Logo                           | `Portfolio/<nombre>.<ext>`                    | MIME verificado de la URL final              |
+| Open Graph                     | `Portfolio/<nombre>.<ext>`                    | MIME verificado de la URL final              |
 
-El peso máximo de imágenes permanece `PENDIENTE` en D-03; el umbral de SVG es `PENDIENTE` en D-07c (PRD incluye `SUPUESTO: <= 15 KB`). La puerta HU-10/build puede verificar el umbral SVG una vez definido; la decisión corresponde a D-07c. Las capturas deben estar sanitizadas antes de subirlas (D-03); los originales crudos permanecen fuera de Git y no se publican. `media.ts` registra las URLs públicas HTTPS verificadas, los textos `alt` ES/EN y la referencia al fallback visual. Las rutas con versión permiten cacheo de larga duración e inmutable (por ejemplo, `Cache-Control: public, max-age=31536000, immutable`) cuando el objeto es inmutable; una actualización se publica bajo una clave nueva y se cambia la URL en `media.ts`. No se recomienda cacheo inmutable para claves que se sobrescriban. Se exige servir el tipo MIME correcto; no se deduce el Content-Type de la extensión únicamente. Las URLs de producción y confirmación HTTP 200 son PENDIENTE hasta cerrar D-03/D-06. Se propone verificar `Content-Type` y `Cache-Control` junto con HTTP 200 como prueba E2E adicional; no forma parte de las 9 comprobaciones vigentes de HU-10. La verificación del umbral SVG corresponde a la puerta HU-10/build después de que D-07c lo defina.
+El peso máximo de imágenes permanece `PENDIENTE` en D-03; el umbral de SVG es `PENDIENTE` en D-07c (PRD incluye `SUPUESTO: <= 15 KB`). La puerta HU-10/build puede verificar el umbral SVG una vez definido; la decisión corresponde a D-07c. Las capturas deben estar sanitizadas antes de subirlas (D-03); los originales crudos permanecen fuera de Git y no se publican. `media.ts` registra las URLs públicas HTTPS verificadas, los textos `alt` ES/EN y la referencia al fallback visual. ImageKit puede optimizar o convertir el formato de salida; cuando un requisito fija MIME, se fuerza el formato en la URL y se vuelve a verificar la respuesta HTTP. No se asume que la extensión del nombre por sí sola determine el `Content-Type`. Las URLs de las capturas sanitizadas y el CV compartido ya responden HTTP 200 y están registradas en el inventario; logo y foto de perfil siguen pendientes de confirmación en D-03. D-06 se completó con el PDF público, texto seleccionable y uso confirmado en ambas rutas. La comprobación de `Content-Type` junto con HTTP 200 se conserva como verificación reproducible adicional; el umbral SVG sigue sujeto a D-07c.
 
-MediaPolicy exige cero binarios no exentos en Git y cero archivos en `frontend/public/imagenes/`; los medios se solicitan desde R2 y los únicos binarios exentos son los expresamente permitidos por dicha política. La Puerta de Aceptación HU-10 comprueba `git ls-files` y `git log` contra esta política.
+MediaPolicy exige cero binarios no exentos en Git y cero archivos en `frontend/public/imagenes/`; los medios se solicitan desde ImageKit y los únicos binarios exentos son los expresamente permitidos por dicha política. La Puerta de Aceptación HU-10 comprueba `git ls-files` y `git log` contra esta política.
 
-**Por qué.** R2 permite servir medios sin acoplarlos al build ni inflar el historial del monorepo. Las claves versionadas hacen coherente el cacheo de objetos públicos con la actualización controlada de sus referencias.
+**Por qué.** ImageKit permite cargar activos desde su Media Library y servirlos mediante URLs HTTPS con optimización bajo demanda sin acoplarlos al build ni inflar el historial del monorepo. Las URLs se mantienen centralizadas en `media.ts`; cualquier cambio de archivo, transformación o URL debe volver a pasar la comprobación de disponibilidad y MIME.
 
 ## 12. Manejo de errores, timeouts, reintentos y fallbacks
 
@@ -335,8 +334,8 @@ MediaPolicy exige cero binarios no exentos en Git y cero archivos en `frontend/p
 | Envío sin JavaScript o `HYDRATION_FAILED`        | Prueba del HTML inicial confirma `method="post"`, ausencia de `action` y botón submit deshabilitado; `<noscript>` expone `contact.noscript`.          | Sin envío con JavaScript deshabilitado; cualquier submit habilitado usa método POST y nunca añade datos a la URL.              | Se conserva la página y los datos no se filtran por URL.                                                                                                                                        |
 | Cold start o caída de `backend/`                 | El POST no completa antes del timeout, falla la red o devuelve HTTP de error.                                                                         | Timeout cliente `>= 35 s` (`SUPUESTO` del PRD). Sin reintento automático; el usuario puede reintentar.                         | Termina el estado de carga, muestra error localizado y conserva la página y el HTML estático. La caída del Backend no afecta perfil, catálogo ni CV enlazados.                                  |
 | Rechazo CORS                                     | El navegador impide que JavaScript lea la respuesta; se observa como fallo de red en cliente. No siempre permite distinguirlo de otros fallos de red. | Se aplica el timeout del POST; no hay reintento automático. Reintento manual tras corregir el origen en backend/configuración. | Estado `ERROR_NETWORK` y mensaje localizado genérico; el contenido y los enlaces estáticos permanecen disponibles.                                                                              |
-| Error HTTP/red al cargar imagen R2 (MediaAsset)  | Evento `error` del recurso o fallo HTTP observado por navegador.                                                                                      | No se bloquea el renderizado esperando la imagen. No se define reintento de descarga en aplicación.                            | El HTML conserva texto y `alt`; con cliente hidratado se activa el `visualFallback` configurado. Si no hay fallback disponible, el contenido textual permanece legible y no se oculta la ficha. |
-| PDF de CV R2 no disponible (404/403)             | Comprobación HTTP en HU-10 puntos 2/5, antes de merge; no es verificación runtime.                                                                    | Sin fallback runtime ni reintento definido; riesgo de indisponibilidad en nube aceptado.                                       | El enlace es estático y puede quedar roto hasta la siguiente comprobación/corrección. HU-10 verifica HTTP 200 antes de merge.                                                                   |
+| Error HTTP/red al cargar imagen de ImageKit (MediaAsset) | Evento `error` del recurso o fallo HTTP observado por navegador.                                                                               | No se bloquea el renderizado esperando la imagen. No se define reintento de descarga en aplicación.                            | El HTML conserva texto y `alt`; con cliente hidratado se activa el `visualFallback` configurado. Si no hay fallback disponible, el contenido textual permanece legible y no se oculta la ficha. |
+| PDF de CV ImageKit no disponible (404/403)        | Comprobación HTTP en HU-10 puntos 2/5, antes de merge; no es verificación runtime.                                                                    | Sin fallback runtime ni reintento definido; riesgo de indisponibilidad en nube aceptado.                                       | El enlace es estático y puede quedar roto hasta la siguiente comprobación/corrección. HU-10 verifica HTTP 200 antes de merge.                                                                   |
 | `HYDRATION_FAILED`                               | Excepción de hidratación JavaScript tras recibir HTML estático.                                                                                       | Sin reintento automático de hidratación.                                                                                       | DOM inicial íntegro y visible; filtros/modal y otras mejoras cliente pueden no estar disponibles. El recorrido estático con detalle en línea sigue legible.                                     |
 | Excepción del fondo reactivo → `STATIC_FALLBACK` | Error al inicializar o actualizar el efecto.                                                                                                          | Sin reintento; se detiene el efecto y se limpian sus listeners.                                                                | Fondo estático, sin elemento animado ni listeners de puntero activos; contenido y navegación permanecen íntegros.                                                                               |
 
@@ -350,7 +349,7 @@ MediaPolicy exige cero binarios no exentos en Git y cero archivos en `frontend/p
 | --------------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Frontend SSG/Cliente              | Next.js, TypeScript, React; `output: 'export'`     | Rutas `/` (ES) y `/en` (EN); HTML prerenderizado con contenido y fichas en línea; módulos tipados de contenido; navegación entre idiomas; mejora progresiva; formulario conectado al Backend; selección de CV; manejo de fallos. | Sin servidor SSR dinámico ni APIs de servidor Next.js; sin CMS ni persistencia propia. HTML y fichas deben seguir legibles sin JavaScript. |
 | Backend existente                 | Servicio y herramientas ya presentes en `backend/` | Recibir el DTO de contacto, validarlo y persistirlo según el contrato existente; configuración CORS para origen desplegado según decisión D-05.                                                                                  | No modificar lógica de negocio ni añadir rate-limiting para el MVP; no servir el frontend ni medios.                                       |
-| Cloudflare R2                     | Bucket público con acceso HTTPS de lectura         | Capturas sanitizadas y PDFs ES/EN con Content-Type correcto; URLs verificadas referenciadas desde `media.ts`.                                                                                                                    | No subir originales crudos ni binarios no exentos a Git; URLs finales PENDIENTE en D-03/D-06.                                              |
+| ImageKit                          | Media Library y CDN con URLs públicas HTTPS        | Capturas sanitizadas y PDF compartido ES/EN con Content-Type correcto; URLs verificadas en `MEDIA_ASSETS.md` y posteriormente en `media.ts`.                                                                                     | No subir originales crudos ni binarios no exentos a Git; logo y foto de perfil pendientes en D-03.                                        |
 | Cloudflare Pages                  | Hosting estático                                   | Publicar la exportación de Next.js y el preview del Walking Skeleton.                                                                                                                                                            | No ejecutar lógica de servidor Next.js ni asumir rol de Backend.                                                                           |
 | AcceptanceGate (ejecución manual) | Checklist HU-10                                    | Alberto Zompantzi ejecuta las 9 comprobaciones antes de cada merge a `main`, según PRD/ROADMAP.                                                                                                                                  | Monorepo con `frontend/`, `backend/`, `docs/`; excluir `Información faltante/` y cumplir MediaPolicy.                                      |
 
@@ -402,16 +401,16 @@ Estos son tipos internos de presentación, no enums de dominio. `code` es uno de
 | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Rendimiento: Lighthouse ≥ 90/100, FCP ≤ 1.8 s, CLS ≤ 0.05 (`SUPUESTO`); cada SVG ≤ umbral D-07c (`PENDIENTE`; `SUPUESTO <= 15 KB) | Frontend / Pages                            | Lighthouse CLI en `/` y `/en` bajo perfil móvil 4G; inspección de propiedades animadas CSS/JS y tamaño SVG tras build.                                 |
 | Accesibilidad: Lighthouse ≥ 95/100 (`SUPUESTO`) y 0 violaciones críticas/serias                                     | Frontend                                    | Lighthouse, axe DevTools, recorrido de teclado y emulación `prefers-reduced-motion: reduce`.                                                           |
-| Observabilidad: 100% URLs de medios HTTP 200 y 0 errores no capturados en flujos nominales                          | Frontend / R2                               | Verificación HTTP 200 de `media.ts` en HU-10 punto 5; monitoreo de consola en pruebas E2E.                                                             |
+| Observabilidad: 100% URLs de medios HTTP 200 y 0 errores no capturados en flujos nominales                          | Frontend / ImageKit                         | Verificación HTTP 200 y MIME de `media.ts` en HU-10 punto 5; monitoreo de consola en pruebas E2E.                                                      |
 | Mantenibilidad: `tsc --noEmit`, paridad ES/EN, cero `PENDIENTE` en DOM y aprobación de las 9 comprobaciones HU-10       | Frontend / AcceptanceGate                   | `tsc --noEmit`, linter, búsqueda `PENDIENTE` en build y checklist HU-10.                                                                               |
 | Seguridad: secretos y artefactos                                                                                    | Repositorio                                 | HU-10 punto 3 incluye escaneo `gitleaks` antes de cada merge a `main`. |
 | Rendimiento (tolerancia de red)                                                                                     | Frontend / Backend                          | Timeout configurado `>= 35 s` (`SUPUESTO`); prueba automatizada con respuesta simulada de 30 s y prueba manual tras inactividad del Backend.           |
-| Disponibilidad                                                                                                      | Frontend SSG/Cliente / Pages / R2 / Backend | `curl -s`, navegación sin JavaScript, bloqueo del dominio de medios y fallo del script; contenido crítico legible en HTML estático con HTTP 200.       |
+| Disponibilidad                                                                                                      | Frontend SSG/Cliente / Pages / ImageKit / Backend | `curl -s`, navegación sin JavaScript, bloqueo del dominio de medios y fallo del script; contenido crítico legible en HTML estático con HTTP 200.   |
 | Privacidad                                                                                                          | Frontend                                    | Inspección DevTools de cookies/almacenamiento, revisión estática de `console.*` y nota de privacidad visible en `/` y `/en`.                           |
-| Coste operativo                                                                                                     | Cloudflare Pages / R2 / Backend             | Coste objetivo `$0 USD/mes` (`SUPUESTO` en PRD/ADR); revisar planes y cuotas antes de producción.                                                      |
+| Coste operativo                                                                                                     | Cloudflare Pages / ImageKit / Backend        | Coste objetivo `$0 USD/mes` (`SUPUESTO` en PRD/ADR); revisar cuotas de almacenamiento y transferencia de ImageKit antes de producción.                   |
 | Seguridad CORS y privacidad                                                                                         | Frontend / Backend                          | Prueba unitaria/E2E de honeypot y verificación real de `Origin`/CORS en HU-10 punto 8; `FRONTEND_ORIGIN` según ADR-0004; verificar origen permitido y rechazo de orígenes no listados en HU-10 punto 8.                                   |
 
-**Decisión.** La arquitectura MVP incluye un monorepo con frontend estático bilingüe exportado por Next.js y alojado en Cloudflare Pages, contenido tipado y versionado, catálogo de medios R2, CV ES/EN, mejora progresiva de la interfaz, formulario cliente conectado al Backend existente y verificación mediante HU-10.
+**Decisión.** La arquitectura MVP incluye un monorepo con frontend estático bilingüe exportado por Next.js y alojado en Cloudflare Pages, contenido tipado y versionado, catálogo de medios y CV en ImageKit, mejora progresiva de la interfaz, formulario cliente conectado al Backend existente y verificación mediante HU-10.
 
 Quedan explícitamente excluidos (Won't):
 
@@ -426,14 +425,14 @@ Quedan explícitamente excluidos (Won't):
 
 ## Solicitudes de cambio a documentos congelados
 
-No hay solicitudes documentales pendientes derivadas de ADR-0004 ni de la alineación de HU-10. Permanecen únicamente los pendientes operativos listados abajo.
+ADR-0005 sustituye las referencias a Cloudflare R2 para medios/CV sin cambiar los contratos v1.0 ni OpenAPI. Permanecen pendientes únicamente los activos de identidad y demás asuntos listados abajo.
 
 ## Preguntas abiertas y responsables
 
 | Pendiente | Referencia / responsable |
 | --- | --- |
 | Dominio final Pages y URL canónica | D-01 / Alberto Zompantzi |
-| Aprovisionamiento y subida de activos; URLs R2 y verificación de disponibilidad de CV | D-03/D-06 / Alberto Zompantzi |
+| Confirmar y publicar el logo y la foto de perfil en ImageKit | D-03 / Alberto Zompantzi |
 | Confirmación de visibilidad de repositorios y textos | D-04a/D-04b / Alberto Zompantzi |
 | Contenidos y umbrales pendientes | D-07a–D-07d / Alberto Zompantzi |
 | Aplicar el cambio de configuración CORS a `FRONTEND_ORIGIN` en `backend/` durante Bloque A y configurar el origen de producción antes de probar | ADR-0004 / Alberto Zompantzi |

@@ -1,8 +1,10 @@
 # ADR-0003: Propuesta de Almacenamiento Externo en Nube para Medios y CVs (`D-03` y `D-06`)
 
-- **Estado:** Aceptado (proveedor aprobado; aprovisionamiento de bucket y validación de URLs para D-03 y D-06 permanecen PENDIENTE)
+- **Estado:** Supersedido por ADR-0005 (2026-11-23)
 - **Fecha:** 2026-11-19
 - **Decidido por:** Alberto Zompantzi
+
+> Esta decisión se conserva como historial. La decisión operativa vigente para todos los medios y CV es ADR-0005; Cloudflare R2 ya no se utiliza en el proyecto.
 
 ## Contexto
 

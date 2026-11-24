@@ -9,7 +9,7 @@
 
 El portafolio no introduce una base de datos nueva ni persistencia en cliente. El contenido canónico vive en módulos TypeScript tipados y versionados en `frontend/`; el build deriva de ellos las rutas estáticas `/` (`Locale` `es`) y `/en` (`Locale` `en`). El estado del formulario y sus valores existen solo en memoria durante la interacción.
 
-Los contactos se persisten únicamente en la tabla existente `contactos` del `backend/`. El frontend envía por `POST /api/v1/contactos` solo `{ nombre, email, mensaje }`, conforme a ADR-0004 y `ContactoRequest`. `HoneypotField` y `Locale` son solo cliente; no se guardan en navegador ni se envían. Cloudflare R2 aloja los medios y CV referenciados por sus URL, no es una base de datos del catálogo.
+Los contactos se persisten únicamente en la tabla existente `contactos` del `backend/`. El frontend envía por `POST /api/v1/contactos` solo `{ nombre, email, mensaje }`, conforme a ADR-0004 y `ContactoRequest`. `HoneypotField` y `Locale` son solo cliente; no se guardan en navegador ni se envían. ImageKit entrega los medios y CV referenciados por sus URL públicas; no es una base de datos del catálogo.
 
 ## 2. Esquemas TypeScript canónicos de `frontend/`
 
@@ -47,7 +47,7 @@ export interface MediaCatalog {
 }
 ```
 
-`MediaAsset` sigue los campos de `GLOSSARY.md`. `visualFallback` es obligatorio; su tipo y detalle de implementación permanecen **PENDIENTE** según `GLOSSARY.md` y `ARCHITECTURE.md` §4. `CvAsset` representa el registro conceptual por idioma y el texto localizado del enlace; la forma concreta del registro continúa **PENDIENTE**. Las URLs finales de medios y CV desde Cloudflare R2 son **PENDIENTE** en D-03/D-06. Las URL publicadas deberán ser HTTPS y verificadas antes de producción.
+`MediaAsset` sigue los campos de `GLOSSARY.md`. `visualFallback` es obligatorio; su tipo y detalle de implementación permanecen **PENDIENTE** según `GLOSSARY.md` y `ARCHITECTURE.md` §4. `CvAsset` representa el registro conceptual por idioma y el texto localizado del enlace; la forma concreta del registro continúa **PENDIENTE**. Las URLs finales publicadas en ImageKit se inventarían en `docs/product/MEDIA_ASSETS.md`; cada URL debe ser HTTPS y verificarse antes de producción. La misma URL del CV puede usarse en ambos locales cuando el propietario lo confirma.
 
 ### Proyectos — `frontend/src/data/projects.ts`
 
