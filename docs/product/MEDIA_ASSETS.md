@@ -20,9 +20,11 @@ ImageKit entregó la URL original de MediFlow como `image/jpeg` por optimizació
 
 El uso del mismo archivo para ambas rutas fue confirmado por Alberto. No se deduce un CV inglés distinto ni se publica una segunda URL no confirmada.
 
-## Pendientes de D-03
+## Identidad visual (D-03)
 
-| Activo | Estado |
-| --- | --- |
-| Logo | Pendiente de confirmar archivo/ruta y URL pública ImageKit |
-| Foto de perfil | Pendiente de confirmar disponibilidad y URL pública ImageKit |
+| Activo | URL pública verificada | Content-Type | Respuesta |
+| --- | --- | --- | --- |
+| Logo | [WebP en ImageKit](https://ik.imagekit.io/seefqe4nn/Portfolio/Logo.webp?tr=f-webp) | `image/webp` | HTTP 200 |
+| Foto de perfil | [JPEG en ImageKit](https://ik.imagekit.io/seefqe4nn/Portfolio/profilephoto.jpeg) | `image/jpeg` | HTTP 200 |
+
+La URL original del logo respondió como `image/jpeg` pese a la extensión `.webp`; la URL documentada fuerza el formato `f-webp` y se verificó como `image/webp`. Repetir la comprobación de estado y MIME si cambia la URL o su configuración.

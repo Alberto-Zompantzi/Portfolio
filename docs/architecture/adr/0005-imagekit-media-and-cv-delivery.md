@@ -25,7 +25,7 @@ El inventario de URLs verificadas está en [`docs/product/MEDIA_ASSETS.md`](../.
 - **Límites:** el plan gratuito de ImageKit publica actualmente 3 GB de almacenamiento y 20 GB de transferencia al mes; al alcanzar el límite mensual gratuito, la entrega se detiene. Revisar los límites vigentes y el consumo antes de producción. [Planes de ImageKit](https://imagekit.io/plans/)
 - **Integridad de contenido:** transformaciones o ajustes de negociación de formato pueden modificar el MIME entregado. Las URLs que requieran MIME estable deben forzar el formato, y la respuesta pública debe verificarse con HTTP 200 y `Content-Type` esperado. [Optimización de imágenes de ImageKit](https://imagekit.io/docs/image-optimization)
 - **Privacidad:** solo se publican archivos visuales aprobados y sanitizados y el CV confirmado por Alberto. No se suben los originales crudos ni claves privadas.
-- **D-03:** proveedor seleccionado y capturas sanitizadas publicadas; D-03 permanece pendiente hasta confirmar y registrar el logo y la nueva foto de perfil solicitados por ROADMAP.
+- **D-03:** proveedor seleccionado y todos los activos requeridos (capturas sanitizadas, logo y foto de perfil) publicados y registrados con URLs HTTPS y MIME verificados en `docs/product/MEDIA_ASSETS.md`.
 - **D-06:** ubicación ImageKit y texto seleccionable del CV verificados; el mismo documento se asigna a ES y EN por confirmación de Alberto.
 
 ## Verificación reproducible
