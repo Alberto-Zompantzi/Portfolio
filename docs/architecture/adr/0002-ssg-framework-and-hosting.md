@@ -1,12 +1,12 @@
 # ADR-0002: Propuesta de Framework SSG (Next.js Static Export) y Hosting en Cloudflare Pages (`D-01`)
 
-- **Estado:** Aceptado (stack SSG y hosting aprobados; dominio final de D-01 permanece PENDIENTE)
+- **Estado:** Aceptado (stack SSG, hosting y dominio de producción confirmados)
 - **Fecha:** 2026-11-19
 - **Decidido por:** Alberto Zompantzi
 
 ## Contexto
 
-El desbloqueo `D-01` (`ROADMAP.md`, `PENDIENTE`) abarca la selección de la herramienta SSG, la plataforma de hosting estático y el dominio final de producción. El sitio debe generar páginas HTML estáticas prerenderizadas (`SSR_STATIC`) para `/` (`es`) y `/en` (`en`) que sean 100% legibles sin JavaScript para sistemas ATS y reclutadores (`HU-02`, `HU-03`, `HU-04`, `HU-09`), aplicando mejora progresiva (`HYDRATED`) en React y TypeScript para filtros por Stack/Rol, modal de detalle, pausa de marquesina y fondo reactivo (`HU-05` a `HU-08`), con costo operativo recurrente de `$0 USD/mes` (`SUPUESTO`).
+El desbloqueo `D-01` (`ROADMAP.md`, ahora cerrado) abarcó la selección de la herramienta SSG, la plataforma de hosting estático y el dominio final de producción. El sitio debe generar páginas HTML estáticas prerenderizadas (`SSR_STATIC`) para `/` (`es`) y `/en` (`en`) que sean 100% legibles sin JavaScript para sistemas ATS y reclutadores (`HU-02`, `HU-03`, `HU-04`, `HU-09`), aplicando mejora progresiva (`HYDRATED`) en React y TypeScript para filtros por Stack/Rol, modal de detalle, pausa de marquesina y fondo reactivo (`HU-05` a `HU-08`), con costo operativo recurrente de `$0 USD/mes` (`SUPUESTO`).
 
 ## Opciones evaluadas
 
@@ -18,7 +18,7 @@ El desbloqueo `D-01` (`ROADMAP.md`, `PENDIENTE`) abarca la selección de la herr
 
 ## Decisión
 
-Seleccionar **Next.js configurado con exportación estática (output: 'export')** en TypeScript como herramienta SSG y **Cloudflare Pages** ($0 USD/mes, SUPUESTO) como plataforma de hosting estático. Dentro de D-01, queda únicamente PENDIENTE confirmar el **dominio final de producción** (subdominio \*.pages.dev o dominio personalizado).
+Seleccionar **Next.js configurado con exportación estática (output: 'export')** en TypeScript como herramienta SSG y **Cloudflare Pages** ($0 USD/mes, SUPUESTO) como plataforma de hosting estático. El propietario confirma como dominio final de producción y origen canónico `https://albertozompantzi-portfolio.pages.dev`. Las rutas `/` y `/en` se publican como exportaciones estáticas.
 
 ## Consecuencias
 

@@ -28,7 +28,7 @@
 
 ## 2. Propuesta de Entidades Conceptuales (Sujeta a `ARCHITECTURE.md` en Paso 8)
 
-> **Nota de alcance:** Ninguna estructura interna de esta sección fija contratos cerrados antes de resolver los desbloqueos `D-01` a `D-07d`. Los campos marcados como `PENDIENTE` se concretarán en el Paso 8.
+> **Nota de alcance:** Ninguna estructura interna de esta sección fija contratos cerrados antes de resolver los desbloqueos `D-01` a `D-07d`; D-01 está cerrado según `ROADMAP.md` y ADR-0002. Los campos marcados como `PENDIENTE` se concretarán en el Paso 8.
 
 ### `Project` (propuesta conceptual para `frontend/src/data/projects.ts`)
 
