@@ -232,7 +232,7 @@
 **para** identificar las tecnologías tanto visualmente como mediante lectura automatizada.
 
 - **Escenario 7.1 (Camino feliz — Iconos a color + texto plano indexable):**
-  - **Dado** que se seleccionó la fuente de iconos con licencia open-source verificada en `D-07c`,
+  - **Dado** que se seleccionó Devicon `v2.16.0` (MIT) para iconos de marcas de tecnologías conforme a `D-07c`,
   - **Cuando** se renderiza la barra de tecnologías en `/` o `/en`,
   - **Entonces** cada tecnología muestra su icono de marca a color acompañado obligatoriamente de su nombre en texto plano indexable en el HTML inicial.
 - **Escenario 7.2 (Caso límite — Pausa por interacción y respeto a `prefers-reduced-motion`):**
@@ -241,7 +241,7 @@
   - **Entonces** la animación se pausa para permitir la lectura,
   - **Y** cuando el sistema tiene activo `prefers-reduced-motion: reduce`, el marquee respeta dicha preferencia desactivando el desplazamiento continuo.
 - **Escenario 7.3 (Caso de error — Archivo SVG local que excede el umbral permitido):**
-  - **Dado** que se incorpora un icono SVG local para el marquee cuyo tamaño supera el umbral definido en `D-07c` (`PENDIENTE`),
+  - **Dado** que se incorpora un icono SVG local para el marquee cuyo tamaño supera el máximo aprobado de `15 KB` por archivo en `D-07c`,
   - **Cuando** se ejecuta la verificación de puerta de aceptación (Fila 8),
   - **Entonces** la verificación falla y bloquea el merge a `main` hasta reducir el archivo o alojarlo externamente.
 
@@ -313,7 +313,7 @@
     6. Enlaces visibles en la UI estrictamente conformes a la matriz del Brief (sin enlaces a backend/Render y sin enlaces externos en n8n).
     7. Cero ocurrencias del texto `PENDIENTE` en la UI.
     8. Envío real del formulario de contacto y configuración CORS verificados contra el dominio final de producción.
-    9. Tras integrar el Bloque B, presencia de texto plano indexable junto a cada icono del marquee y verificación de que cada SVG pesa ≤ umbral D-07c (PENDIENTE; SUPUESTO <= 15 KB).
+    9. Tras integrar el Bloque B, presencia de texto plano indexable junto a cada icono del marquee y verificación de que cada SVG local pesa `<= 15 KB` (D-07c aprobado).
 - **Escenario 10.2 (Caso de error — Incumplimiento de cualquier criterio de puerta):**
   - **Dado** que cualquiera de los puntos de verificación anteriores falla durante la revisión previa al merge,
   - **Cuando** se evalúa la rama candidata,
@@ -334,7 +334,7 @@
 
 | Categoría                               | Requisito medible                                                                                                                                                                                                                                                                                                                                                                                                                                    | Cómo se verifica                                                                                                                                               | Prioridad |
 | :-------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------- |
-| **Rendimiento**                         | Puntuación de rendimiento en Lighthouse $\ge 90/100$, First Contentful Paint (FCP) $\le 1.8\text{ s}$ y Cumulative Layout Shift (CLS) $\le 0.05$ (`SUPUESTO`) en `/` y `/en` bajo perfil móvil 4G; animaciones del fondo reactivo limitadas exclusivamente a propiedades compuestas por GPU (`transform`, `opacity`) y peso de cada SVG en la marquesina $\le$ umbral definido en `D-07c` (`PENDIENTE`; `SUPUESTO`: $\le 15\text{ KB}$ por archivo). | Auditoría con Lighthouse CLI en `/` y `/en`, inspección de estilos CSS/JS para propiedades animadas y comprobación de tamaño de archivos SVG tras el build.    | Must      |
+| **Rendimiento**                         | Puntuación de rendimiento en Lighthouse $\ge 90/100$, First Contentful Paint (FCP) $\le 1.8\text{ s}$ y Cumulative Layout Shift (CLS) $\le 0.05$ (`SUPUESTO`) en `/` y `/en` bajo perfil móvil 4G; animaciones del fondo reactivo limitadas exclusivamente a propiedades compuestas por GPU (`transform`, `opacity`) y peso de cada SVG en la marquesina $\le 15\text{ KB}$ (D-07c aprobado). Los umbrales FPS/LCP y dispositivo de referencia del fondo permanecen pendientes en D-07d. | Auditoría con Lighthouse CLI en `/` y `/en`, inspección de estilos CSS/JS para propiedades animadas y comprobación de tamaño de archivos SVG tras el build.    | Must      |
 | **Rendimiento (tolerancia de red)**     | Tiempo máximo de espera (`timeout`) configurado en el cliente HTTP del formulario $\ge 35\text{ s}$ (`SUPUESTO`) para absorber el arranque en frío (_cold start_) del `backend/` existente (`D-05`), manteniendo visible el estado de carga localizado sin bloquear la interfaz.                                                                                                                                                                     | Prueba automatizada con respuesta simulada de $30\text{ s}$ y prueba manual contra la instancia del `backend/` tras periodo de inactividad.                    | Must      |
 | **Disponibilidad**                      | $100\%$ del contenido crítico (perfil, enlace `<a href>` al CV ES en `/`, catálogo completo con detalle en línea sin ocultamiento y formulario) entregado en el HTML estático inicial (`SSR_STATIC`) con HTTP `200`, conservando $100\%$ de legibilidad ante indisponibilidad de la nube de medios (`D-03`), caída del `backend/` (`D-05`) o error de hidratación (`HYDRATION_FAILED`). `/en` no presenta enlace ni acción de descarga de CV. | Inspección con `curl -s` y navegación con JavaScript deshabilitado, bloqueo de dominio de medios en DevTools y simulación de fallo en script cliente. | Must |
 | **Seguridad**                           | $0$ secretos, tokens, URLs internas no autorizadas ni binarios no exentos en el árbol activo o historial de Git (`git ls-files` y `git log`), y $0$ referencias en código fuente a `frontend/public/imagenes/` o `información faltante/`.                                                                                                                                                                                                            | Ejecución de `git ls-files`, revisión de `git log`, búsqueda textual en el repositorio y escaneo con `gitleaks` previo a cada merge a `main`.                  | Must      |

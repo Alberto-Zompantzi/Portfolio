@@ -17,8 +17,24 @@ Los desbloqueos se cierran de forma incremental según la dependencia indicada e
 | **D-06**  | **Hosting y verificación del CV en español:** ImageKit aloja el PDF público verificado en `docs/product/MEDIA_ASSETS.md`; contiene texto seleccionable para ATS. Solo `/` ofrece la descarga; `/en` no muestra opción de CV. | `COMPLETADO` | Bloquea Fila 7, Fila 8 y Paso 2; condiciona Paso 1 (criterio PDF) |
 | **D-07a** | **Sistema de diseño (`DESIGN.md`):** Definir paleta, tipografía, espaciado y reglas visuales (umbral de contraste opcional si se adopta).                                                                                                                                                                                                       | `PENDIENTE` | Bloquea Filas 9, 12, 13, 14 y Bloque B                                                  |
 | **D-07b** | **Taxonomía de filtros:** Definir categorías exactas de Stack tecnológico y Rol desempeñado.                                                                                                                                                                                                                                                    | `PENDIENTE` | Bloquea Fila 10                                                                         |
-| **D-07c** | **Fuente de iconos y umbral SVG:** Elegir librería de iconos de marca (licencia verificada) y fijar umbral máximo de tamaño para SVGs locales.                                                                                                                                                                                                  | `PENDIENTE` | Bloquea Fila 12 y Fila 8 (re-ejecución tras Bloque B); condiciona Paso 1 (criterio SVG) |
+| **D-07c** | **Fuente de iconos y umbral SVG:** Devicon v2.16.0 (MIT) para marcas de tecnologías; máximo `15 KB` por SVG local, aprobado por el propietario.                                                                                                                                                                                                       | `COMPLETADO` | Desbloquea Fila 12 y Fila 8 (re-ejecución tras Bloque B); cierra el criterio SVG del Paso 1 |
 | **D-07d** | **Umbral de rendimiento y dispositivo:** Definir umbral FPS/LCP y perfil de dispositivo de referencia.                                                                                                                                                                                                                                          | `PENDIENTE` | Bloquea Fila 13                                                                         |
+
+### Registro explícito de decisiones D-07b–D-07d
+
+Las decisiones de esta tabla registran los valores aprobados por el propietario y los asuntos que aún requieren evidencia o definición. Solo los valores explícitamente acordados pueden usarse como configuración o criterio de aceptación.
+
+| Decisión | Valor acordado | Estado y límite comprobable |
+| :-- | :-- | :-- |
+| D-07b — Categorías de Stack tecnológico | `PENDIENTE` | No hay catálogo de proyectos en `frontend/src` del que derivar la lista exacta; no inventar categorías. Cerrar mediante la unión normalizada de tecnologías realmente usadas en proyectos verificados. |
+| D-07b — Categorías de Rol desempeñado | `PENDIENTE` | No hay catálogo de proyectos en `frontend/src` del que derivar la lista exacta; no inventar categorías. Cerrar con roles comprobables en las fichas verificadas y sin categorías vacías. |
+| D-07c — Fuente de iconos de marca y licencia | Devicon `v2.16.0` | Aprobado por el propietario para marcas de tecnologías; el proyecto declara licencia MIT. Los nombres y logotipos de marcas siguen sujetos a las políticas de sus titulares. La referencia Paula Reixach también usa SVGs propios en línea para iconos de interfaz; no son parte de esta selección de marcas. |
+| D-07c — Tamaño máximo por SVG local | `<= 15 KB` por archivo | Aprobado por el propietario a partir del valor que el PRD mantenía como `SUPUESTO`; desde esta decisión es el límite de aceptación para SVG locales del marquee. |
+| D-07d — Umbral de FPS | `PENDIENTE` | No se ha acordado un valor numérico ni el método de medición para el fondo reactivo. |
+| D-07d — Umbral de LCP | `PENDIENTE` | No se ha acordado un valor numérico específico para la evaluación relacionada con el fondo reactivo. Los otros valores de rendimiento marcados `SUPUESTO` en el PRD no cierran esta decisión. |
+| D-07d — Dispositivo/perfil de referencia | `PENDIENTE` | No se ha acordado modelo o perfil de dispositivo, navegador, viewport ni condiciones de ejecución para comprobar FPS/LCP. |
+
+El único límite de comportamiento confirmado que aplica mientras D-07d siga abierto es el ya establecido por el contrato: animar únicamente `transform` y `opacity`, mantener el fondo estático en SSR y desactivarlo con `prefers-reduced-motion: reduce`, `(pointer: coarse)` o ante error, conforme a `DESIGN.md` y `ARCHITECTURE.md` v1.0. Estas reglas no sustituyen los umbrales pendientes.
 
 ---
 

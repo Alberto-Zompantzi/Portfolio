@@ -106,7 +106,7 @@ Las siguientes invariantes deben poder comprobarse antes del deploy:
 2. **Automatización n8n:** si `repoUrl` y `liveUrl` son `null`, `locales.es.architecture` y `locales.en.architecture` deben ser no nulas y no vacías. Por ser una condición entre campos, se verifica mediante validación de datos/build además del tipo.
 3. **Sin marcadores ni destinos de backend:** ningún campo de texto o URL en los datos compilados contiene la subcadena `PENDIENTE` ni apunta a dominios de `backend/`/Render. Esta regla aplica a los datos publicados; los estados pendientes descritos en este documento son metadatos documentales.
 4. **Referencias de medios:** toda `Project.mediaId` no nula debe existir como `id` único en el registro `assets` de `media.ts`.
-5. **Peso de SVG de marquesina:** cada SVG debe respetar el umbral D-07c, actualmente **PENDIENTE**. Para preparar la validación se conserva el **SUPUESTO** de `PRD.md`: `<= 15 KB` por archivo. El supuesto no cierra D-07c.
+5. **Peso de SVG de marquesina:** cada SVG local debe pesar `<= 15 KB`, umbral aprobado para D-07c y verificable en build/AcceptanceGate. La fuente de iconos de marca aprobada es Devicon `v2.16.0`; `stackTags` y `roleTags` continúan sujetos a la taxonomía D-07b pendiente.
 
 `tsc --noEmit` cubre las incompatibilidades estructurales de tipos, pero las invariantes dependientes de valores (arquitectura requerida, referencias, contenido prohibido y peso de archivos) necesitan validaciones de datos o artefactos en build/AcceptanceGate según corresponda.
 
