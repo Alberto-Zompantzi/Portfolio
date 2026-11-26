@@ -77,7 +77,7 @@ export interface Project {
 export type ProjectCatalog = Project[];
 ```
 
-Los nombres y tipos reflejan `GLOSSARY.md`. `visibilityRule` describe una regla de presentación derivada de `repoUrl`, `liveUrl` y las confirmaciones D-04a/D-04b; una URL `null` suprime su enlace correspondiente y la regla no puede habilitar una URL ausente. La visibilidad confirmada sigue sujeta a D-04a/D-04b. `stackTags` y `roleTags` usan taxonomías **PENDIENTE** en D-07b. Cuando `repoUrl === null` y `liveUrl === null` (caso Automatización n8n), `architecture` debe contener una cadena no vacía en `es` y `en`.
+Los nombres y tipos reflejan `GLOSSARY.md`. `visibilityRule` describe una regla de presentación derivada de `repoUrl`, `liveUrl` y las confirmaciones D-04a/D-04b; una URL `null` suprime su enlace correspondiente y la regla no puede habilitar una URL ausente. La visibilidad confirmada sigue sujeta a D-04a/D-04b. `stackTags` usa las claves D-07b `frontend_ui`, `backend_api`, `ai_rag`, `data_storage`, `cloud_devops` y `automation_integrations`; `roleTags` usa `frontend_development`, `backend_development`, `full_stack_development`, `ai_rag_engineering`, `qa_testing`, `project_leadership_management`, `ui_ux_seo`, `cloud_devops_deployment` y `workflow_automation_integration`. Los nombres concretos de tecnologías permanecen en la descripción de Stack. Cuando `repoUrl === null` y `liveUrl === null` (caso Automatización n8n), `architecture` debe contener una cadena no vacía en `es` y `en`.
 
 ### Diccionarios bilingües — `frontend/src/data/messages.ts`
 
@@ -106,7 +106,7 @@ Las siguientes invariantes deben poder comprobarse antes del deploy:
 2. **Automatización n8n:** si `repoUrl` y `liveUrl` son `null`, `locales.es.architecture` y `locales.en.architecture` deben ser no nulas y no vacías. Por ser una condición entre campos, se verifica mediante validación de datos/build además del tipo.
 3. **Sin marcadores ni destinos de backend:** ningún campo de texto o URL en los datos compilados contiene la subcadena `PENDIENTE` ni apunta a dominios de `backend/`/Render. Esta regla aplica a los datos publicados; los estados pendientes descritos en este documento son metadatos documentales.
 4. **Referencias de medios:** toda `Project.mediaId` no nula debe existir como `id` único en el registro `assets` de `media.ts`.
-5. **Peso de SVG de marquesina:** cada SVG debe respetar el umbral D-07c, actualmente **PENDIENTE**. Para preparar la validación se conserva el **SUPUESTO** de `PRD.md`: `<= 15 KB` por archivo. El supuesto no cierra D-07c.
+5. **Peso de SVG de marquesina:** cada SVG local debe pesar `<= 15 KB`, umbral aprobado para D-07c y verificable en build/AcceptanceGate. La fuente de iconos de marca aprobada es Devicon `v2.16.0`; `stackTags` y `roleTags` usan las taxonomías D-07b documentadas en el esquema de proyectos.
 
 `tsc --noEmit` cubre las incompatibilidades estructurales de tipos, pero las invariantes dependientes de valores (arquitectura requerida, referencias, contenido prohibido y peso de archivos) necesitan validaciones de datos o artefactos en build/AcceptanceGate según corresponda.
 
