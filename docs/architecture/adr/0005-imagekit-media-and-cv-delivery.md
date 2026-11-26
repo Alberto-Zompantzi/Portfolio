@@ -7,7 +7,7 @@
 
 ## Contexto
 
-El portafolio requiere URLs públicas HTTPS para imágenes sanitizadas, identidad visual, imágenes Open Graph y los CV de ES/EN. D-02 conserva los originales fuera de Git; la política de medios prohíbe publicar originales crudos y binarios no exentos dentro del repositorio.
+El portafolio requiere URLs públicas HTTPS para imágenes sanitizadas, identidad visual, imágenes Open Graph y el CV en español. D-02 conserva los originales fuera de Git; la política de medios prohíbe publicar originales crudos y binarios no exentos dentro del repositorio.
 
 Alberto ya utiliza ImageKit y confirma que será el único proveedor para todos los medios y CV. Cloudflare R2 deja de formar parte de la arquitectura del portafolio. ADR-0003 se conserva como historial de la decisión anterior y queda supersedido por este ADR.
 
@@ -17,7 +17,7 @@ Utilizar **ImageKit Media Library y su CDN** como único servicio externo de alm
 
 Los archivos se mantienen en `Portfolio/` en ImageKit. Solo se publican derivados sanitizados. Cuando el contrato de consumo requiera un MIME fijo, se desactiva la negociación automática o se fija el formato en la URL y se verifica la respuesta HTTP; no se infiere el MIME solo por la extensión.
 
-El inventario de URLs verificadas está en [`docs/product/MEDIA_ASSETS.md`](../../product/MEDIA_ASSETS.md). La URL del mismo PDF de CV se usa en las rutas ES y EN por confirmación del propietario; el PDF contiene texto seleccionable. La URL de MediFlow fija salida PNG porque la optimización automática de ImageKit entregaba JPEG en la URL original.
+El inventario de URLs verificadas está en [`docs/product/MEDIA_ASSETS.md`](../../product/MEDIA_ASSETS.md). La URL del PDF de CV en español está registrada y contiene texto seleccionable. El 2026-11-24 el propietario confirmó que solo habrá CV en español: `/` ofrece el enlace y `/en` no ofrece opción de CV. Esta decisión sustituye la asignación anterior del mismo archivo a ambos locales. La URL de MediFlow fija salida PNG porque la optimización automática de ImageKit entregaba JPEG en la URL original.
 
 ## Consecuencias
 
@@ -26,7 +26,7 @@ El inventario de URLs verificadas está en [`docs/product/MEDIA_ASSETS.md`](../.
 - **Integridad de contenido:** transformaciones o ajustes de negociación de formato pueden modificar el MIME entregado. Las URLs que requieran MIME estable deben forzar el formato, y la respuesta pública debe verificarse con HTTP 200 y `Content-Type` esperado. [Optimización de imágenes de ImageKit](https://imagekit.io/docs/image-optimization)
 - **Privacidad:** solo se publican archivos visuales aprobados y sanitizados y el CV confirmado por Alberto. No se suben los originales crudos ni claves privadas.
 - **D-03:** proveedor seleccionado y todos los activos requeridos (capturas sanitizadas, logo y foto de perfil) publicados y registrados con URLs HTTPS y MIME verificados en `docs/product/MEDIA_ASSETS.md`.
-- **D-06:** ubicación ImageKit y texto seleccionable del CV verificados; el mismo documento se asigna a ES y EN por confirmación de Alberto.
+- **D-06:** ubicación ImageKit y texto seleccionable del CV ES verificados; no existe CV EN ni opción de CV en `/en`.
 
 ## Verificación reproducible
 

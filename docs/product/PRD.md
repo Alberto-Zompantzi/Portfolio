@@ -11,7 +11,7 @@
 | :-------- | :------------------------------------------------------------------------------- | :----------------------- | :--------------------------------- |
 | **HU-01** | Higiene de Git y carga centralizada de medios externos                           | Must                     | Fila 1, D-02, D-03, D-06, D-07c    |
 | **HU-02** | Rutas prerenderizadas bilingües (`/` y `/en`) legibles sin JS e hidratación base | Must                     | Fila 2, Fila 5a, D-01              |
-| **HU-03** | Perfil, trayectoria y descarga de CV verificable por idioma                      | Must                     | Filas 3a, 4, 7, D-04a, D-06        |
+| **HU-03** | Perfil, trayectoria y descarga del CV en español                                  | Must                     | Filas 3a, 4, 7, D-04a, D-06        |
 | **HU-04** | Catálogo de proyectos y detalle visible en línea sin JS                          | Must                     | Filas 3a, 3b, 5a, 5b, D-04a, D-04b |
 | **HU-05** | Formulario de contacto conectado al `backend/` existente                         | Must                     | Fila 6, D-05                       |
 | **HU-06** | Mejora progresiva: modal interactivo y filtros por Stack y Rol                   | Should                   | Fila 10, Filas 5a, 5b, D-07b       |
@@ -50,12 +50,12 @@
   - **Dado** que se inspecciona el repositorio antes del primer commit o antes de un merge a `main`,
   - **Cuando** se ejecutan `git ls-files`, `git log` y búsqueda sobre el código fuente de `frontend/`,
   - **Entonces** existen cero coincidencias de `frontend/public/imagenes/` en el código y cero archivos de `información faltante/` o binarios no exentos en el árbol o historial,
-  - **Y** únicamente se admiten los archivos locales permitidos por las excepciones explícitas de la Política de medios (`SVGs` del marquee bajo el umbral `PENDIENTE` de `D-07c`, `/favicon.ico` estándar en `frontend/public/` y los dos PDFs del CV en ES/EN si `D-06` define alojarlos en `frontend/public/`).
+  - **Y** únicamente se admiten los archivos locales permitidos por las excepciones explícitas de la Política de medios (`SVGs` del marquee bajo el umbral `PENDIENTE` de `D-07c`, `/favicon.ico` estándar en `frontend/public/` y el PDF del CV en español si `D-06` define alojarlo en `frontend/public/`).
 - **Escenario 1.4 (Camino feliz — Inicialización limpia del monorepo y migración previa al primer commit):**
   - **Dado** que se cierran `D-02` (sanitización de `Mediflow.png` y `automatización presencial LinkedIn.jpg` con respaldo de originales fuera de Git; originales sin editar nunca subidos) y `D-03` (proveedor de nube e inventario),
   - **Cuando** se inicializa `portfolio/` con estructura `frontend/`, `backend/` y `docs/`,
   - **Entonces** `información faltante/` queda bloqueada en `.gitignore` desde el inicio, `git log` de `portfolio/` no contiene commits heredados de los repositorios anteriores, todas las imágenes previas de `frontend/public/imagenes/` y las nuevas sanitizadas se suben a la nube **antes** del primer commit, y ninguna ruta local de imagen permanece en el código (todas se resuelven vía `media.ts`),
-  - **Y** si `D-06` o `D-07c` permanecen abiertos al momento del primer commit, no se incorpora ningún archivo PDF ni SVG en dicho commit.
+  - **Y** si `D-06` o `D-07c` permanecen abiertos al momento del primer commit, no se incorpora el PDF del CV ni SVG en dicho commit.
 
 ---
 
@@ -89,27 +89,28 @@
 
 ---
 
-### HU-03: Perfil, trayectoria y descarga de CV verificable por idioma
+### HU-03: Perfil, trayectoria y descarga del CV en español
 
 **Como** reclutador técnico o hiring manager,  
-**quiero** leer el resumen profesional, experiencia y formación en el idioma de la ruta y descargar el CV correspondiente,  
+**quiero** leer el resumen profesional, experiencia y formación en el idioma de la ruta y descargar el CV en español desde `/`,
 **para** validar la trayectoria del candidato e incorporarla a mi proceso de selección.
 
-- **Escenario 3.1 (Camino feliz — Contenido de perfil y descarga de CV por idioma):**
-  - **Dado** que el perfil y la trayectoria se extrajeron del CV vigente ES/EN y fueron validados manualmente por Alberto Zompantzi sin añadir hechos no verificados,
+- **Escenario 3.1 (Camino feliz — Contenido de perfil y descarga del CV en español):**
+  - **Dado** que el perfil y la trayectoria se extrajeron del CV vigente en español y fueron validados manualmente por Alberto Zompantzi sin añadir hechos no verificados,
   - **Cuando** el usuario visita `/` y pulsa el enlace de descarga de CV,
   - **Entonces** descarga o abre el PDF de CV en la ubicación pública definida por `D-06`,
-  - **Y** cuando visita `/en` y pulsa el mismo control, descarga o abre el PDF de CV asignado a Inglés; las rutas ES y EN pueden reutilizar el mismo archivo cuando Alberto lo confirma.
+  - **Y** `/en` no muestra una opción de descarga de CV; no existe un PDF de CV en inglés.
 - **Escenario 3.2 (Caso límite — Layout base provisional con estructura semántica y accesibilidad):**
   - **Dado** que se construye el layout provisional (Fila 4) antes de aplicar `DESIGN.md` (`D-07a`),
   - **Cuando** se renderizan `/` y `/en`,
   - **Entonces** están presentes los elementos semánticos de estructura (`navbar`, `footer`, `hero` y trayectoria de experiencia/formación),
   - **Y** todos los atributos `alt` y `aria-label` están traducidos al idioma de la ruta, sin contenedores de imagen rotos ni textos `PENDIENTE`.
 - **Escenario 3.3 (Caso de error — Enlace estático y verificación de texto seleccionable en CV):**
-  - **Dado** que `D-06` define URLs públicas ImageKit para el CV de cada idioma, que pueden apuntar al mismo PDF por confirmación del propietario,
+  - **Dado** que `D-06` define la URL pública ImageKit del CV en español,
   - **Cuando** se inspecciona el HTML inicial y los archivos PDF antes de aprobar la puerta de aceptación (Fila 8),
   - **Entonces** el control de descarga existe como enlace HTML estándar `<a href>` en el DOM inicial (sin depender de JavaScript),
-  - **Y** si alguno de los dos PDFs carece de texto seleccionable legible por filtros ATS, falla la verificación de `D-06` / Fila 8 y bloquea el merge a `main`.
+  - **Y** `/en` no presenta un enlace ni acción de descarga de CV,
+  - **Y** si el PDF español carece de texto seleccionable legible por filtros ATS, falla la verificación de `D-06` / Fila 8 y bloquea el merge a `main`.
 
 ---
 
@@ -305,7 +306,7 @@
   - **Cuando** se ejecuta la verificación previa al merge a `main`,
   - **Entonces** se comprueban con éxito todos los criterios siguientes:
     1. HTML inicial sin JS de `/` y `/en` con todos los campos clave de la Métrica 1 (**nombre, rol profesional, resumen de perfil, experiencia/formación, stack tecnológico, títulos/descripciones de proyectos y enlaces**) y detalle completo de proyectos visible sin mecanismos de ocultamiento.
-    2. Descarga correcta del CV correspondiente por ruta (`/` -> ES, `/en` -> EN) y verificación de texto seleccionable en ambos PDFs.
+    2. `/` contiene un enlace HTML al CV ES publicado en ImageKit con HTTP 200 y texto seleccionable; `/en` no presenta enlace ni acción de descarga de CV.
     3. Escaneo de secretos con `gitleaks` antes del merge a `main`; `git ls-files` y `git log` con cero binarios no exentos y cero archivos de `información faltante/`.
     4. Búsqueda en el código fuente con cero coincidencias de `frontend/public/imagenes/`.
     5. Respuesta HTTP `200` en todas las URLs externas configuradas en `frontend/src/config/media.ts`.
@@ -335,7 +336,7 @@
 | :-------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------- |
 | **Rendimiento**                         | Puntuación de rendimiento en Lighthouse $\ge 90/100$, First Contentful Paint (FCP) $\le 1.8\text{ s}$ y Cumulative Layout Shift (CLS) $\le 0.05$ (`SUPUESTO`) en `/` y `/en` bajo perfil móvil 4G; animaciones del fondo reactivo limitadas exclusivamente a propiedades compuestas por GPU (`transform`, `opacity`) y peso de cada SVG en la marquesina $\le$ umbral definido en `D-07c` (`PENDIENTE`; `SUPUESTO`: $\le 15\text{ KB}$ por archivo). | Auditoría con Lighthouse CLI en `/` y `/en`, inspección de estilos CSS/JS para propiedades animadas y comprobación de tamaño de archivos SVG tras el build.    | Must      |
 | **Rendimiento (tolerancia de red)**     | Tiempo máximo de espera (`timeout`) configurado en el cliente HTTP del formulario $\ge 35\text{ s}$ (`SUPUESTO`) para absorber el arranque en frío (_cold start_) del `backend/` existente (`D-05`), manteniendo visible el estado de carga localizado sin bloquear la interfaz.                                                                                                                                                                     | Prueba automatizada con respuesta simulada de $30\text{ s}$ y prueba manual contra la instancia del `backend/` tras periodo de inactividad.                    | Must      |
-| **Disponibilidad**                      | $100\%$ del contenido crítico (perfil, enlaces `<a href>` a CV ES/EN, catálogo completo con detalle en línea sin ocultamiento y formulario) entregado en el HTML estático inicial (`SSR_STATIC`) con HTTP `200`, conservando $100\%$ de legibilidad ante indisponibilidad de la nube de medios (`D-03`), caída del `backend/` (`D-05`) o error de hidratación (`HYDRATION_FAILED`).                                                                  | Inspección con `curl -s` y navegación con JavaScript deshabilitado, bloqueo de dominio de medios en DevTools y simulación de fallo en script cliente.          | Must      |
+| **Disponibilidad**                      | $100\%$ del contenido crítico (perfil, enlace `<a href>` al CV ES en `/`, catálogo completo con detalle en línea sin ocultamiento y formulario) entregado en el HTML estático inicial (`SSR_STATIC`) con HTTP `200`, conservando $100\%$ de legibilidad ante indisponibilidad de la nube de medios (`D-03`), caída del `backend/` (`D-05`) o error de hidratación (`HYDRATION_FAILED`). `/en` no presenta enlace ni acción de descarga de CV. | Inspección con `curl -s` y navegación con JavaScript deshabilitado, bloqueo de dominio de medios en DevTools y simulación de fallo en script cliente. | Must |
 | **Seguridad**                           | $0$ secretos, tokens, URLs internas no autorizadas ni binarios no exentos en el árbol activo o historial de Git (`git ls-files` y `git log`), y $0$ referencias en código fuente a `frontend/public/imagenes/` o `información faltante/`.                                                                                                                                                                                                            | Ejecución de `git ls-files`, revisión de `git log`, búsqueda textual en el repositorio y escaneo con `gitleaks` previo a cada merge a `main`.                  | Must      |
 | **Seguridad (CORS y anti-spam)**        | $100\%$ de las peticiones `POST` del formulario dirigidas a la URL leída desde variable de entorno, aceptando únicamente el origen CORS del dominio final de producción (`D-01`) y descartando en cliente ($0$ peticiones HTTP salientes) envíos donde el campo trampa (_honeypot_) contenga $\ge 1$ carácter.                                                                                                                                       | Prueba unitaria/E2E rellenando el campo trampa y verificación real de cabecera `Origin` y CORS contra el dominio final de producción (`HU-10` punto 8).        | Must      |
 | **Privacidad**                          | $0$ cookies de rastreo de terceros, $0$ almacenamiento persistente en `localStorage`/`sessionStorage` de datos personales ingresados en el formulario, $0$ datos personales volcados a `console.log` y $1$ nota explícita de privacidad visible junto al formulario en `/` y `/en`.                                                                                                                                                                  | Inspección de almacenamiento y cookies en DevTools, revisión estática de llamadas `console.*` y verificación visual en ambas rutas de idioma.                  | Must      |

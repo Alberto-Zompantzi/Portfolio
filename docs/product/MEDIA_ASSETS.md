@@ -15,10 +15,9 @@ ImageKit entregó la URL original de MediFlow como `image/jpeg` por optimizació
 
 | Idioma | URL pública verificada | Content-Type | Verificación |
 | --- | --- | --- | --- |
-| Español | [CV PDF en ImageKit](https://ik.imagekit.io/seefqe4nn/Portfolio/CV%20Alberto%20Zompantzi%20Full%20Stack.pdf) | `application/pdf` | HTTP 200; PDF de una página con texto seleccionable |
-| Inglés | [Mismo PDF, según confirmación del propietario](https://ik.imagekit.io/seefqe4nn/Portfolio/CV%20Alberto%20Zompantzi%20Full%20Stack.pdf) | `application/pdf` | HTTP 200; PDF de una página con texto seleccionable |
+| Español | [CV PDF en ImageKit](https://ik.imagekit.io/seefqe4nn/Portfolio/CV%20Alberto%20Zompantzi%20Full%20Stack.pdf?updatedAt=1795494475254) | `application/pdf` | HTTP 200; PDF de una página con texto seleccionable (URL verificada el 2026-11-25; extracción: 3,600 caracteres) |
 
-El uso del mismo archivo para ambas rutas fue confirmado por Alberto. No se deduce un CV inglés distinto ni se publica una segunda URL no confirmada.
+Solo `/` ofrece la descarga del CV. `/en` no muestra una opción de CV y no se publica ni se infiere una versión en inglés.
 
 ## Identidad visual (D-03)
 

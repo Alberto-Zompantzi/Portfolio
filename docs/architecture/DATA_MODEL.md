@@ -39,15 +39,13 @@ export interface CvAsset {
   ariaLabel: string;
 }
 
-export type CvCatalog = LocalizedRecord<CvAsset>;
-
 export interface MediaCatalog {
   assets: MediaAsset[];
-  cv: CvCatalog;
+  cv: CvAsset;
 }
 ```
 
-`MediaAsset` sigue los campos de `GLOSSARY.md`. `visualFallback` es obligatorio; su tipo y detalle de implementación permanecen **PENDIENTE** según `GLOSSARY.md` y `ARCHITECTURE.md` §4. `CvAsset` representa el registro conceptual por idioma y el texto localizado del enlace; la forma concreta del registro continúa **PENDIENTE**. Las URLs finales publicadas en ImageKit se inventarían en `docs/product/MEDIA_ASSETS.md`; cada URL debe ser HTTPS y verificarse antes de producción. La misma URL del CV puede usarse en ambos locales cuando el propietario lo confirma.
+`MediaAsset` sigue los campos de `GLOSSARY.md`. `visualFallback` es obligatorio; su tipo y detalle de implementación permanecen **PENDIENTE** según `GLOSSARY.md` y `ARCHITECTURE.md` §4. `CvAsset` es un registro único del PDF en español y su etiqueta; no se selecciona por `Locale`. Solo la ruta `/` consume el registro. `/en` no muestra una opción de CV. La URL publicada en ImageKit se registra en `docs/product/MEDIA_ASSETS.md` y debe ser HTTPS con disponibilidad y texto seleccionable verificados.
 
 ### Proyectos — `frontend/src/data/projects.ts`
 
@@ -104,7 +102,7 @@ Estas son las claves mínimas obligatorias de presentación para ES/EN. El tipo 
 
 Las siguientes invariantes deben poder comprobarse antes del deploy:
 
-1. **Paridad bilingüe:** `es` y `en` tienen el 100 % de las mismas claves y estructuras para todo `LocalizedRecord<T>`, incluidos `Project.locales`, `MediaAsset.alt`, `CvCatalog` y `MessageCatalog`. El tipado común se valida con `tsc --noEmit` (configuración estricta); TypeScript detecta claves faltantes o adicionales en literales tipados.
+1. **Paridad bilingüe:** `es` y `en` tienen el 100 % de las mismas claves y estructuras para todo `LocalizedRecord<T>`, incluidos `Project.locales`, `MediaAsset.alt` y `MessageCatalog`. `CvAsset` es una única referencia al PDF español y no forma parte de `LocalizedRecord<T>`. El tipado común se valida con `tsc --noEmit` (configuración estricta); TypeScript detecta claves faltantes o adicionales en literales tipados.
 2. **Automatización n8n:** si `repoUrl` y `liveUrl` son `null`, `locales.es.architecture` y `locales.en.architecture` deben ser no nulas y no vacías. Por ser una condición entre campos, se verifica mediante validación de datos/build además del tipo.
 3. **Sin marcadores ni destinos de backend:** ningún campo de texto o URL en los datos compilados contiene la subcadena `PENDIENTE` ni apunta a dominios de `backend/`/Render. Esta regla aplica a los datos publicados; los estados pendientes descritos en este documento son metadatos documentales.
 4. **Referencias de medios:** toda `Project.mediaId` no nula debe existir como `id` único en el registro `assets` de `media.ts`.
