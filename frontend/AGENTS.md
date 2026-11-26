@@ -1,5 +1,7 @@
 # Reglas de frontend
 
+- Este directorio es dueño de la interfaz, las rutas estáticas bilingües, el contenido tipado versionado y la mejora progresiva del cliente. No asumas ownership de la API ni su persistencia.
+- Respeta las decisiones aceptadas y los contratos v1.0; para modelos y payloads sigue `docs/api/openapi.yaml`, `docs/architecture/DATA_MODEL.md` y `docs/architecture/ARCHITECTURE.md`.
 - Usa Next.js App Router con prerenderizado estático para `/` (ES) y `/en` (EN), conforme a la arquitectura v1.0.
 - Mantén TypeScript estricto.
 - Genera los tipos compartidos desde `docs/api/openapi.yaml`; nunca edites tipos generados a mano.
@@ -7,6 +9,9 @@
 - Mantén las fichas técnicas presentes y visibles en el HTML servido; no uses `hidden`, `display: none` ni `opacity: 0` para ocultarlas.
 - El submit de contacto empieza deshabilitado en SSR y se habilita solo después de hidratar.
 - No uses valores de estilo fuera de los tokens ni estilos en línea.
+- Respeta `SSR_STATIC` como fallback completo. `INTERACTIVE_POINTER` solo se habilita según `DESIGN.md`; `prefers-reduced-motion: reduce` y `(pointer: coarse)` desactivan los efectos correspondientes.
+- No publiques `PENDIENTE` en la interfaz ni inventes URLs, contenidos, umbrales o configuraciones aún no confirmados.
+- Mantén el alcance del issue; no implementes exclusiones del MVP ni cambies contratos compartidos sin el acuerdo previo requerido.
 
 ## Comandos previstos
 
