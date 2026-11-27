@@ -4,7 +4,9 @@ El sitio usa Next.js App Router con exportación estática. Para instalar depend
 
 ```sh
 pnpm install --frozen-lockfile
+pnpm lint
 pnpm build
+pnpm typecheck
 ```
 
 Cloudflare Pages: comando de build `pnpm build`, directorio de salida `out`. La salida incluye `/` y `/en/` como directorios con `index.html`; no requiere runtime de Next.js.

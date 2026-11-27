@@ -3,7 +3,9 @@ export default function EnglishHomePage() {
     <main>
       <h1>Portfolio</h1>
       <nav aria-label="Language">
-        <a href="/" lang="es" hrefLang="es">Español</a>
+        <a href="/" lang="es" hrefLang="es">
+          Español
+        </a>
       </nav>
     </main>
   )

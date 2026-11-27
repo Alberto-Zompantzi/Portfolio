@@ -8,7 +8,6 @@ node_modules/
 out/
 /frontend/.next/
 /frontend/out/
-/frontend/tsconfig.tsbuildinfo
 /backend/build/
 /backend/.gradle/
 /backend/target/
