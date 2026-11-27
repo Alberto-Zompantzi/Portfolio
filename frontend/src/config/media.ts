@@ -1,27 +1,27 @@
 /** Idiomas disponibles para el contenido localizado del frontend. */
-export type Locale = 'es' | 'en';
+export type Locale = 'es' | 'en'
 
-export type LocalizedRecord<T> = Record<Locale, T>;
+export type LocalizedRecord<T> = Record<Locale, T>
 
 export interface MediaAsset {
-  id: string;
-  url: string;
-  alt: LocalizedRecord<string>;
+  id: string
+  url: string
+  alt: LocalizedRecord<string>
   /**
    * Campo requerido por el contrato v1.0. Su estructura y comportamiento
    * visual siguen pendientes; `{}` conserva el ejemplo neutral de Arquitectura §11.
    */
-  visualFallback: unknown;
+  visualFallback: unknown
 }
 
 export interface CvAsset {
-  url: string;
-  ariaLabel: string;
+  url: string
+  ariaLabel: string
 }
 
 export interface MediaCatalog {
-  assets: MediaAsset[];
-  cv: CvAsset;
+  assets: MediaAsset[]
+  cv: CvAsset
 }
 
 /** URLs públicas HTTPS verificadas y documentadas en docs/product/MEDIA_ASSETS.md. */
@@ -68,4 +68,4 @@ export const mediaCatalog: MediaCatalog = {
     url: 'https://ik.imagekit.io/seefqe4nn/Portfolio/CV%20Alberto%20Zompantzi%20Full%20Stack.pdf?updatedAt=1795494475254',
     ariaLabel: 'Descargar CV en español (PDF)',
   },
-};
+}
