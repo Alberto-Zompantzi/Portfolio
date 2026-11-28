@@ -53,7 +53,7 @@ export const projects: ProjectCatalog = [
         stackDescription:
           'Java 17, Spring Boot 3.3, Spring Data JPA, PostgreSQL, Apache POI, React 19 y Docker.',
         roleDescription:
-          'El portfolio presenta componentes de backend y frontend para Tzompcomer; no especifica un puesto laboral ni empleador.',
+          'Contribución de desarrollo en los componentes de backend y frontend del proyecto.',
         architecture:
           'El README describe una SPA React que consume un catálogo REST y una aplicación Java con Spring Boot organizada por capas.',
         flowOrDiagram: null,
@@ -71,7 +71,7 @@ export const projects: ProjectCatalog = [
         stackDescription:
           'Java 17, Spring Boot 3.3, Spring Data JPA, PostgreSQL, Apache POI, React 19, and Docker.',
         roleDescription:
-          'The portfolio presents backend and frontend components for Tzompcomer; it does not specify a job title or employer.',
+          'Development contribution across the project’s backend and frontend components.',
         architecture:
           'The README describes a React SPA that consumes a REST catalog and a layered Java application using Spring Boot.',
         flowOrDiagram: null,
