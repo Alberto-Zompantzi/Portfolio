@@ -51,15 +51,22 @@ export function ProfilePage({
           <a href="#education">{text.education}</a>
         </nav>
         <nav aria-label={text.language}>
-          {locale === 'es' ? (
-            <a href="/en" lang="en" hrefLang="en">
-              English
-            </a>
-          ) : (
-            <a href="/" lang="es" hrefLang="es">
-              Español
-            </a>
-          )}
+          <a
+            href="/"
+            lang="es"
+            hrefLang="es"
+            aria-current={locale === 'es' ? 'page' : undefined}
+          >
+            Español
+          </a>
+          <a
+            href="/en"
+            lang="en"
+            hrefLang="en"
+            aria-current={locale === 'en' ? 'page' : undefined}
+          >
+            English
+          </a>
         </nav>
       </header>
 
@@ -72,6 +79,14 @@ export function ProfilePage({
           <h1 id="profile-title">Alberto Zompantzi</h1>
           <p>{profile.headline}</p>
           <p>{profile.summary}</p>
+          {locale === 'es' && (
+            <a
+              href={mediaCatalog.cv.url}
+              aria-label={mediaCatalog.cv.ariaLabel}
+            >
+              Descargar CV (PDF)
+            </a>
+          )}
         </section>
 
         <section id="experience" aria-labelledby="experience-title">
