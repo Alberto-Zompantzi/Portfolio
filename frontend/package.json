@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/verify-static-export.mjs",
     "lint": "biome check",
     "typecheck": "tsc --noEmit",
     "generate:api-types": "openapi-typescript ../docs/api/openapi.yaml -o src/types/openapi.d.ts && biome format --write src/types/openapi.d.ts"
