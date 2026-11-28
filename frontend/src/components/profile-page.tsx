@@ -4,6 +4,8 @@ import type {
   LocalizedExperienceEntry,
   LocalizedProfileContent,
 } from '../data/profile'
+import { projects } from '../data/projects'
+import { ProjectPermalinkButton } from './project-permalink-button'
 
 interface ProfilePageProps {
   locale: 'es' | 'en'
@@ -20,6 +22,15 @@ const copy = {
     education: 'Formación',
     experienceLabel: 'Trayectoria profesional',
     educationLabel: 'Trayectoria académica',
+    projects: 'Proyectos',
+    projectSummary: 'Resumen',
+    problem: 'Problema',
+    solution: 'Solución',
+    stack: 'Stack',
+    role: 'Rol',
+    architecture: 'Arquitectura',
+    repository: 'Repositorio público',
+    production: 'Sitio en producción',
     footer: 'Portafolio profesional de',
   },
   en: {
@@ -29,6 +40,15 @@ const copy = {
     education: 'Education',
     experienceLabel: 'Professional experience',
     educationLabel: 'Education history',
+    projects: 'Projects',
+    projectSummary: 'Overview',
+    problem: 'Problem',
+    solution: 'Solution',
+    stack: 'Stack',
+    role: 'Role',
+    architecture: 'Architecture',
+    repository: 'Public repository',
+    production: 'Live website',
     footer: 'Professional portfolio of',
   },
 } as const
@@ -119,6 +139,61 @@ export function ProfilePage({
               </li>
             ))}
           </ol>
+        </section>
+
+        <section id="projects" aria-labelledby="projects-title">
+          <h2 id="projects-title">{text.projects}</h2>
+          {projects.map((project) => {
+            const content = project.locales[locale]
+
+            return (
+              <article key={project.slug}>
+                <h3>{content.title}</h3>
+                <p>{content.summary}</p>
+                <a href={`#${project.slug}`}>
+                  {locale === 'es' ? 'Ver ficha completa' : 'View full details'}
+                </a>
+
+                <section
+                  id={project.slug}
+                  aria-labelledby={`${project.slug}-title`}
+                >
+                  <h4 id={`${project.slug}-title`}>{content.title}</h4>
+                  <dl>
+                    <dt>{text.projectSummary}</dt>
+                    <dd>{content.summary}</dd>
+                    <dt>{text.problem}</dt>
+                    <dd>{content.problem}</dd>
+                    <dt>{text.solution}</dt>
+                    <dd>{content.solution}</dd>
+                    <dt>{text.stack}</dt>
+                    <dd>{content.stackDescription}</dd>
+                    <dt>{text.role}</dt>
+                    <dd>{content.roleDescription}</dd>
+                    {content.architecture && (
+                      <>
+                        <dt>{text.architecture}</dt>
+                        <dd>{content.architecture}</dd>
+                      </>
+                    )}
+                  </dl>
+                  <ul>
+                    {project.repoUrl && (
+                      <li>
+                        <a href={project.repoUrl}>{text.repository}</a>
+                      </li>
+                    )}
+                    {project.liveUrl && (
+                      <li>
+                        <a href={project.liveUrl}>{text.production}</a>
+                      </li>
+                    )}
+                  </ul>
+                  <ProjectPermalinkButton slug={project.slug} locale={locale} />
+                </section>
+              </article>
+            )
+          })}
         </section>
       </main>
 
