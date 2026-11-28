@@ -1,0 +1,95 @@
+:root {
+  --color-bg: #0f131c;
+  --color-surface: #181c24;
+  --color-text-primary: #f4f2fa;
+  --color-text-secondary: #cbc3d7;
+  --color-accent: #d0bcff;
+  --color-border: #958ea0;
+  --color-success: #4edea3;
+  --color-error: #ffb4ab;
+  --color-focus-ring: #d0bcff;
+  --color-on-accent: #23005c;
+  --space-section: 48px;
+  --space-group: 24px;
+  --space-control: 12px;
+  --space-tight: 8px;
+  --space-mobile-group: 16px;
+  --space-layout-gutter: 24px;
+  --space-mobile-gutter: 16px;
+  --measure-contact: 72ch;
+  --radius-control: 4px;
+  --radius-button: 8px;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: 'Plus Jakarta Sans', system-ui, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.625;
+}
+
+a { color: var(--color-accent); }
+a:hover { color: var(--color-text-primary); }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.contact {
+  box-sizing: border-box;
+  margin-block: var(--space-section);
+  margin-inline: auto;
+  max-width: calc(var(--measure-contact) + 2 * var(--space-layout-gutter));
+  padding-inline: var(--space-layout-gutter);
+}
+
+.contact-form {
+  display: grid;
+  gap: var(--space-group);
+  margin-top: var(--space-group);
+}
+
+.contact-form__field { display: grid; gap: var(--space-tight); }
+.contact-form__field label { color: var(--color-text-primary); }
+.contact-form input, .contact-form textarea {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-sizing: border-box;
+  border-radius: var(--radius-control);
+  color: var(--color-text-primary);
+  font: inherit;
+  padding: var(--space-control);
+  width: 100%;
+}
+.contact-form textarea { resize: vertical; }
+.contact-form button {
+  background: var(--color-accent);
+  border: 0;
+  border-radius: var(--radius-button);
+  color: var(--color-on-accent);
+  cursor: pointer;
+  font: inherit;
+  justify-self: start;
+  padding: var(--space-control) var(--space-group);
+}
+.contact-form button:disabled { cursor: not-allowed; opacity: 0.65; }
+.contact-form__privacy { color: var(--color-text-secondary); font-size: 14px; margin: 0; }
+.contact-form__error { color: var(--color-error); margin: 0; }
+.contact-form__success { color: var(--color-success); margin: 0; }
+.contact-form__trap {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@media (max-width: 767px) {
+  .contact {
+    max-width: 100%;
+    padding-inline: var(--space-mobile-gutter);
+  }
+  .contact-form { gap: var(--space-mobile-group); }
+}

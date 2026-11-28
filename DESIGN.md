@@ -27,8 +27,9 @@ Los contrastes se calcularon con la fórmula de luminancia relativa de WCAG. Los
 | `--color-success` | `#4EDEA3` | Texto e iconos de éxito. 10.88:1 sobre fondo; 10.00:1 sobre superficie. |
 | `--color-error` | `#FFB4AB` | Texto e iconos de error. 10.94:1 sobre fondo; 10.05:1 sobre superficie. |
 | `--color-focus-ring` | `#D0BCFF` | Anillo de foco de 2 px, separado visualmente del control. 10.90:1 sobre fondo; 10.01:1 sobre superficie. |
+| `--color-on-accent` | `#23005C` | Texto de CTA rellenos con `--color-accent`; 10.05:1 sobre el acento. |
 
-Los CTA rellenos con `--color-accent` usan texto `#23005C` (aprox. 10.05:1 sobre el acento). No comunicar estado únicamente con color: acompañar error, éxito y selección con texto, icono, borde o estado semántico. El borde decorativo no sustituye el indicador de foco.
+Los CTA rellenos con `--color-accent` usan texto `--color-on-accent`. No comunicar estado únicamente con color: acompañar error, éxito y selección con texto, icono, borde o estado semántico. El borde decorativo no sustituye el indicador de foco.
 
 ## 3. Tipografía y jerarquía
 
