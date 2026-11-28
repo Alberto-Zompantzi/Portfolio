@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "plus jakarta sans",
+        "createdAt": "2026-11-28T06:18:40.119Z",
+        "reason": "Project design system decision in DESIGN.md §3 names Plus Jakarta Sans as the principal font; preserve the established visual identity."
+      }
+    ]
+  }
+}
