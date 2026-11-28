@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
+cors:
+  frontend-origin: ${FRONTEND_ORIGIN:https://albertozompantzi-portfolio.pages.dev}
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USER}

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController //Para manejar datos JSON
 @RequestMapping("/api/v1/contactos") //Defino mi URL versionandola
 @RequiredArgsConstructor // Lombok inyecta el repositorio automáticamente sin constructores manuales
-@CrossOrigin(origins = "*")// Permite que React (puerto 3000/5173) se comunique con el Back (8080)
+@CrossOrigin(origins = "${cors.frontend-origin}") // Limita CORS al origen configurado del frontend.
 public class ContactoController {
     //Endpoint
     //Recibo el JSON de React y válido que el email sea real y no falten datos
