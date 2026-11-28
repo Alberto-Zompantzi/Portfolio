@@ -5,6 +5,7 @@ import type {
   LocalizedProfileContent,
 } from '../data/profile'
 import { projects } from '../data/projects'
+import { ContactForm } from './contact-form'
 import { ProjectPermalinkButton } from './project-permalink-button'
 
 interface ProfilePageProps {
@@ -195,6 +196,8 @@ export function ProfilePage({
             )
           })}
         </section>
+
+        <ContactForm locale={locale} />
       </main>
 
       <footer>

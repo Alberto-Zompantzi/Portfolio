@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import '../contact.css'
 
 export default function EnglishRootLayout({
   children,
