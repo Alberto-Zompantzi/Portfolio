@@ -1,12 +1,13 @@
+import { ProfilePage } from '../../../src/components/profile-page'
+import { education, experience, profile } from '../../../src/data/profile'
+
 export default function EnglishHomePage() {
   return (
-    <main>
-      <h1>Portfolio</h1>
-      <nav aria-label="Language">
-        <a href="/" lang="es" hrefLang="es">
-          Español
-        </a>
-      </nav>
-    </main>
+    <ProfilePage
+      locale="en"
+      profile={profile.en}
+      experience={experience.en}
+      education={education.en}
+    />
   )
 }
