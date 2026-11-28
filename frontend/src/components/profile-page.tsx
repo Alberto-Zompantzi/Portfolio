@@ -30,6 +30,9 @@ const copy = {
     stack: 'Stack',
     role: 'Rol',
     architecture: 'Arquitectura',
+    flowOrDiagram: 'Flujo o diagrama',
+    technicalChallenges: 'Retos técnicos',
+    results: 'Resultados',
     repository: 'Repositorio público',
     production: 'Sitio en producción',
     footer: 'Portafolio profesional de',
@@ -48,6 +51,9 @@ const copy = {
     stack: 'Stack',
     role: 'Role',
     architecture: 'Architecture',
+    flowOrDiagram: 'Flow or diagram',
+    technicalChallenges: 'Technical challenges',
+    results: 'Results',
     repository: 'Public repository',
     production: 'Live website',
     footer: 'Professional portfolio of',
@@ -146,6 +152,11 @@ export function ProfilePage({
           <h2 id="projects-title">{text.projects}</h2>
           {projects.map((project) => {
             const content = project.locales[locale]
+            const media = project.mediaId
+              ? mediaCatalog.assets.find(
+                  (asset) => asset.id === project.mediaId,
+                )
+              : undefined
 
             return (
               <article key={project.slug}>
@@ -160,6 +171,17 @@ export function ProfilePage({
                   aria-labelledby={`${project.slug}-title`}
                 >
                   <h4 id={`${project.slug}-title`}>{content.title}</h4>
+                  {media && (
+                    <figure>
+                      {/* biome-ignore lint/performance/noImgElement: preserve the verified external media URL without inventing image dimensions or layout choices for this provisional structure. */}
+                      <img
+                        src={media.url}
+                        alt={media.alt[locale]}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </figure>
+                  )}
                   <dl>
                     <dt>{text.projectSummary}</dt>
                     <dd>{content.summary}</dd>
@@ -177,19 +199,39 @@ export function ProfilePage({
                         <dd>{content.architecture}</dd>
                       </>
                     )}
+                    {content.flowOrDiagram && (
+                      <>
+                        <dt>{text.flowOrDiagram}</dt>
+                        <dd>{content.flowOrDiagram}</dd>
+                      </>
+                    )}
+                    {content.technicalChallenges && (
+                      <>
+                        <dt>{text.technicalChallenges}</dt>
+                        <dd>{content.technicalChallenges}</dd>
+                      </>
+                    )}
+                    {content.results && (
+                      <>
+                        <dt>{text.results}</dt>
+                        <dd>{content.results}</dd>
+                      </>
+                    )}
                   </dl>
-                  <ul>
-                    {project.repoUrl && (
-                      <li>
-                        <a href={project.repoUrl}>{text.repository}</a>
-                      </li>
-                    )}
-                    {project.liveUrl && (
-                      <li>
-                        <a href={project.liveUrl}>{text.production}</a>
-                      </li>
-                    )}
-                  </ul>
+                  {(project.repoUrl || project.liveUrl) && (
+                    <ul>
+                      {project.repoUrl && (
+                        <li>
+                          <a href={project.repoUrl}>{text.repository}</a>
+                        </li>
+                      )}
+                      {project.liveUrl && (
+                        <li>
+                          <a href={project.liveUrl}>{text.production}</a>
+                        </li>
+                      )}
+                    </ul>
+                  )}
                   <ProjectPermalinkButton slug={project.slug} locale={locale} />
                 </section>
               </article>
