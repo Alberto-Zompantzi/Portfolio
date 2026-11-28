@@ -35,7 +35,11 @@ export const projects: ProjectCatalog = [
     repoUrl: 'https://github.com/Alberto-Zompantzi/Tzompcomer',
     liveUrl: 'https://tzompcomer.pages.dev/',
     stackTags: ['frontend_ui', 'backend_api', 'data_storage', 'cloud_devops'],
-    roleTags: [],
+    roleTags: [
+      'backend_development',
+      'frontend_development',
+      'full_stack_development',
+    ],
     mediaId: null,
     locales: {
       es: {
@@ -49,7 +53,7 @@ export const projects: ProjectCatalog = [
         stackDescription:
           'Java 17, Spring Boot 3.3, Spring Data JPA, PostgreSQL, Apache POI, React 19 y Docker.',
         roleDescription:
-          'Las fuentes consultadas no especifican el rol individual; no se atribuye uno.',
+          'El portfolio presenta componentes de backend y frontend para Tzompcomer; no especifica un puesto laboral ni empleador.',
         architecture:
           'El README describe una SPA React que consume un catálogo REST y una aplicación Java con Spring Boot organizada por capas.',
         flowOrDiagram: null,
@@ -67,7 +71,7 @@ export const projects: ProjectCatalog = [
         stackDescription:
           'Java 17, Spring Boot 3.3, Spring Data JPA, PostgreSQL, Apache POI, React 19, and Docker.',
         roleDescription:
-          'The sources reviewed do not specify the individual role, so none is attributed.',
+          'The portfolio presents backend and frontend components for Tzompcomer; it does not specify a job title or employer.',
         architecture:
           'The README describes a React SPA that consumes a REST catalog and a layered Java application using Spring Boot.',
         flowOrDiagram: null,
