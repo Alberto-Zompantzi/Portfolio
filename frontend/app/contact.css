@@ -8,6 +8,17 @@
   --color-success: #4edea3;
   --color-error: #ffb4ab;
   --color-focus-ring: #d0bcff;
+  --color-on-accent: #23005c;
+  --space-section: 48px;
+  --space-group: 24px;
+  --space-control: 12px;
+  --space-tight: 8px;
+  --space-mobile-group: 16px;
+  --space-layout-gutter: 24px;
+  --space-mobile-gutter: 16px;
+  --measure-contact: 72ch;
+  --radius-control: 4px;
+  --radius-button: 8px;
 }
 
 body {
@@ -26,38 +37,41 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .contact {
-  margin-block: 48px;
-  max-width: 640px;
+  box-sizing: border-box;
+  margin-block: var(--space-section);
+  margin-inline: auto;
+  max-width: calc(var(--measure-contact) + 2 * var(--space-layout-gutter));
+  padding-inline: var(--space-layout-gutter);
 }
 
 .contact-form {
   display: grid;
-  gap: 24px;
-  margin-top: 24px;
+  gap: var(--space-group);
+  margin-top: var(--space-group);
 }
 
-.contact-form__field { display: grid; gap: 8px; }
+.contact-form__field { display: grid; gap: var(--space-tight); }
 .contact-form__field label { color: var(--color-text-primary); }
 .contact-form input, .contact-form textarea {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   box-sizing: border-box;
-  border-radius: 4px;
+  border-radius: var(--radius-control);
   color: var(--color-text-primary);
   font: inherit;
-  padding: 12px;
+  padding: var(--space-control);
   width: 100%;
 }
 .contact-form textarea { resize: vertical; }
 .contact-form button {
   background: var(--color-accent);
   border: 0;
-  border-radius: 8px;
-  color: #23005c;
+  border-radius: var(--radius-button);
+  color: var(--color-on-accent);
   cursor: pointer;
   font: inherit;
   justify-self: start;
-  padding: 12px 24px;
+  padding: var(--space-control) var(--space-group);
 }
 .contact-form button:disabled { cursor: not-allowed; opacity: 0.65; }
 .contact-form__privacy { color: var(--color-text-secondary); font-size: 14px; margin: 0; }
@@ -73,6 +87,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 @media (max-width: 767px) {
-  .contact { margin-block: 48px; }
-  .contact-form { gap: 16px; }
+  .contact {
+    max-width: 100%;
+    padding-inline: var(--space-mobile-gutter);
+  }
+  .contact-form { gap: var(--space-mobile-group); }
 }
