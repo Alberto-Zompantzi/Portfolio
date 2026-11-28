@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/verify-static-export.mjs",
     "lint": "biome check",
     "typecheck": "tsc --noEmit",
     "generate:api-types": "openapi-typescript ../docs/api/openapi.yaml -o src/types/openapi.d.ts && biome format --write src/types/openapi.d.ts"
@@ -24,6 +24,7 @@
     "@types/react": "19.3.3",
     "@types/react-dom": "19.2.3",
     "openapi-typescript": "7.10.1",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "wrangler": "4.168.0"
   }
 }
