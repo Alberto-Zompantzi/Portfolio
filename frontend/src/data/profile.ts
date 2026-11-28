@@ -33,7 +33,7 @@ export const profile: LocalizedRecord<LocalizedProfileContent> = {
   },
 }
 
-/** Trayectoria tomada de la línea de tiempo del portfolio publicado. */
+/** Trayectoria del portfolio, el CV y las confirmaciones del propietario. */
 export const experience: LocalizedRecord<LocalizedExperienceEntry[]> = {
   es: [
     {
